@@ -1,2 +1,11 @@
-# JQuickTake
-Java-based app to manage vintage Apple QuickTake 100/150 cameras
+﻿## JQuickTake - Apple QuickTake Manager
+
+***“I Think That This Situation Absolutely Requires A Really Futile And Stupid Gesture Be Done On Somebody’s Part.”*** - Otter from Animal House (1978)
+
+Back in the late 1990's someone gave me this 'thing' with an Apple logo and a 'QuickTake 100' label. It kind of looked like a Star Wars-inspired set of binoculars, and I had no idea what it was. There was no manual, no cable, no software. The donor just handed to me because (1) it was surplus equipment from their workplace and (2) I was an 'IT Guy' and maybe I could "do something with it".
+
+Thanks to the Internet, I learned all about Apple's experiment in the digital camera market. I also found a few smart people online who had posted instructions for building a cable and a few sources for the original QuickTake software for Windows. I built the cable, I got the software running on my WinXP computer, and I played around with the camera for awhile. I had my fun and then I put the camera back on its shelf, where it would sit unloved while time marched ahead.
+
+A few years ago, I got the urge to play with the camera again. Despite the 20+ years that had passed, some fresh batteries were all it took to bring my QuickTake back to life. Of course, the QuickTake software had not aged as well. It simply would not work on my Windows 10 machine. And, of course, Old School serial ports were no longer in fashion, so my homebrew QuickTake cable had nothing to plug into. Being a goal-driven nerd, I found myself a USB-to-Serial adapter cable, installed WinXP inside a VirtualBox VM, and I was once more able to manage stunning 640x480 images via the QuickTake software.
+
+Rather than put the camera back on its shelf for another 20 years, I wondered if it would be possible to write my own software to replace the aging Apple software - a solution I could run natively on a Windows PC (or any other machine for that matter). It was something in the back of mind for a couple of years, but I never really found the time to actually do something. Now that I'm retired (yeah, I'm that old), I had no excuses. JQuickTake is the result, and I offer it up to anyone to loves their weird, old QuickTake camera and understands the joy of doing something just because you can.

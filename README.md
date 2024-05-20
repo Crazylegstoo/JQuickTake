@@ -16,11 +16,13 @@ JQuickTake is a Java Swing/AWT application that runs on a desktop. Once installe
 
 **What the software does:**
 
-1. *It will connect to an Apple QuickTake 100 or 150 camera and display its metadata* - including, camera name, pictures taken, pictures remaining, Flash mode, Quality mode, etc.
+1. It will connect to an Apple QuickTake 100 or 150 camera and display its metadata - including, camera name, pictures taken, pictures remaining, Flash mode, Quality mode, etc.
 ![Connect to Camera](https://github.com/Crazylegstoo/JQuickTake/blob/main/Images/Connect.JPG)
-2. *It will allow you to save selected or All images to local storage* as an Apple QTK image file, using the naming convention IMAGE01.qtk, IMAGE0.qtk, etc.
+
+2. It will allow you to save selected or All images to local storage as an Apple QTK image file, using the naming convention IMAGE01.qtk, IMAGE0.qtk, etc.
 ![Save Images](https://github.com/Crazylegstoo/JQuickTake/blob/main/Images/Save.JPG)
-3. *It provides an interface to 'remote control' the camera* - patterned after the LCD screen on the QuickTake camera. This includes changing the Flash Mode and Quality Mode, taking a picture, setting a 5-second timer to take a picture, deleting all pictures on the camera, updating the camera name, and updating the date/time on the camera.
+
+3. It provides an interface to 'remote control' the camera - patterned after the LCD screen on the QuickTake camera. This includes changing the Flash Mode and Quality Mode, taking a picture, setting a 5-second timer to take a picture, deleting all pictures on the camera, updating the camera name, and updating the date/time on the camera.
 ![Control the Camera](https://github.com/Crazylegstoo/JQuickTake/blob/main/Images/Control.JPG)
 
 **What the software does NOT do:**
@@ -28,7 +30,8 @@ JQuickTake is a Java Swing/AWT application that runs on a desktop. Once installe
 This is JQuickTake v1.0, so it does lack a few features:
 
 1. *It does not display image thumbnails or full images.* It only reads images from the camera and writes them to QTK files. However, any imaging software based on dcraw will easily convert them to JPG or TIFF images. For my development and testing, I used a nice utility called RawDrop to convert my pictures - more on that below. At some point I plan to create QuickTake v2.0 to include thumbnail/image display, but I don't have a timeline for that yet.
-2. *This software does not work for all QuickTake camera models*. It has been thoroughly tested on a QuickTake 150 camera. It has been somewhat tested with a QuickTake 100. Unfortunately my original QuickTake 100 experienced a hardware failure during development, so I could not do a complete round of testing. That said, I am reasonably confident that the software will work with the 100 and QuickTake 100 Plus. However, it definitely will not work with a QuickTake 200 camera. I would say that 95% of the code will work with that model, but there are few small differences and I do not have access to a 200 for development/testing purposes. Maybe someday...
+
+3. *This software does not work for all QuickTake camera models*. It has been thoroughly tested on a QuickTake 150 camera. It has been somewhat tested with a QuickTake 100. Unfortunately my original QuickTake 100 experienced a hardware failure during development, so I could not do a complete round of testing. That said, I am reasonably confident that the software will work with the 100 and QuickTake 100 Plus. However, it definitely will not work with a QuickTake 200 camera. I would say that 95% of the code will work with that model, but there are few small differences and I do not have access to a 200 for development/testing purposes. Maybe someday...
 
 ## Installing JQuickTake
 

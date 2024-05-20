@@ -19,19 +19,21 @@ JQuickTake is a Java Swing/AWT application that runs on a desktop. Once installe
 
 1. I*t will connect to an Apple QuickTake 100 or 150 camera* and display its metadata - including, camera name, pictures taken, pictures remaining, Flash mode, Quality mode, etc.
 2. *It will allow you to save selected or all images to local storage* as an Apple QTK image file, using the naming convention IMAGE01.qtk, IMAGE0.qtk, etc.
-3. I*t provides a interface to 'remote control' the camera* - patterned after the LCD screen on the QuickTake. This includes changing the Flash Mode and Quality Mode, taking a picture, setting a 5-second timer to take picture, deleting all pictures on the camera, updating the camera name, and updating the date/time on the camera.
+3. I*t provides a interface to 'remote control' the camera* - patterned after the LCD screen on the QuickTake. This includes changing the Flash Mode and Quality Mode, taking a picture, setting a 5-second timer to take a picture, deleting all pictures on the camera, updating the camera name, and updating the date/time on the camera.
 
 **What the software does NOT do:**
 
 This is JQuickTake v1.0, so it does lack a few features:
 
 1. *It does not display image thumbnails or full images.* It only reads images from the camera and writes them to QTK files. However, any imaging software based on dcraw will easily convert them to JPG or TIFF images. For my development and testing, I used a nice utility called RawDrop to convert my pictures - more on that below. At some point I plan to create QuickTake v2.0 to include thumbnail/image display, but I don't have a timeline for that yet.
-2. *This software does not work for all QuickTake camera models*. It has been thoroughly tested on a QuickTake 150 camera. It has been somewhat tested with a QuickTake 100. Unfortunately my original QuickTake 100 experienced a hardware failure during development. That said, I am reasonably confident that the software with work with the 100 and QuickTake 100 Plus. However, it definitely will not work with a QuickTake 200 camera. I would say that 95% of the code will work with that model, but there are few small differences and I do not have access to a 200 for development/testing purposes. Maybe someday...
+2. *This software does not work for all QuickTake camera models*. It has been thoroughly tested on a QuickTake 150 camera. It has been somewhat tested with a QuickTake 100. Unfortunately my original QuickTake 100 experienced a hardware failure during development. That said, I am reasonably confident that the software will work with the 100 and QuickTake 100 Plus. However, it definitely will not work with a QuickTake 200 camera. I would say that 95% of the code will work with that model, but there are few small differences and I do not have access to a 200 for development/testing purposes. Maybe someday...
 
 ## Installing JQuickTake
 
-The Github repo includes all the source code and resources. However, the built solution is only for Windows machines. I am confident that it can work on Linux and MacOS if you feel like compiling configuring. I plan to do a Linux build once I get some time to focus on that. As for MacOS - I don't have a machine handy, but feel free to give it a try if you like.
+The Github repo includes all the source code and resources. However, the built solution is only for Windows machines. I am confident that it can work on Linux and MacOS if you feel like compiling and configuring. I plan to do a Linux build soon once I get some time to focus on that. As for MacOS - I don't have a machine handy, but feel free to give it a try if you like.
 
-To install JQuickTake on a Windows 10 or 11 machine, simply download and execute JQuickTake-1.0.exe to drive a standard Windows install. The installer will install JQuickTake as well as it's bundled Java JRE 17.0 runtime as one package. It will install into c:\Program Files, create a Start Menu entry, and put an icon on your Windows desktop.
+To install JQuickTake on a Windows 10 or 11 machine, simply download and execute ***JQuickTake-1.0.exe*** to drive a standard Windows install. The installer will install JQuickTake as well as it's bundled Java JRE 17.0 runtime as one package. It will install into ***c:\Program Files***, create a Start Menu entry, and put an icon on your Windows desktop.
+
+## Running JQuickTake
 
 

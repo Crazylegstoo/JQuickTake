@@ -2,7 +2,7 @@
 
 ***“I Think That This Situation Absolutely Requires A Really Futile And Stupid Gesture Be Done On Somebody’s Part.”*** - Otter (*Animal House - 1978*)
 
-Back in the late 1990's someone gave me this 'thing' with an Apple logo and a 'QuickTake 100' label. It kind of looked like a Luke Skywalker's binoculars, and I had no firm idea what it was. There was no manual, no cable, no software. The donor just handed it to me because (1) it was surplus equipment from their workplace and (2) I was an IT Guy and maybe I could "do something with it". I pretty much put it on a shelf with a vague notion of figuring things out sometime down the road.
+Back in the late 1990's someone gave me this 'thing' with an Apple logo and a 'QuickTake 100' label. It kind of looked like Luke Skywalker's binoculars, and a basic sense that it was a camera. There was no manual, no cable, no software. The donor just handed it to me because (1) it was surplus equipment from their workplace and (2) I was an IT Guy and maybe I could "do something with it". I pretty much put it on a shelf with a vague notion of figuring things out sometime down the road.
 
 A few later, the Internet was able to [teach me all about Apple's mid-1990's experiment in the digital camera market](https://en.wikipedia.org/wiki/Apple_QuickTake). I also found a few smart people online who had posted instructions for building a cable and a few sources for the original QuickTake software for Windows. I built the cable, I got the software running on my WinXP computer, and I played around with the camera for awhile. I had my fun and then I put the camera back on its shelf, where it would again be left waiting while time marched ahead.
 
@@ -17,11 +17,11 @@ JQuickTake is a Java Swing/AWT application that runs on a desktop. Once installe
 **What the software does:**
 
 1. *It will connect to an Apple QuickTake 100 or 150 camera and display its metadata* - including, camera name, pictures taken, pictures remaining, Flash mode, Quality mode, etc.
-![Connect to Camera](https://github.com/Crazylegstoo/JQuickTake/tree/main/Images/Connect.jpg)
+![Connect to Camera](https://github.com/Crazylegstoo/JQuickTake/blob/main/Images/Connect.JPG)
 2. *It will allow you to save selected or All images to local storage* as an Apple QTK image file, using the naming convention IMAGE01.qtk, IMAGE0.qtk, etc.
-![Save Images](https://github.com/Crazylegstoo/JQuickTake/tree/main/Images/Save.jpg)
+![Save Images](https://github.com/Crazylegstoo/JQuickTake/tree/main/Images/Save.JPG)
 3. *It provides an interface to 'remote control' the camera* - patterned after the LCD screen on the QuickTake camera. This includes changing the Flash Mode and Quality Mode, taking a picture, setting a 5-second timer to take a picture, deleting all pictures on the camera, updating the camera name, and updating the date/time on the camera.
-![Control the Camera](https://github.com/Crazylegstoo/JQuickTake/tree/main/Images/Control.jpg)
+![Control the Camera](https://github.com/Crazylegstoo/JQuickTake/tree/main/Images/Control.JPG)
 
 **What the software does NOT do:**
 

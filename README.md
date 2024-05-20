@@ -19,9 +19,9 @@ JQuickTake is a Java Swing/AWT application that runs on a desktop. Once installe
 1. *It will connect to an Apple QuickTake 100 or 150 camera and display its metadata* - including, camera name, pictures taken, pictures remaining, Flash mode, Quality mode, etc.
 ![Connect to Camera](https://github.com/Crazylegstoo/JQuickTake/blob/main/Images/Connect.JPG)
 2. *It will allow you to save selected or All images to local storage* as an Apple QTK image file, using the naming convention IMAGE01.qtk, IMAGE0.qtk, etc.
-![Save Images](https://github.com/Crazylegstoo/JQuickTake/tree/main/Images/Save.JPG)
+![Save Images](https://github.com/Crazylegstoo/JQuickTake/blob/main/Images/Save.JPG)
 3. *It provides an interface to 'remote control' the camera* - patterned after the LCD screen on the QuickTake camera. This includes changing the Flash Mode and Quality Mode, taking a picture, setting a 5-second timer to take a picture, deleting all pictures on the camera, updating the camera name, and updating the date/time on the camera.
-![Control the Camera](https://github.com/Crazylegstoo/JQuickTake/tree/main/Images/Control.JPG)
+![Control the Camera](https://github.com/Crazylegstoo/JQuickTake/blob/main/Images/Control.JPG)
 
 **What the software does NOT do:**
 

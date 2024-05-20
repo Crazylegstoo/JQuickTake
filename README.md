@@ -8,7 +8,9 @@ A few later, the Internet was able to [teach me all about Apple's mid-1990's exp
 
 A few years ago, I got the urge to play with the camera again. Despite the 20+ years that had passed, some fresh batteries were all it took to bring my QuickTake 100 back to life. The QuickTake software had not aged as gracefully. It simply would not work on my Windows 10 machine. And, of course, Old School serial ports were no longer in fashion on modern motherboards, so my homebrew QuickTake cable had nothing to plug into. Being a goal-driven nerd, I found myself a USB-to-Serial adapter cable, installed WinXP inside a VirtualBox VM, and I was once more able to manage stunning 640x480 images via the QuickTake software.
 
-Rather than put the camera back on its shelf for another 20 years, I wondered if it would be possible to write my own software to replace the aging Apple software - a solution I could run natively on a Windows PC (or any other machine for that matter). It was something in the back of mind for a couple of years, but I never really found the time to actually *do something*. Once I retired (yeah, I'm that old), I had no excuses. JQuickTake is the solution that no one really asked for, and I offer it up to anyone who loves their weird, old QuickTake camera and understands the joy of doing something just because you can.
+Rather than put the camera back on its shelf for another 20 years, I wondered if it would be possible to write my own software to replace the aging Apple software - a solution I could run natively on a Windows PC (or any other machine for that matter). It was something in the back of mind for a couple of years, but I never really found the time to actually *do something*. Once I retired (yeah, I'm that old), I had no excuses, so I went to work on a solution. 
+
+As a result, JQuickTake is the Really Futile And Stupid Gesture that no one asked for, and I offer it up to anyone who loves their weird, old QuickTake camera and understands the joy of doing something just because you can.
 ## The Solution
 JQuickTake is a Java Swing/AWT application that runs on a desktop. Once installed, it will connect to a serial (COM) port and talk to an Apple QuickTake camera in much the same way as the original Apple software. 
 
@@ -29,16 +31,42 @@ JQuickTake is a Java Swing/AWT application that runs on a desktop. Once installe
 
 This is JQuickTake v1.0, so it does lack a few features:
 
-1. *It does not display image thumbnails or full images.* It only reads images from the camera and writes them to QTK files. However, any imaging software based on dcraw will easily convert them to JPG or TIFF images. For my development and testing, I used a nice utility called RawDrop to convert my pictures - more on that below. At some point I plan to create QuickTake v2.0 to include thumbnail/image display, but I don't have a timeline for that yet.
+1. *It does not display image thumbnails or full images.* It only reads images from the camera and writes them to QTK files. However, any [imaging software based on dcraw](https://en.wikipedia.org/wiki/Dcraw) will easily convert Apple QTK files to JPG or TIFF images. For my development and testing, I used a nice utility called [RawDrop](http://www.wizards.de/rawdrop/) to convert my pictures - more on that below. At some point I plan to create QuickTake v2.0 to include thumbnail/image display, but I don't have a timeline for that yet.
 
 3. *This software does not work for all QuickTake camera models*. It has been thoroughly tested on a QuickTake 150 camera. It has been somewhat tested with a QuickTake 100. Unfortunately my original QuickTake 100 experienced a hardware failure during development, so I could not do a complete round of testing. That said, I am reasonably confident that the software will work with the 100 and QuickTake 100 Plus. However, it definitely will not work with a QuickTake 200 camera. I would say that 95% of the code will work with that model, but there are few small differences and I do not have access to a 200 for development/testing purposes. Maybe someday...
 
-## Installing JQuickTake
+## Installing and Running JQuickTake
 
-The Github repo includes all the source code and resources. However, the built solution is only for Windows machines. I am confident that it can work on Linux and MacOS if you feel like compiling and configuring. I plan to do a Linux build soon once I get some time to focus on that. As for MacOS - I don't have a machine handy, but feel free to give it a try if you like.
+The Github repo includes all the bits and pieces to build the application yourself (if you want to):
 
-To install JQuickTake on a Windows 10 or 11 machine, simply download and execute ***JQuickTake-1.0.exe*** to drive a standard Windows install. The installer will install JQuickTake as well as it's bundled Java JRE 17.0 runtime as one package. It will install into ***c:\Program Files***, create a Start Menu entry, and put an icon on your Windows desktop.
+**src/main** contains all the .java source and resources (jpg and gif images) for the application
 
-## Running JQuickTake
+**libs** contains the built app JAR (JQuickTake-1.0.jar) and the JSerialComm JAR (jSerialComm-2.10.4.jar) that provides all the serial port comms support.
+
+**classes/java/main/com/crazylegs/JQuickTake** contains all the app .class files compiled on JDK 17.0. Note that these have been tested with Java 17 and Java 22 runtimes.
+
+However, the built solution is only for Windows machines. I am confident that it can work on Linux and MacOS if you feel like compiling and configuring. I plan to do a Linux build soon once I get some time to focus on that. As for MacOS - I don't have a machine handy, but feel free to give it a try if you like.
+
+To install JQuickTake on a Windows 10 or 11 machine, there are 2 options:
+1. The easiest path is to simply download and execute the provided Windows installer ***JQuickTake-1.0.exe*** . This will install JQuickTake as well as a bundled Java JRE 17.0 runtime all in one package. JQuickTake will install into ***c:\Program Files\JQuickTake***, create a Start Menu entry, and put a nice icon on your Windows desktop.
+
+2. The slightly-more-work path is to download **distributions/app.zip** and unzip the file onto a Windows directory of your choosing. To fire up JQuickTake, you need to run ***Your Directory*\app\bin\app.bat**. The benefit of this option is that the application will run on top of whatever Java runtime you already have installed. Note the JQuickTake has been tested with Java 17 and Java 22 runtimes.
+
+## Other Things You May Need
+
+**My QuickTake camera doesn't have a cable!**
+
+A brand new QuickTake was packaged with a cable that would let you plug the camera into your computer's serial port so that your QuickTake software could talk to your camera. For reasons I don't quite understand, the QuickTake cameras I've for sale online almost never include a cable. I'm guessing all those cables are hanging out with all of the lost socks and closet hangers.
+
+But fear not! You can make your own cable (like I did) with a surplus DB9 serial cable, a Mac DIN8 (aka S-Video) cable/plug. and some basic wiring/soldering skills. Here's an [overview of the cable](https://hackaday.com/2013/03/26/diy-6-serial-cable-for-vintage-apple-quicktake-cameras/), although the  link to the build instructions is long broken. But if you scroll all the way to the bottom of this page, you'll see a nice picture showing which pins are wired to which pins so you can build your own. And you can find pre-built cables for sale [here](https://www.pccables.com/Products/70810) and [there](https://www.amazon.ca/Uxcell-a15101400ux0036-Female-Converter-Cable/dp/B01DKFB3PW/ref=sr_1_3?crid=30OXQJCYCR0V4&dib=eyJ2IjoiMSJ9.BpQMbzcIZ_5k8XpGGeJROobPsqXDV7Xkb3NQAe4V4qrkonszHC4ONxMpwz3bN3MRKf5FEwFHfSxebNoW6z47s2AZge0GcVPj1uQtIOZFMwbOIkwvwJI9TZ8WELHzu3D7yNt4Qd1WD8scHrDhec8Y4x-WxMTmrPncNslX3Z9XoakO3x8GM-t--XVrLaztL9zL_q0mDKD1WXZx4DmQK4Dhe-zTx1zxYrG7eMW_jLHvH6toR1pNvjU6YExegf4yHInOH9HNBQDBaVKawCZDjdjcH6oErBrbPJsgdj6qUYDMh98.ceGdz_T2HcNSVUBRmBe0Eo-yGKPdt3BxijeUaEb0mDk&dib_tag=se&keywords=db8%20din8%20cable&qid=1716229003&sprefix=db8%20din8%20cable,aps,111&sr=8-3) if you search around.
+
+**What's a serial port?** 
+
+This is a 9-pin male plug you might find on your PC (on the back) or on your laptop (on the side). The thing is, you likely don't have one. While still widely used in industrial/commercial devices, serial ports have become extinct on personal computers in favour of USB ports.
+
+**Well, how do I get a serial port?** 
+
+Serial-to-USB adapters are very common and very cheap. They plug into a USB port on one end, with the other end of the adapter providing a standard serial port plug. Once plugged into your computer (and once you install the provided driver software), your computer (and JQuickTake) will think your machine has a serial port. I used a [StarTech adapter](https://www.startech.com/en-ca/cards-adapters/icusb232v2), which can be [bought on Amazon](https://www.amazon.ca/StarTech-com-USB-Serial-Adapter-Prolific/dp/B00GRP8EZU?th=1) and other places. It supports Windows, Linux, and MacOS.
+
 
 

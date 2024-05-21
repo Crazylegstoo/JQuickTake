@@ -106,12 +106,10 @@ If you have a question, or just want to virtually point and laugh:
 
 Reddit - https://www.reddit.com/user/Crazylegstoo/
 
-Email - crazylegstoo@gmail.com
+Email - crazylegsqt@gmail.com
 
-Many Thanks, and I hope JQuickTake actually works.
+Many Thanks, and I truly hope JQuickTake actually works.
 
-**Kevin Godin**
-London, Ontario, Canada
-May 2024
+**Kevin Godin** - London, Ontario, Canada - May 2024
 
 

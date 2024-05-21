@@ -1,4 +1,4 @@
-﻿## JQuickTake - Apple QuickTake Manager
+﻿# JQuickTake - Apple QuickTake Manager
 
 ***“I Think That This Situation Absolutely Requires A Really Futile And Stupid Gesture Be Done On Somebody’s Part.”*** - Otter (*Animal House - 1978*)
 
@@ -11,16 +11,17 @@ A couple of years ago, I got the urge to play with the camera again. Despite the
 Rather than put the camera back on its shelf for another 20 years, I wondered if it would be possible to write my own software to replace the aging Apple software - a solution I could run natively on a modern Windows PC (or any other machine for that matter). It was something in the back of my mind for a couple of years, but I never really found the time to actually *do something*. Once I retired (yeah, I'm that old), I had no excuses, so I went to work on a solution. 
 
 As a result, JQuickTake is the Really Futile And Stupid Gesture that no one asked for, and I offer it up to anyone who loves their weird, old QuickTake camera and understands the joy of doing something just because you can.
-## The Solution
+
+# The Solution
 JQuickTake is a Java Swing/AWT application that runs on a desktop. Once installed, it will connect to a serial (COM) port and talk to an Apple QuickTake camera in much the same way as the original Apple software. 
 
 **Why Java?** While I'm an old, retired IT Guy, I haven't written a substantial desktop application in many years, so I wanted to chose technology that I was somewhat comfortable using. Also, I wanted to develop something that had a hope of working on Windows, Linux, and MacOS. I did a lot of Java application stuff way back when Java 2 was a big deal, so I had some (ancient) familiarity. I considered Python but decided against it because I don't have any experience with Python GUI development. Also, I happened to stumble across a very nice Java-based Serial Port API called [JSerialComm](https://fazecast.github.io/jSerialComm/). So, Java FTW!
 
-I won't talk much about the development process. I'd like to, but I won't - too much. To my knowledge Apple never published technical docs about QuickTake. I actually reached out to Apple via email to see if they would offer something under their Open Source support or maybe something akin to what they've done with the [Computer History Museum](https://computerhistory.org/playlists/source-code/). Alas, they gave no response. The lack of docs meant there was no published material detailing the critical request/response instruction-set for QuickTake. In other words, I knew the camera talked over a serial port, but didn't know the language of the camera. For the layman, it's like knowing that a human send sound waves from their mouth to someone else's ears yet having no clue how to speak German.
+I won't talk much about the development process. I'd like to, but I won't - too much. To my knowledge Apple never published technical docs about QuickTake. I actually reached out to Apple via email to see if they would offer something under their Open Source support or maybe something akin to what they've done with the [Computer History Museum](https://computerhistory.org/playlists/source-code/). Alas, they gave no response. The lack of docs meant there was no published material detailing the critical request/response instruction-set for QuickTake. In other words, I knew the camera talked over a serial port, but didn't know the language of the camera. For the layman, it's like knowing that a human sends sound waves from their mouth to someone else's ears yet having no clue how to speak German.
 
-Learning the language of QuickTake would require a very tedious exercise of running the [OG QuickTake](https://github.com/Crazylegstoo/JQuickTake/tree/main/original%20Apple%20QT) software on a WinXP VM while using serial port analyzer software to inspect the communications flowing across the wire. The effort would require disciplined analysis, a little bit of luck, and lot of sustained focus. I doubt I had all those qualities, but off I went. I made progress, although it was definitely a time-suck. It turns out that I did, in fact, have luck - a lot of it. In the magical world of Reddit's [r/VintageApple](https://www.reddit.com/r/VintageApple/comments/1buuqz5/a_rant_rip_to_my_apple_quicktake_100/), I bumped into [Colin](https://www.reddit.com/user/Colin-McMillen/), who was WAY ahead of my efforts to decode the QuickTake protocol, albeit for a very different project than mine. And being the very generous soul that he is, he gave me [everything he documented](https://www.colino.net/wordpress/en/archives/2023/10/29/the-apple-quicktake-100-150-serial-communication-protocol/). Were it not for Colin, I would still be spinning my wheels decoding serial comms and it's quite possible I'd have grown bored and shut down my own project. All of this is say, "Thank-you, Colin!". Honestly, check out [Colin's QuickTake project](https://www.colino.net/wordpress/en/quicktake-for-apple-ii/). It's pretty amazing.
+Learning the language of QuickTake would require a very tedious exercise of running the [OG QuickTake](https://github.com/Crazylegstoo/JQuickTake/tree/main/original%20Apple%20QT) software on a WinXP VM while using serial port analyzer software to inspect the communications flowing across the wire. The effort would require disciplined analysis, a little bit of luck, and lot of sustained focus. I doubt I had all those qualities, but off I went. I made progress, although it was definitely a time-suck. It turns out that I did, in fact, have luck - a lot of it. In the magical world of Reddit's [r/VintageApple](https://www.reddit.com/r/VintageApple/comments/1buuqz5/a_rant_rip_to_my_apple_quicktake_100/), I bumped into [Colin](https://www.reddit.com/user/Colin-McMillen/), who was WAY ahead of my efforts to decode the QuickTake protocol, albeit for a very different project than mine. And being the very generous soul that he is, he gave me [everything he documented](https://www.colino.net/wordpress/en/archives/2023/10/29/the-apple-quicktake-100-150-serial-communication-protocol/). Were it not for Colin, I would still be spinning my wheels decoding serial comms and it's quite possible I'd have grown bored and shut down my own project. All of this is to say, "Thank-you, Colin!". Honestly, check out [Colin's QuickTake project](https://www.colino.net/wordpress/en/quicktake-for-apple-ii/). It's pretty amazing.
 
-**What the software does:**
+## What The Software Does
 
 1. It will connect to an Apple QuickTake 100 or 150 camera and display its metadata - including, camera name, pictures taken, pictures remaining, Flash mode, Quality mode, etc.
 ![Connect to Camera](https://github.com/Crazylegstoo/JQuickTake/blob/main/Images/Connect.JPG)
@@ -31,7 +32,7 @@ Learning the language of QuickTake would require a very tedious exercise of runn
 3. It provides an interface to 'remote control' the camera - patterned after the LCD screen on the QuickTake camera. This includes changing the Flash Mode and Quality Mode, taking a picture, setting a 5-second timer to take a picture, deleting all pictures on the camera, updating the camera name, and updating the date/time on the camera.
 ![Control the Camera](https://github.com/Crazylegstoo/JQuickTake/blob/main/Images/Control.JPG)
 
-**What the software does NOT do:**
+## What The Software Does Not Do
 
 This is JQuickTake v1.0, so it does lack a few features:
 
@@ -39,7 +40,7 @@ This is JQuickTake v1.0, so it does lack a few features:
 
 3. *This software does not work for all QuickTake camera models*. It has been thoroughly tested on a QuickTake 150 camera. It has been somewhat tested with a QuickTake 100. Unfortunately my original QuickTake 100 experienced a hardware failure during development, so I could not do a complete round of testing. That said, I am reasonably confident that the software will work with the 100 and QuickTake 100 Plus. However, it definitely will not work with a QuickTake 200 camera. I would say that 95% of the code will work with that model, but there are few small differences and I do not have access to a 200 for development/testing purposes. Maybe someday...
 
-## Installing and Running JQuickTake
+# Installing and Running JQuickTake
 
 The Github repo includes all the bits and pieces to build the application yourself (if you want to):
 
@@ -53,48 +54,53 @@ However, the built solution is only for Windows machines. I am confident that it
 
 To install JQuickTake on a Windows 10 or 11 machine, there are 2 options:
 
-**Option 1 - For Tech Civilians**: The easiest path is to simply download and execute the provided Windows installer ***JQuickTake-1.0.exe*** . This will install JQuickTake as well as a bundled Java JRE 17.0 runtime all in one package. JQuickTake will install into ***c:\Program Files\JQuickTake***, create a Start Menu entry, and put a nice icon on your Windows desktop.
+## Option 1 - For Tech Civilians
 
-**Option 2 - For Tech Aficionados:** The slightly-more-work path is to download **distributions/app.zip** and unzip the file onto a Windows directory of your choosing. To fire up JQuickTake, you need to run ***Your Directory*\app\bin\app.bat**. The benefit of this option is that the application will run on top of whatever Java runtime you already have installed. Note the JQuickTake has been tested with Java 17 and Java 22 runtimes.
+The easiest path is to simply download and execute the provided Windows installer ***JQuickTake-1.0.exe*** . This will install JQuickTake as well as a bundled Java JRE 17.0 runtime all in one package. JQuickTake will install into ***c:\Program Files\JQuickTake***, create a Start Menu entry, and put a nice icon on your Windows desktop.
 
-## Other Things You May Need
+## Option 2 - For Tech Aficionados:
 
-**My QuickTake camera doesn't have a cable!**
+The slightly-more-work path is to download **distributions/app.zip** and unzip the file onto a Windows directory of your choosing. To fire up JQuickTake, you need to run ***Your Directory*\app\bin\app.bat**. The benefit of this option is that the application will run on top of whatever Java runtime you already have installed. Note the JQuickTake has been tested with Java 17 and Java 22 runtimes.
+
+# Other Things You May Need
+
+## My QuickTake camera doesn't have a cable!
 
 A brand new QuickTake was packaged with a serial cable that would let you plug the camera into your computer's serial port so that your QuickTake software could talk to your camera. For reasons I don't quite understand, the QuickTake cameras I've seen for sale online almost never include a cable. I'm guessing all those cables are hanging out in some intergalactic lost-and-found with a billion odd socks and closet hangers.
 
 But fear not! You can make your own cable (like I did) with a surplus DB9 serial cable, a DIN8 (aka S-Video) cable/plug. and some basic wiring/soldering skills. Here's an [overview of the cable](https://hackaday.com/2013/03/26/diy-6-serial-cable-for-vintage-apple-quicktake-cameras/), although the  link to the build instructions is long broken. But if you scroll all the way to the [bottom of this page](https://www.colino.net/wordpress/en/archives/2023/10/29/the-apple-quicktake-100-150-serial-communication-protocol/), you'll see a nice picture showing which pins are wired to which pins so you can build your own. And you can also find pre-built cables for sale [here](https://www.pccables.com/Products/70810) and [there](https://www.amazon.ca/Uxcell-a15101400ux0036-Female-Converter-Cable/dp/B01DKFB3PW/ref=sr_1_3?crid=30OXQJCYCR0V4&dib=eyJ2IjoiMSJ9.BpQMbzcIZ_5k8XpGGeJROobPsqXDV7Xkb3NQAe4V4qrkonszHC4ONxMpwz3bN3MRKf5FEwFHfSxebNoW6z47s2AZge0GcVPj1uQtIOZFMwbOIkwvwJI9TZ8WELHzu3D7yNt4Qd1WD8scHrDhec8Y4x-WxMTmrPncNslX3Z9XoakO3x8GM-t--XVrLaztL9zL_q0mDKD1WXZx4DmQK4Dhe-zTx1zxYrG7eMW_jLHvH6toR1pNvjU6YExegf4yHInOH9HNBQDBaVKawCZDjdjcH6oErBrbPJsgdj6qUYDMh98.ceGdz_T2HcNSVUBRmBe0Eo-yGKPdt3BxijeUaEb0mDk&dib_tag=se&keywords=db8%20din8%20cable&qid=1716229003&sprefix=db8%20din8%20cable,aps,111&sr=8-3) if you search around.
 
-**What's a serial port?** 
+## What's a serial port?
 
 This is a [9-pin male plug](https://en.wikipedia.org/wiki/Serial_port) you might find on your PC (on the back) or on your laptop (on the side). The thing is, you likely don't have one. While still widely used in industrial/commercial devices, serial ports have become extinct on personal computers in favour of USB ports.
 
-**Well, how do I get a serial port?** 
+## Well, how do I get a serial port?
 
 Serial-to-USB adapters are very common and very cheap. One end plugs into your computer's USB port while the other end of the adapter gives you a standard serial port plug. Once plugged into your computer (and once you install the provided driver software), your computer (and JQuickTake) will think your machine has a serial port. Finally, you can connect your QuickTake cable to your camera and shiny new computer serial port and everything should 'just work'. For my efforts, I used a [StarTech adapter](https://www.startech.com/en-ca/cards-adapters/icusb232v2), which can be [bought on Amazon](https://www.amazon.ca/StarTech-com-USB-Serial-Adapter-Prolific/dp/B00GRP8EZU?th=1) and other places. It supports Windows, Linux, and MacOS.
 
-**So what do I do with all these QTK files I just saved off my camera?**
+## So what do I do with all these QTK files I just saved off my camera?
 
 These files are pictures saved in the old Apple-specific image file format that your computer almost assuredly does not understand. To actually see those pictures, you want to convert them JPG files that your computer can actually work with. Luckily, that's an easy process. There is an amazing command-line utility call *dcraw* that can convert image files from just about any camera into a JPG or TIFF.  For our purposes, *dcraw* supports Apple QTK files! If you look on the [dcraw website](https://github.com/ncruces/dcraw), you will see a whole list of applications you can use that leverage *dcraw*. On Windows, [I like to use RawDrop](https://www.dechifro.org/dcraw/) for it's very simple drag-and-drop UI. I recommend it!
 
-## This README Is Too Long
+# This README Is Too Long
 
 There are just a few more things I want to mention:
 
-**Be Gentle**
+## Be Gentle
 
 If you decide to crawl through the source, maybe cut me a wee bit of slack. Like I said earlier, I haven't done serious desktop app coding in many years. I know the code could be structured better, leverage event-driven processes more effectively, definitely benefit from optimizations, and most definitely handle exception conditions better than it does today. I'll even agree that the UI could be a bit slicker. But the code seems to work and I included some comments, so there's that.
 
 Also, I forced myself to learn a few new things - most notably [Gradle](https://gradle.org/) and [jpackage](https://docs.oracle.com/en/java/javase/17/docs/specs/man/jpackage.html). I'm not sure I'm using them to full effect but, you know how it is with Old Dogs and New Tricks. And if anyone is wondering what IDE I used,, it's called Notepad++ and a lovely black CMD window. Baby steps, man. Baby steps.
 
-**There Are Some Major Thank-You's Required!**
+## There Are Some Major Thank-You's Required!
 
  - [Colin Leroy-Mira](https://www.colino.net/wordpress/) - Again, thank you for sharing your excellent work on the QuickTake Protocol.  It made my little project much easier.
  - [Dave Coffin](https://www.dechifro.org/dcraw/), for creating dcraw and making sure it supports Apple QTKT and QTKN algortihms
  - [Fazecast Inc](https://fazecast.github.io/jSerialComm/) for creating and maintaining the excellent jSerialComm library.
  - [Frank Siegert](http://www.wizards.de/rawdrop/) for writing the lean and mean RawDrop app that made my dev/test efforts that much easier
  
- **Where You Can Find Me**
+
+## Where You Can Find Me
 
 If you have a question, or just want to virtually point and laugh:
 
@@ -102,7 +108,7 @@ Reddit - https://www.reddit.com/user/Crazylegstoo/
 
 Email - crazylegstoo@gmail.com
 
-Many Thanks, and hope QuickTake actually works.
+Many Thanks, and I hope JQuickTake actually works.
 
 Kevin Godin
 London, Ontario, Canada

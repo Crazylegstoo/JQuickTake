@@ -42,15 +42,7 @@ This is JQuickTake v1.0, so it does lack a few features:
 
 # Installing and Running JQuickTake
 
-The Github repo includes all the bits and pieces to build the application yourself (if you want to):
-
-**src/main** contains all the .java source and resources (jpg and gif images) for the application
-
-**libs** contains the fully-built app JAR ***JQuickTake-1.0.jar*** and the jSerialComm JAR ***jSerialComm-2.10.4.jar*** that provides all the serial port comms support.
-
-**classes/java/main/com/crazylegs/JQuickTake** contains all the app .class files compiled on JDK 17.0. Note that these have been tested with Java 17 and Java 22 runtimes.
-
-However, the built solution is only for Windows machines. I am confident that it can work on Linux and MacOS if you feel like compiling and configuring. I plan to do a Linux build once I get some time to focus on that. As for MacOS - I don't have an Apple computer handy, but feel free to give it a try if you like.
+The fully-built solution is only for Windows machines. I am confident that it can work on Linux and MacOS if you feel like compiling and configuring. I plan to do a Linux build once I get some time to focus on that. As for MacOS - I don't have an Apple computer handy, but feel free to give it a try if you like.
 
 To install JQuickTake on a Windows 10 or 11 machine, there are 2 options:
 
@@ -61,6 +53,16 @@ The easiest path is to simply download and execute the provided Windows installe
 ## Option 2 - Use Your Own Java Runtime
 
 The slightly-more-work path is to download ***distributions/app.zip*** and unzip the file onto a Windows directory of your choosing. To fire up JQuickTake, you need to run ***Your Directory*\app\bin\app.bat**. The benefit of this option is that the application will run on top of whatever Java runtime you already have installed. Note the JQuickTake has been tested with Java 17 and Java 22 runtimes.
+
+## You Can Roll Your Own
+
+The Github repo includes all the bits and pieces to build the application yourself if you want to:
+
+**src/main** contains all the .java source and resources (jpg and gif images) for the application
+
+**libs** contains the fully-built app JAR ***JQuickTake-1.0.jar*** and the jSerialComm JAR ***jSerialComm-2.10.4.jar*** that provides all the serial port comms support.
+
+**classes/java/main/com/crazylegs/JQuickTake** contains all the app .class files compiled on JDK 17.0. Note that these have been tested with Java 17 and Java 22 runtimes.
 
 # Other Things You May Need
 
@@ -97,9 +99,9 @@ Also, I forced myself to learn a few new things - most notably [Gradle](https://
 ## There Are Some Major Thank-You's Required!
 
  - [Colin Leroy-Mira](https://www.colino.net/wordpress/) - Again, thank you for sharing your excellent work on the QuickTake Protocol.  It made my little project much easier.
- - [Dave Coffin](https://www.dechifro.org/dcraw/), for creating dcraw and making sure it supports Apple QTKT and QTKN compression.
+ - [Dave Coffin](https://www.dechifro.org/dcraw/), for creating *dcraw* and making sure it supports Apple QKTK and QKTN compression.
  - [Fazecast Inc](https://fazecast.github.io/jSerialComm/) for creating and maintaining the excellent jSerialComm library.
- - [Frank Siegert](http://www.wizards.de/rawdrop/) for writing the lean and mean RawDrop app that made my dev/test efforts that much easier.
+ - [Frank Siegert](http://www.wizards.de/rawdrop/) for writing the lean, mean, and dead-simple RawDrop app that made my dev/test efforts that much easier.
  
 
 ## Where You Can Find Me

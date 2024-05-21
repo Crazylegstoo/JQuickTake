@@ -110,7 +110,8 @@ Email - crazylegstoo@gmail.com
 
 Many Thanks, and I hope JQuickTake actually works.
 
-Kevin Godin
+**Kevin Godin**
 London, Ontario, Canada
+May 2024
 
 

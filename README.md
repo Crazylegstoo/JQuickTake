@@ -10,7 +10,7 @@ A couple of years ago, I got the urge to play with the camera again. Despite the
 
 Rather than put the camera back on its shelf for another 20 years, I wondered if it would be possible to write my own software to replace the aging Apple software - a solution I could run natively on a modern Windows PC (or any other machine for that matter). It was something in the back of my mind for a couple of years, but I never really found the time to actually *do something*. Once I retired (yeah, I'm that old), I had no excuses, so I went to work on a solution. 
 
-As a result, JQuickTake is the Really Futile And Stupid Gesture that no one asked for, and I offer it up to anyone who loves their weird, old QuickTake camera and understands the joy of doing something just because you can.
+As a result, **JQuickTake** is the Really Futile And Stupid Gesture that no one asked for, and I offer it up to anyone who loves their weird, old QuickTake camera and understands the joy of doing something just because you can.
 
 # The Solution
 JQuickTake is a Java Swing/AWT application that runs on a desktop. Once installed, it will connect to a serial (COM) port on the computer and talk to an Apple QuickTake camera plugged into that port. It works in much the same way as the original Apple software. 

@@ -152,11 +152,12 @@ public class Image
 // Given a file path, write the image to local storage as a QTK file. The filename will be IMAGExx.QTK where xx is the image#
 //
 
-  public void saveImageToFile(String filepath)
+  public String saveImageToFile(String filepath)
   {
-	  File			tvFile;
+	  File				tvFile;
 	  FileOutputStream	tvWriter;
-	  String		tvName;
+	  String			tvName;
+	  String			tvStatus;
 	  
 	  tvName = filepath + ivSaveName;  // Set full filename
 	  
@@ -178,9 +179,14 @@ public class Image
 		  
 		  tvWriter.close();
 		  
-	  } catch (Exception e) { e.printStackTrace(); } 
+		  tvStatus = "OK";
+		  
+	  } catch (Exception e) 
+		{ 
+			tvStatus = e.getMessage() + "     "; 
+		} 
 	  
-	  return;
+	  return tvStatus;
   }		  
 
 //

@@ -9,7 +9,11 @@
 /**
  * @author Kevin Godin
  * @version $Revision: 1.0 $
- **/
+ *
+ * LockEventMgr alls other classes to register as listeners for LockEvent events. Other classes may then create LockEvent events and then 
+ * ask LockEventMgr to pass those events to any registered listener. See LockEvent for details on its purpose. 
+ *
+ * **/
 
 package com.crazylegs.JQuickTake;
 

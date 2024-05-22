@@ -33,9 +33,7 @@ public class ImageRoll
 	Camera		ivCamera;
 
 	DebugLog	ivDebugLog;
-  
-	LockEventMgr	ivLockEventMgr;
-	LockEvent		ivLockEvent;
+
 
   public ImageRoll()
   { 
@@ -55,9 +53,8 @@ public class ImageRoll
   public void saveImage(int imageNum, String path, JProgressBar progress)
   {
 	int 			tvRoll;
-	LockEventMgr	tvLockEventMgr;
-	
-	tvLockEventMgr = (LockEventMgr)Environment.getValue("LockEventMgr");
+	String			tvStatus;
+
 	
 	progress.setValue(0);    // Prepare the specified progress bar that will show 'save progress'
 	progress.setString("initializing...");
@@ -69,22 +66,23 @@ public class ImageRoll
 	  
 	if(ivImageRoll[tvRoll] == null)
 	{
-		ivLockEvent = new LockEvent(this,false);   // Lock the GUI while this process happens (so user cannot change comms, etc,)
-		tvLockEventMgr.notifyListeners(ivLockEvent);
-
 		ivImageRoll[tvRoll] = ivCamera.createImage(imageNum);
 		progress.setString("Processing... " + ivImageRoll[tvRoll].getSaveName());		
 		ivCamera.transferImageData(ivImageRoll[tvRoll],progress);
-
-		ivLockEvent = new LockEvent(this,true);   
-		tvLockEventMgr.notifyListeners(ivLockEvent);
 	}
 
 // With the image object created, tell the image to save itself to the computer. Then update progress bar.
 	
-	ivImageRoll[tvRoll].saveImageToFile(path);
+	tvStatus = ivImageRoll[tvRoll].saveImageToFile(path);
 	progress.setValue(100);
-	progress.setString("Save Completed... " + ivImageRoll[tvRoll].getSaveName());		 
+	if(tvStatus == "OK")
+	{
+		progress.setString("Save Completed... " + ivImageRoll[tvRoll].getSaveName());	
+	} else
+	{
+		progress.setString(tvStatus);	
+	}
+
 
 	return;
   }  
@@ -93,6 +91,7 @@ public class ImageRoll
   {
 	int 			tvRoll, i, j;
 	LockEventMgr	tvLockEventMgr;
+	String			tvStatus;
 	
 	tvLockEventMgr = (LockEventMgr)Environment.getValue("LockEventMgr");
 	
@@ -107,9 +106,6 @@ public class ImageRoll
 	for (i = 1; i <= j; ++i) 
 	{
 		tvRoll = i - 1;
-		
-		ivLockEvent = new LockEvent(this,false);   // Lock the GUI while this process happens (so user cannot change comms, etc,)
-		tvLockEventMgr.notifyListeners(ivLockEvent);
 	  
 		if(ivImageRoll[tvRoll] == null)  // See if image is in the roll and proceed accordingly
 		{
@@ -120,17 +116,21 @@ public class ImageRoll
 
 // With the image object created, tell the image to save itself to the computer. Then update progress bar.
 
-		ivImageRoll[tvRoll].saveImageToFile(path);
+		tvStatus = ivImageRoll[tvRoll].saveImageToFile(path);
 		progress.setValue(100);
-		progress.setString(i + " of " + j + " Saves Completed... " + ivImageRoll[tvRoll].getSaveName());		
+		if(tvStatus == "OK")
+		{
+			progress.setString(i + " of " + j + " Saves Completed... " + ivImageRoll[tvRoll].getSaveName());
+		} else
+		{
+			progress.setString(tvStatus);
+			i = j+1;
+		}
+
 		try {
 			Thread.sleep(500);
 		} catch (Exception e) { e.printStackTrace(); }
 	}
-	
-	ivLockEvent = new LockEvent(this,true);   
-	tvLockEventMgr.notifyListeners(ivLockEvent);
-
 	
 	return;
   }  

@@ -315,7 +315,7 @@ public class ControlGUI extends JQuickTakePanel implements ActionListener, KeyLi
 		{
 
 //			ivParent.unlockTabs(this,false);
-			ivLockEvent = new LockEvent(this,false);
+			ivLockEvent = new LockEvent(this,false);            // Lock other UI tabs while picture is being taken
 			ivLockEventMgr.notifyListeners(ivLockEvent);
 		
 			this.createProgress("Take a Picture", "Processing Picture...");   // Start up Progress pop-up
@@ -367,7 +367,7 @@ public class ControlGUI extends JQuickTakePanel implements ActionListener, KeyLi
 			{
 		
 //				ivParent.unlockTabs(this,false);
-				ivLockEvent = new LockEvent(this,false);
+				ivLockEvent = new LockEvent(this,false);         // Lock other UI tabs while pictures are being deleted
 				ivLockEventMgr.notifyListeners(ivLockEvent);
 				
 				this.createProgress("Erase All Pictures", "Pictures are being erased...");
@@ -437,7 +437,7 @@ public class ControlGUI extends JQuickTakePanel implements ActionListener, KeyLi
 				
 				ivProgress.dispose();  // Kill the Progress pop-up
 
-				ivLockEvent = new LockEvent(this,true);
+				ivLockEvent = new LockEvent(this,true);            // Unlock other UI tabs once picture is taken
 				ivLockEventMgr.notifyListeners(ivLockEvent);
 				
 				ivTimerBlink = false;
@@ -452,7 +452,7 @@ public class ControlGUI extends JQuickTakePanel implements ActionListener, KeyLi
 				ivProgress.dispose();  // Kill the Progress pop-up
 
 //				ivParent.unlockTabs(this,true);
-				ivLockEvent = new LockEvent(this,true);
+				ivLockEvent = new LockEvent(this,true);            // Unlock other UI tabs once picture is taken
 				ivLockEventMgr.notifyListeners(ivLockEvent);	
 				
 				ivTakePicture = false;
@@ -468,7 +468,7 @@ public class ControlGUI extends JQuickTakePanel implements ActionListener, KeyLi
 				ivProgress.dispose();  // Kill the Progress pop-up
 
 //				ivParent.unlockTabs(this,true);
-				ivLockEvent = new LockEvent(this,true);
+				ivLockEvent = new LockEvent(this,true);            // Unlock other UI tabs once pictures are deleted
 				ivLockEventMgr.notifyListeners(ivLockEvent);
 				
 				ivDeletePictures = false;

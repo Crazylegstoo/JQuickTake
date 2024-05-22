@@ -160,7 +160,7 @@ public class JQuickTake extends WindowAdapter implements WindowListener, ChangeL
     ivQTPane.addTab("Save Images",null,ivImage,"Save images to computer");
     ivQTPane.addTab("Control Camera",null,ivControl,"Control and configure camera");
 
-// Lock all tabs except Control to ensure that no functions can be accessed until camera connection is established
+// Lock all tabs except Connect to ensure that no functions can be accessed until camera connection is established
 
 	ivQTPane.setEnabledAt(1,false);
 	ivQTPane.setEnabledAt(2,false);
@@ -247,33 +247,6 @@ public class JQuickTake extends WindowAdapter implements WindowListener, ChangeL
 	return;
  }
 
-//
-// Lock/Unlock the GUI according specific tab's needs
-//
-/*  public void unlockTabs(Object tab, boolean status)
-  {
-	
-	if(tab == ivCOMTest)
-	{
-		ivQTPane.setEnabledAt(1,status);
-		ivQTPane.setEnabledAt(2,status);
-	}
-	
-	if(tab == ivImage)
-	{
-		ivQTPane.setEnabledAt(0,status);
-		ivQTPane.setEnabledAt(2,status);
-	}
-		
-	if(tab == ivControl)
-	{
-		ivQTPane.setEnabledAt(0,status);
-		ivQTPane.setEnabledAt(1,status);
-	}
-
-    return;
-  }
-*/
 //
 // Run from the command line. There is an optional Debug parm that will cause messages to
 // be written to the console for debugging purposes

@@ -70,7 +70,7 @@ public class ImageGUI extends JQuickTakePanel implements ActionListener, KeyList
 
 // Create combobox for selecting a specific image to save
 
-    ivImageNumLabel = new JLabel("Select Image# to Save:");
+    ivImageNumLabel = new JLabel("Select Picture# to Save:");
     this.add(ivImageNumLabel);
     ivImageNumLabel.setBounds(10,30,140,25);
 
@@ -83,14 +83,14 @@ public class ImageGUI extends JQuickTakePanel implements ActionListener, KeyList
 
 // Create a checkbox to denote that all images are to be saved
 
-	ivSaveAll = new JCheckBox("Save All Images", false);
+	ivSaveAll = new JCheckBox("Save All Pictures", false);
 	this.add(ivSaveAll);
 	ivSaveAll.setBounds(300,30,150,25);
 	ivSaveAll.addActionListener(this);
 
 // Create filechooser (and button) to specifty where images are to be saved
 
-	ivSaveDirLabel = new JLabel("Save Image(s) to Directory...");
+	ivSaveDirLabel = new JLabel("Save Picture(s) to Directory...");
 	this.add(ivSaveDirLabel);
 	ivSaveDirLabel.setBounds(10,80,250,25);
 	
@@ -122,7 +122,7 @@ public class ImageGUI extends JQuickTakePanel implements ActionListener, KeyList
     ivProgress.setValue(0);
     ivProgress.setStringPainted(true);
     this.add(ivProgress);
-	ivProgress.setBounds(105,170,250,25);
+	ivProgress.setBounds(105,170,400,25);
 
   }  
 //
@@ -194,7 +194,7 @@ public class ImageGUI extends JQuickTakePanel implements ActionListener, KeyList
     {
 	
 		ivDirChooser = new JFileChooser(ivSaveDir);
-		ivDirChooser.setDialogTitle("Select Directory for QuickTake Images");
+		ivDirChooser.setDialogTitle("Select Directory for QuickTake Pictures");
 		ivDirChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 		this.add(ivDirChooser);
 		tvDirSelect = ivDirChooser.showOpenDialog(this);
@@ -202,7 +202,8 @@ public class ImageGUI extends JQuickTakePanel implements ActionListener, KeyList
 		if (tvDirSelect == JFileChooser.APPROVE_OPTION)
 		{
 			ivDebugLog.textOut(this,"Dir Chosen: " + ivDirChooser.getSelectedFile().getAbsolutePath());
-			ivSaveDirText.setText(ivDirChooser.getSelectedFile().getAbsolutePath());
+			ivSaveDir = ivDirChooser.getSelectedFile();
+			ivSaveDirText.setText(ivSaveDir.getAbsolutePath());
 		}
 	}
 	
@@ -226,7 +227,7 @@ public class ImageGUI extends JQuickTakePanel implements ActionListener, KeyList
 	
 // Call ImageRoll accordingly to save selected or all image(s)
 
-			ivLockEvent = new LockEvent(this,false);
+			ivLockEvent = new LockEvent(this,false);            // Lock other UI tabs while picture is being saved
 			ivLockEventMgr.notifyListeners(ivLockEvent);
 		
 			tvDirSelect = ivSaveDirText.getText() + "\\";
@@ -250,7 +251,7 @@ public class ImageGUI extends JQuickTakePanel implements ActionListener, KeyList
 			ivSave.setEnabled(true);
 			ivSaveAll.setEnabled(true);
 
-			ivLockEvent = new LockEvent(this,true);
+			ivLockEvent = new LockEvent(this,true);            // Unlock other UI tabs once picture is saved
 			ivLockEventMgr.notifyListeners(ivLockEvent);
 		}
 			

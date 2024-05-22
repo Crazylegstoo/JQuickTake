@@ -39,7 +39,7 @@ I doubted I had all those qualities, but off I went. While I was making progress
 
 ![Control the Camera](https://github.com/Crazylegstoo/JQuickTake/blob/main/Images/Control.JPG)
 
-## What The Software Does Not Do
+## What The JQuickTake Software Does Not Do
 
 This is JQuickTake v1.0, so it does lack a few features:
 

@@ -29,9 +29,11 @@ I doubted I had all those qualities, but off I went. While I was making progress
 
 ![Connect to Camera](https://github.com/Crazylegstoo/JQuickTake/blob/main/Images/Connect.JPG)
 
+
 2. It will allow you to save Selected or All images to local storage as an Apple QTK image file, using the naming convention IMAGE01.qtk, IMAGE0.qtk, etc.
 
 ![Save Images](https://github.com/Crazylegstoo/JQuickTake/blob/main/Images/Save.JPG)
+
 
 3. It provides an interface to 'remote control' the camera - patterned after the LCD screen on the QuickTake camera. This includes changing the Flash Mode and Quality Mode, taking a picture, setting a 5-second timer to take a picture, deleting all pictures on the camera, updating the camera name, and updating the date/time on the camera.
 

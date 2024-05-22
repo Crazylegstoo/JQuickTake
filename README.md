@@ -17,20 +17,20 @@ JQuickTake is a Java Swing/AWT application that runs on a desktop. Once installe
 
 **Why Java?** While I'm an old, retired IT Guy, I haven't written a substantial desktop application in many years, so I wanted to choose technology that I was somewhat comfortable using. Also, I wanted to develop something that had a hope of working on Windows, Linux, and MacOS. I did a lot of Java application stuff way back when Java 2 was a big deal, so I had some (ancient) familiarity. I considered Python but decided against it because I don't have any experience with Python GUI development, so that would have been one more thing to learn for a project filled with things to learn. Also, I happened to stumble across a very nice Java-based Serial Port API called [jSerialComm](https://fazecast.github.io/jSerialComm/). So, Java FTW!
 
-I won't talk much about the development process - too much. As far as could tell, Apple never published technical docs about QuickTake. I actually reached out to Apple via email to see if they would do something under their Open Source program or maybe offer up some old source code along the lines of what they've already done with the [Computer History Museum](https://computerhistory.org/playlists/source-code/). Alas, Apple gave no response. The lack of docs means there is no published material detailing the critical request/response instruction-set for QuickTake. In other words, I knew the camera talked over a serial port, but I didn't know the language of the camera. For the layman, it's like knowing that human communications involves a mouth sending sound waves to someone else's ears, yet having no clue how to speak German.
+I won't talk much about the development process - too much. As far as I could tell, Apple never published technical docs about QuickTake. I actually reached out to Apple via email to see if they would do something under their Open Source program or maybe offer up some old source code along the lines of what they've already done with the [Computer History Museum](https://computerhistory.org/playlists/source-code/). Alas, Apple gave no response. The lack of docs means there is no published material detailing the critical request/response instruction-set for QuickTake. In other words, I knew the camera talked over a serial port, but I didn't know the language of the camera. For the layman, it's like knowing that human communications involves a mouth sending sound waves to someone else's ears, yet having no clue how to speak German.
 
 Learning the language of QuickTake would require a very tedious exercise of running the [OG QuickTake software](https://archive.org/details/Apple-Quicktake-PC-Software) on a WinXP VM while using serial port analyzer software to inspect the communications flowing across the serial cable. There might even be just a smidge of de-compiling the original Apple QuickTake binaries.  The effort would require disciplined analysis, sustained focus, and a little bit of luck. 
 
 I doubted I had all those qualities, but off I went. While I was making progress, it was definitely not going to be a quick exercise for my brain. But it turns out that I did, in fact, have luck - a lot of it. In the magical world of Reddit's [r/VintageApple](https://www.reddit.com/r/VintageApple/), I bumped into [Colin](https://www.reddit.com/user/Colin-McMillen/), who was WAY ahead of my efforts to decode the QuickTake Protocol, albeit for a very different project than mine. And being the very generous soul that he is, he gave me [everything he documented](https://www.colino.net/wordpress/en/archives/2023/10/29/the-apple-quicktake-100-150-serial-communication-protocol/). Were it not for Colin, I would still be spinning my wheels decoding serial comms and it's quite possible I'd have grown bored and shut down my own project. All of this is to say, "Thank-you, Colin!". Honestly, check out [Colin's QuickTake project](https://www.colino.net/wordpress/en/quicktake-for-apple-ii/). It's pretty amazing.
 
-## What The Software Does
+## What The JQuickTake Software Does
 
 1. It will connect to an Apple QuickTake 100 or 150 camera and display its metadata, including: camera name, pictures taken, pictures remaining, Flash mode, Quality mode, etc.
 
 ![Connect to Camera](https://github.com/Crazylegstoo/JQuickTake/blob/main/Images/Connect.JPG)
 
 
-2. It will allow you to save Selected or All images to local storage as an Apple QTK image file, using the naming convention IMAGE01.qtk, IMAGE0.qtk, etc.
+2. It will allow you to save Selected or All images to local storage as an Apple QTK image file, using the naming convention IMAGE01.qtk, IMAGE02.qtk, etc.
 
 ![Save Images](https://github.com/Crazylegstoo/JQuickTake/blob/main/Images/Save.JPG)
 

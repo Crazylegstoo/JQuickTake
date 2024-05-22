@@ -25,7 +25,6 @@ import java.util.*;
 public class COMTestGUI extends JQuickTakePanel implements ActionListener, KeyListener, Runnable
 {
 
-  JQuickTake     ivParent;
   JFrame       ivParentFrame;
  
   JLabel      ivPortLabel;
@@ -48,7 +47,9 @@ public class COMTestGUI extends JQuickTakePanel implements ActionListener, KeyLi
   Camera	ivCamera;
 
   DebugLog ivDebugLog;
-
+  
+  LockEventMgr	ivLockEventMgr;
+  LockEvent		ivLockEvent;
 
 //
 // Build the GUI.
@@ -61,11 +62,12 @@ public class COMTestGUI extends JQuickTakePanel implements ActionListener, KeyLi
 
 	ivDebugLog = (DebugLog)Environment.getValue("DebugLog");
 
-    ivParent      = (JQuickTake)Environment.getValue("Parent");
     ivParentFrame = (JFrame)Environment.getValue("ParentFrame");
 
 	ivCamera = (Camera)Environment.getValue("Camera");
-
+	
+	ivLockEventMgr = (LockEventMgr)Environment.getValue("LockEventMgr");
+	
 	return;
 
   }
@@ -334,7 +336,9 @@ public class COMTestGUI extends JQuickTakePanel implements ActionListener, KeyLi
 	
 	if(tvPortChoice != null)
 	{
-		ivParent.unlockTabs(this,false);
+
+		ivLockEvent = new LockEvent(this,false);
+		ivLockEventMgr.notifyListeners(ivLockEvent);
 		
 		if(ivCamera.getOpenStatus())
 			ivCamera.closeCamera();
@@ -351,8 +355,9 @@ public class COMTestGUI extends JQuickTakePanel implements ActionListener, KeyLi
 	// If unsuccessful in opening a comms session with the camera, display a message to the user about resolving the issue
 
 			ivDebugLog.textOut(this,"Camera will not open");
-			
-			ivParent.unlockTabs(this,false);
+
+			ivLockEvent = new LockEvent(this,false);
+			ivLockEventMgr.notifyListeners(ivLockEvent);
 
 			ivStatus.setText("Cannot connect to camera.");
 			
@@ -404,8 +409,9 @@ public class COMTestGUI extends JQuickTakePanel implements ActionListener, KeyLi
 		this.refreshView();
 				
 		ivProgress.dispose();  // Kill the Progress pop-up
-		
-		ivParent.unlockTabs(this,true);
+
+		ivLockEvent = new LockEvent(this,true);
+		ivLockEventMgr.notifyListeners(ivLockEvent);
 		
 	} else 
 	{
@@ -424,8 +430,9 @@ public class COMTestGUI extends JQuickTakePanel implements ActionListener, KeyLi
 					" 04. Verify that COM port is not in use by another application. \n \n",
 					"Cannot communicate with QuickTake Camera on " + (String)ivPortChoice.getSelectedItem(),
 					JOptionPane.ERROR_MESSAGE);
-		
-		ivParent.unlockTabs(this,false);
+
+		ivLockEvent = new LockEvent(this,false);
+		ivLockEventMgr.notifyListeners(ivLockEvent);
 		
 		ivCamera.closeCamera();
 	}

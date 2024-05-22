@@ -25,7 +25,6 @@ import java.time.format.DateTimeFormatter;
 public class ControlGUI extends JQuickTakePanel implements ActionListener, KeyListener, Runnable
 {
 
-  JQuickTake     ivParent;
   Frame       	ivParentFrame;
  
   Camera		ivCamera;
@@ -51,17 +50,20 @@ public class ControlGUI extends JQuickTakePanel implements ActionListener, KeyLi
   
   ImageRoll		ivImageRoll;
   
+  LockEventMgr	ivLockEventMgr;
+  LockEvent		ivLockEvent;
+  
 
   public ControlGUI()
   {
 
-    ivParent      = (JQuickTake)Environment.getValue("Parent");
     ivParentFrame = (JFrame)Environment.getValue("ParentFrame");
 
 	ivDebugLog = (DebugLog)Environment.getValue("DebugLog");
 
 	ivImageRoll = (ImageRoll)Environment.getValue("ImageRoll");
 	ivCamera = (Camera)Environment.getValue("Camera");
+	ivLockEventMgr = (LockEventMgr)Environment.getValue("LockEventMgr");
 	
   }
 
@@ -312,7 +314,9 @@ public class ControlGUI extends JQuickTakePanel implements ActionListener, KeyLi
 		if(Integer.parseInt(ivCamera.getRemaining()) > 0)    // If no memory space left on camera, let user know - otherwise take a picture
 		{
 
-			ivParent.unlockTabs(this,false);
+//			ivParent.unlockTabs(this,false);
+			ivLockEvent = new LockEvent(this,false);
+			ivLockEventMgr.notifyListeners(ivLockEvent);
 		
 			this.createProgress("Take a Picture", "Processing Picture...");   // Start up Progress pop-up
 		
@@ -362,7 +366,9 @@ public class ControlGUI extends JQuickTakePanel implements ActionListener, KeyLi
 			if(tvDeleteInput == JOptionPane.OK_OPTION)    // If user conforms delete, then delete pictures on a thread while Progress pop-up displayed
 			{
 		
-				ivParent.unlockTabs(this,false);
+//				ivParent.unlockTabs(this,false);
+				ivLockEvent = new LockEvent(this,false);
+				ivLockEventMgr.notifyListeners(ivLockEvent);
 				
 				this.createProgress("Erase All Pictures", "Pictures are being erased...");
 			
@@ -431,7 +437,8 @@ public class ControlGUI extends JQuickTakePanel implements ActionListener, KeyLi
 				
 				ivProgress.dispose();  // Kill the Progress pop-up
 
-				ivParent.unlockTabs(this,true);
+				ivLockEvent = new LockEvent(this,true);
+				ivLockEventMgr.notifyListeners(ivLockEvent);
 				
 				ivTimerBlink = false;
 			}
@@ -444,7 +451,9 @@ public class ControlGUI extends JQuickTakePanel implements ActionListener, KeyLi
 				
 				ivProgress.dispose();  // Kill the Progress pop-up
 
-				ivParent.unlockTabs(this,true);
+//				ivParent.unlockTabs(this,true);
+				ivLockEvent = new LockEvent(this,true);
+				ivLockEventMgr.notifyListeners(ivLockEvent);	
 				
 				ivTakePicture = false;
 			}
@@ -458,8 +467,10 @@ public class ControlGUI extends JQuickTakePanel implements ActionListener, KeyLi
 				
 				ivProgress.dispose();  // Kill the Progress pop-up
 
-				ivParent.unlockTabs(this,true);
-			
+//				ivParent.unlockTabs(this,true);
+				ivLockEvent = new LockEvent(this,true);
+				ivLockEventMgr.notifyListeners(ivLockEvent);
+				
 				ivDeletePictures = false;
 			}
 			

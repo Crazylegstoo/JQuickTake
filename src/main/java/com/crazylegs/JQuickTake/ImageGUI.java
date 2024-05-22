@@ -25,7 +25,6 @@ import java.io.*;
 public class ImageGUI extends JQuickTakePanel implements ActionListener, KeyListener, Runnable
 {
 
-  JQuickTake     ivParent;
   Frame			ivParentFrame;
  
   JFileChooser	ivDirChooser;
@@ -45,17 +44,20 @@ public class ImageGUI extends JQuickTakePanel implements ActionListener, KeyList
   ImageRoll	ivImageRoll;
   Camera	ivCamera;  
   DebugLog	ivDebugLog;
-
+  
+  LockEventMgr	ivLockEventMgr;
+  LockEvent		ivLockEvent;
+  
   public ImageGUI()
   {
 
-    ivParent      = (JQuickTake)Environment.getValue("Parent");
     ivParentFrame = (JFrame)Environment.getValue("ParentFrame");
 
 	ivDebugLog = (DebugLog)Environment.getValue("DebugLog");
 
 	ivImageRoll = (ImageRoll)Environment.getValue("ImageRoll");
 	ivCamera = (Camera)Environment.getValue("Camera");
+	ivLockEventMgr = (LockEventMgr)Environment.getValue("LockEventMgr");
 
   }
 
@@ -224,7 +226,8 @@ public class ImageGUI extends JQuickTakePanel implements ActionListener, KeyList
 	
 // Call ImageRoll accordingly to save selected or all image(s)
 
-			ivParent.unlockTabs(this,false);
+			ivLockEvent = new LockEvent(this,false);
+			ivLockEventMgr.notifyListeners(ivLockEvent);
 		
 			tvDirSelect = ivSaveDirText.getText() + "\\";
 
@@ -247,7 +250,8 @@ public class ImageGUI extends JQuickTakePanel implements ActionListener, KeyList
 			ivSave.setEnabled(true);
 			ivSaveAll.setEnabled(true);
 
-			ivParent.unlockTabs(this,true);
+			ivLockEvent = new LockEvent(this,true);
+			ivLockEventMgr.notifyListeners(ivLockEvent);
 		}
 			
    }

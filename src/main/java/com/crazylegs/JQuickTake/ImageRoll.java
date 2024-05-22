@@ -28,21 +28,21 @@ import javax.swing.*;
 public class ImageRoll
 {
 
-	JQuickTake     ivParent;
-
 	Image[]		ivImageRoll;
 	
 	Camera		ivCamera;
 
 	DebugLog	ivDebugLog;
+  
+	LockEventMgr	ivLockEventMgr;
+	LockEvent		ivLockEvent;
 
   public ImageRoll()
   { 
 	
-    ivParent   = (JQuickTake)Environment.getValue("Parent");
 	ivDebugLog = (DebugLog)Environment.getValue("DebugLog");
 	ivCamera = (Camera)Environment.getValue("Camera");
-
+	
 	ivImageRoll = new Image[40];   // Allocate enough space for up to 40 images (supports capacity for all QuickTake models)
 
 	return;
@@ -54,7 +54,10 @@ public class ImageRoll
 
   public void saveImage(int imageNum, String path, JProgressBar progress)
   {
-	int tvRoll;
+	int 			tvRoll;
+	LockEventMgr	tvLockEventMgr;
+	
+	tvLockEventMgr = (LockEventMgr)Environment.getValue("LockEventMgr");
 	
 	progress.setValue(0);    // Prepare the specified progress bar that will show 'save progress'
 	progress.setString("initializing...");
@@ -66,11 +69,15 @@ public class ImageRoll
 	  
 	if(ivImageRoll[tvRoll] == null)
 	{
-		ivParent.unlockTabs(this,false);  // Lock the GUI while this process happens (so user cannot change comms, etc,)
+		ivLockEvent = new LockEvent(this,false);   // Lock the GUI while this process happens (so user cannot change comms, etc,)
+		tvLockEventMgr.notifyListeners(ivLockEvent);
+
 		ivImageRoll[tvRoll] = ivCamera.createImage(imageNum);
 		progress.setString("Processing... " + ivImageRoll[tvRoll].getSaveName());		
 		ivCamera.transferImageData(ivImageRoll[tvRoll],progress);
-		ivParent.unlockTabs(this,true);
+
+		ivLockEvent = new LockEvent(this,true);   
+		tvLockEventMgr.notifyListeners(ivLockEvent);
 	}
 
 // With the image object created, tell the image to save itself to the computer. Then update progress bar.
@@ -84,7 +91,10 @@ public class ImageRoll
 
   public void saveAllImages(String path, JProgressBar progress)
   {
-	int tvRoll, i, j;
+	int 			tvRoll, i, j;
+	LockEventMgr	tvLockEventMgr;
+	
+	tvLockEventMgr = (LockEventMgr)Environment.getValue("LockEventMgr");
 	
 	progress.setValue(0);    // Prepare the specified progress bar that will show 'save progress'
 	progress.setString("initializing...");
@@ -98,7 +108,8 @@ public class ImageRoll
 	{
 		tvRoll = i - 1;
 		
-		ivParent.unlockTabs(this,false);  // Lock the GUI while this process happens (so user cannot change comms, etc,)   
+		ivLockEvent = new LockEvent(this,false);   // Lock the GUI while this process happens (so user cannot change comms, etc,)
+		tvLockEventMgr.notifyListeners(ivLockEvent);
 	  
 		if(ivImageRoll[tvRoll] == null)  // See if image is in the roll and proceed accordingly
 		{
@@ -117,7 +128,8 @@ public class ImageRoll
 		} catch (Exception e) { e.printStackTrace(); }
 	}
 	
-	ivParent.unlockTabs(this,true);
+	ivLockEvent = new LockEvent(this,true);   
+	tvLockEventMgr.notifyListeners(ivLockEvent);
 
 	
 	return;

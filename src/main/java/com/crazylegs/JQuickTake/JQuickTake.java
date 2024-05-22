@@ -26,7 +26,7 @@ import java.util.*;
  * @author Kevin Godin
  * @version $Revision: 1.0 $
  **/
-public class JQuickTake extends WindowAdapter implements WindowListener, ChangeListener
+public class JQuickTake extends WindowAdapter implements WindowListener, ChangeListener, LockListener
 {
 
   JFrame       ivAppWin;
@@ -46,6 +46,8 @@ public class JQuickTake extends WindowAdapter implements WindowListener, ChangeL
   Camera		ivCamera;
   
   ImageRoll		ivImageRoll;
+  
+  LockEventMgr	ivLockEventMgr;
   
   DebugLog ivDebugLog;
 
@@ -84,6 +86,14 @@ public class JQuickTake extends WindowAdapter implements WindowListener, ChangeL
     ivImageRoll = new ImageRoll();
 	
 	Environment.setValue("ImageRoll", ivImageRoll);
+
+// Create an LockEventManager instance (will manage lock/unlock of UI tabs)
+
+    ivLockEventMgr = new LockEventMgr();
+	
+	ivLockEventMgr.addListener(this);
+	
+	Environment.setValue("LockEventMgr", ivLockEventMgr);
 
 //    Build the main UI
 
@@ -152,7 +162,8 @@ public class JQuickTake extends WindowAdapter implements WindowListener, ChangeL
 
 // Lock all tabs except Control to ensure that no functions can be accessed until camera connection is established
 
-	this.unlockTabs(ivCOMTest,false);
+	ivQTPane.setEnabledAt(1,false);
+	ivQTPane.setEnabledAt(2,false);
  
     ivQTPane.addChangeListener(this);
 
@@ -206,9 +217,40 @@ public class JQuickTake extends WindowAdapter implements WindowListener, ChangeL
   }
 
 //
+// Listen for Lock events to determine which tabs to lock/unlock
+//
+  public void handleLockEvent(LockEvent e)
+  {
+	boolean	tvStatus;
+	Object	tvOrigin;
+	  
+	tvStatus = e.getStatus();
+	tvOrigin = e.getOrigin();
+
+	if(tvOrigin instanceof COMTestGUI)
+	{
+		ivQTPane.setEnabledAt(1,tvStatus);
+		ivQTPane.setEnabledAt(2,tvStatus);
+	}
+ 
+	if(tvOrigin instanceof ImageGUI)
+	{
+		ivQTPane.setEnabledAt(0,tvStatus);
+		ivQTPane.setEnabledAt(2,tvStatus);
+	}
+
+	if(tvOrigin instanceof ControlGUI)
+	{
+		ivQTPane.setEnabledAt(0,tvStatus);
+		ivQTPane.setEnabledAt(1,tvStatus);
+	}
+	return;
+ }
+
+//
 // Lock/Unlock the GUI according specific tab's needs
 //
-  public void unlockTabs(Object tab, boolean status)
+/*  public void unlockTabs(Object tab, boolean status)
   {
 	
 	if(tab == ivCOMTest)
@@ -231,7 +273,7 @@ public class JQuickTake extends WindowAdapter implements WindowListener, ChangeL
 
     return;
   }
-
+*/
 //
 // Run from the command line. There is an optional Debug parm that will cause messages to
 // be written to the console for debugging purposes

@@ -25,7 +25,7 @@ I doubted I had all those qualities, but off I went. While I was making progress
 
 ## What The Software Does
 
-1. It will connect to an Apple QuickTake 100 or 150 camera and display its metadata - including, camera name, pictures taken, pictures remaining, Flash mode, Quality mode, etc.
+1. It will connect to an Apple QuickTake 100 or 150 camera and display its metadata, including: camera name, pictures taken, pictures remaining, Flash mode, Quality mode, etc.
 
 ![Connect to Camera](https://github.com/Crazylegstoo/JQuickTake/blob/main/Images/Connect.JPG)
 

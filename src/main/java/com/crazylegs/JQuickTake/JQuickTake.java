@@ -157,7 +157,7 @@ public class JQuickTake extends WindowAdapter implements WindowListener, ChangeL
     ivQTPane.setSelectedIndex(0);
     ivLastTab = 0;
     ivQTPane.setBackgroundAt(0,Color.green);
-    ivQTPane.addTab("Save Images",null,ivImage,"Save images to computer");
+    ivQTPane.addTab("Save Pictures",null,ivImage,"Save pictures to computer");
     ivQTPane.addTab("Control Camera",null,ivControl,"Control and configure camera");
 
 // Lock all tabs except Connect to ensure that no functions can be accessed until camera connection is established

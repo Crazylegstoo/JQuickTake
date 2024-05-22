@@ -107,7 +107,7 @@ public class ImageGUI extends JQuickTakePanel implements ActionListener, KeyList
 
 // Create button to start save process
 
-    ivSave = new JButton("Save Image(s)");
+    ivSave = new JButton("Save Picture(s)");
     this.add(ivSave);
     ivSave.setBounds(10,230,125,25);
     ivSave.addActionListener(this);
@@ -132,7 +132,7 @@ public class ImageGUI extends JQuickTakePanel implements ActionListener, KeyList
   public void refreshView()
   {
 
-	ivSaveAll.setText("Save All " + ivCamera.getTaken()+ " Images");  // Refine checkbox label with # of images
+	ivSaveAll.setText("Save All " + ivCamera.getTaken()+ " Pictures");  // Refine checkbox label with # of images
 
 	ivImageNum.removeAllItems();
 	

@@ -51,7 +51,7 @@ This is JQuickTake v1.0, so it does lack a few features:
 
 The fully-built solution is only for Windows machines. I am confident that it can work on Linux and MacOS if you feel like compiling and configuring. I plan to do a Linux build once I get some time to focus on that. As for MacOS - I don't have an Apple computer handy, but feel free to give it a try if you like.
 
-To install JQuickTake on a Windows 10 or 11 machine, there are 2 options:
+To install JQuickTake on a Windows 10 or 11 machine, there are 2 options as part of the [current Release](https://github.com/Crazylegstoo/JQuickTake/releases/tag/v1.0):
 
 ## Option 1 - All-In-One Solution
 
@@ -59,7 +59,7 @@ The easiest path is to simply download and execute the provided Windows installe
 
 ## Option 2 - Use Your Own Java Runtime
 
-The slightly-more-work path is to download ***distributions/app.zip*** and unzip the file onto a Windows directory of your choosing. To fire up JQuickTake, you need to run ***Your Directory*\app\app\bin\app.bat**. The benefit of this option is that the application will run on top of whatever Java runtime you already have installed. Note that JQuickTake has been tested with Java 17 and Java 22 runtimes.
+The slightly-more-work path is to download the ***app.zip*** file and unzip it into a Windows directory of your choosing. To fire up JQuickTake, you need to run ***Your Directory*\app\app\bin\app.bat**. The benefit of this option is that the application will run on top of whatever Java runtime you already have installed. Note that JQuickTake has been tested with Java 17 and Java 22 runtimes.
 
 ## You Can Roll Your Own
 

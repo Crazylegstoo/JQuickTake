@@ -21,7 +21,8 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 import java.util.*;
-
+import java.net.*;
+import java.nio.file.*;
 /**
  * @author Kevin Godin
  * @version $Revision: 1.0 $
@@ -49,6 +50,13 @@ public class JQuickTake extends WindowAdapter implements WindowListener, ChangeL
   
   LockEventMgr	ivLockEventMgr;
   
+  File			ivFile;
+  URL			ivResource;
+  String		ivPropPath, ivFileSeparator;
+  InputStream	ivInput;
+  OutputStream	ivOutput;
+  Properties	ivProps;
+  
   DebugLog ivDebugLog;
 
 
@@ -73,7 +81,11 @@ public class JQuickTake extends WindowAdapter implements WindowListener, ChangeL
 	Environment.setValue("DebugLog",ivDebugLog);
     Environment.setValue("DebugMode",debug);
 	
-	ivDebugLog.textOut(this,"DEBUG MODE: " + (boolean)Environment.getValue("DebugMode"));
+// Load values from config.properties
+
+	ivFileSeparator = System.getProperty("file.separator");
+
+	this.loadProperties();
 
 // Create a Camera instance
 
@@ -97,19 +109,20 @@ public class JQuickTake extends WindowAdapter implements WindowListener, ChangeL
 
 //    Build the main UI
 
-    ivAppWin = new JFrame("QuickTake Camera Manager");
+    ivAppWin = new JFrame("QuickTake Camera Manager v1.1");
 	ivAppWin.setResizable(true);
+    ivAppWin.setBounds(1,1,800,500);
 	ivAppWin.pack();
     ivAppWin.addWindowListener(this);
     Environment.setValue("ParentFrame", ivAppWin);
 	
-	ivIcon			= new ImageIcon(ClassLoader.getSystemClassLoader().getResource("JQuickTake.jpg"));
+	ivIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("JQuickTake.jpg"));
 	ivAppWin.setIconImage(ivIcon.getImage());
 
     ivAppPanel = new JPanel();
     ivAppPanel.setLayout(null);
     ivAppWin.getContentPane().add(ivAppPanel);
-    ivAppPanel.setBounds(1,1,710,430);
+    ivAppPanel.setBounds(1,1,800,500);
 
     ivQTPane = new JTabbedPane();
     ivAppPanel.add(ivQTPane);
@@ -182,6 +195,8 @@ public class JQuickTake extends WindowAdapter implements WindowListener, ChangeL
   public void windowClosing(WindowEvent we)
   {
 	ivCamera.closeCamera();
+	this.writeProperties();
+
     System.exit(0);
   }
 
@@ -247,6 +262,56 @@ public class JQuickTake extends WindowAdapter implements WindowListener, ChangeL
 	return;
  }
 
+// Load config.properties
+  
+  public void loadProperties()
+  {
+	
+	try
+	{
+
+		ivPropPath = System.getProperty("user.home") + ivFileSeparator + "JQuickTake.properties";
+
+		ivFile = new File(ivPropPath);
+		
+		if(!ivFile.exists())
+			ivFile.createNewFile();
+
+		ivInput = new FileInputStream(ivFile);
+
+        ivProps = new Properties();
+
+		ivProps.load(ivInput);
+		
+		Environment.setValue("ConfigProps",ivProps);	
+		
+	}  catch (Exception e) 
+		{ 
+			e.printStackTrace();
+		}
+	return;
+  }
+
+// Write config.properties
+    
+  public void writeProperties()
+  {
+	try
+	{
+
+		ivOutput = new FileOutputStream(ivFile);
+
+        // save properties to project root folder
+        ivProps.store(ivOutput, null);
+
+		ivOutput.close();
+		
+	}  catch (Exception e) 
+		{ 
+            e.printStackTrace();
+		}
+	return;
+  }
 //
 // Run from the command line. There is an optional Debug parm that will cause messages to
 // be written to the console for debugging purposes
@@ -259,7 +324,15 @@ public class JQuickTake extends WindowAdapter implements WindowListener, ChangeL
 	
 	if (args.length > 0 && args[0].equals("debug"))
 		tvDebug = true;
-
+	try
+	{
+		UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
+    } 
+    catch (Exception e)
+	{
+		e.printStackTrace();
+    }
+	
 	JQuickTake client = new JQuickTake(tvDebug);
   }
 

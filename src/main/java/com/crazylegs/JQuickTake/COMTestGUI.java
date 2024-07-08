@@ -36,7 +36,7 @@ public class COMTestGUI extends JQuickTakePanel implements ActionListener, KeyLi
 
   JButton     ivConnect;
 
-  JLabel	ivStatus, ivDateLabel, ivDate, ivTimeLabel, ivTime, ivNameLabel, ivName;
+  JLabel	ivStatus, ivDateLabel, ivDate, ivTimeLabel, ivTime, ivNameLabel, ivName, ivModelLabel, ivModel;
 
   JLabel	ivTakenLabel, ivTaken, ivRemainLabel, ivRemain, ivBatteryLabel, ivBattery, ivFlashLabel, ivFlash, ivQualityLabel, ivQuality;
   
@@ -80,7 +80,7 @@ public class COMTestGUI extends JQuickTakePanel implements ActionListener, KeyLi
   {
 	String[] tvCOMPorts;
 	
-    ivPortLabel = new JLabel("COM Ports:");
+    ivPortLabel = new JLabel("Serial Ports:");
     this.add(ivPortLabel);
     ivPortLabel.setBounds(10,10,100,25);
 
@@ -95,53 +95,47 @@ public class COMTestGUI extends JQuickTakePanel implements ActionListener, KeyLi
 		ivPortChoice = new JComboBox<String>();
 	}
     this.add(ivPortChoice);
-    ivPortChoice.setBounds(10,40,100,25);
+    ivPortChoice.setBounds(10,40,175,25);
 	ivPortChoice.addActionListener(this);
 
     ivSpeedLabel = new JLabel("Port Speed (bps):");
     this.add(ivSpeedLabel);
-    ivSpeedLabel.setBounds(145,10,100,25);
+    ivSpeedLabel.setBounds(245,10,150,25);
    
     ivSpeedChoice = new JComboBox<String>(ivSpeedList);
     this.add(ivSpeedChoice);
-    ivSpeedChoice.setBounds(145,40,100,25);
+    ivSpeedChoice.setBounds(245,40,100,25);
 	ivSpeedChoice.addActionListener(this);
    
     ivConnect = new JButton("Connect");
     this.add(ivConnect);
-    ivConnect.setBounds(270,40,150,25);
+    ivConnect.setBounds(370,40,150,25);
     ivConnect.addActionListener(this);
 
 	ivStatus = new JLabel();
-	ivStatus.setForeground(Color.RED);
     this.add(ivStatus);
     ivStatus.setBounds(10,80,500,25);
 
 	ivNameLabel = new JLabel("Camera Name:");
     this.add(ivNameLabel);
-    ivNameLabel.setBounds(10,115,90,25);
+    ivNameLabel.setBounds(10,115,110,25);
 
 	ivName = new JLabel();
 	ivName.setBackground(Color.WHITE);
 	ivName.setOpaque(true);
     this.add(ivName);
-    ivName.setBounds(100,115,210,25);
+    ivName.setBounds(110,115,210,25);
 
-	ivDateLabel = new JLabel("Camera Date/Time:");
-    this.add(ivDateLabel);
-    ivDateLabel.setBounds(355,115,120,25);
+	ivModelLabel = new JLabel("Camera Model:");
+    this.add(ivModelLabel);
+    ivModelLabel.setBounds(410,115,100,25);
 
-	ivDate = new JLabel();
- 	ivDate.setBackground(Color.WHITE);
-	ivDate.setOpaque(true);
-    this.add(ivDate);
-    ivDate.setBounds(475,115,50,25);
-
-	ivTime = new JLabel();
- 	ivTime.setBackground(Color.WHITE);
-	ivTime.setOpaque(true);
-    this.add(ivTime);
-    ivTime.setBounds(535,115,50,25);
+	ivModel = new JLabel();
+	ivModel.setBackground(Color.WHITE);
+	ivModel.setOpaque(true);
+	ivModel.setHorizontalAlignment(SwingConstants.CENTER);
+    this.add(ivModel);
+    ivModel.setBounds(520,115,65,25);
 
 	ivTakenLabel = new JLabel("Pictures Taken:");
     this.add(ivTakenLabel);
@@ -150,28 +144,31 @@ public class COMTestGUI extends JQuickTakePanel implements ActionListener, KeyLi
 	ivTaken = new JLabel();
  	ivTaken.setBackground(Color.WHITE);
 	ivTaken.setOpaque(true);
+	ivTaken.setHorizontalAlignment(SwingConstants.CENTER);
     this.add(ivTaken);
-    ivTaken.setBounds(110,150,25,25);
+    ivTaken.setBounds(115,150,25,25);
 
 	ivRemainLabel = new JLabel("Pictures Remaining:");
     this.add(ivRemainLabel);
-    ivRemainLabel.setBounds(180,150,125,25);
+    ivRemainLabel.setBounds(185,150,125,25);
 
 	ivRemain = new JLabel();
  	ivRemain.setBackground(Color.WHITE);
 	ivRemain.setOpaque(true);
+	ivRemain.setHorizontalAlignment(SwingConstants.CENTER);
     this.add(ivRemain);
-    ivRemain.setBounds(305,150,25,25);
+    ivRemain.setBounds(315,150,25,25);
 
 	ivBatteryLabel = new JLabel("Battery Level:");
     this.add(ivBatteryLabel);
-    ivBatteryLabel.setBounds(355,150,90,25);
+    ivBatteryLabel.setBounds(410,150,90,25);
 
 	ivBattery = new JLabel();
  	ivBattery.setBackground(Color.WHITE);
 	ivBattery.setOpaque(true);
+	ivBattery.setHorizontalAlignment(SwingConstants.CENTER);
     this.add(ivBattery);
-    ivBattery.setBounds(445,150,35,25);
+    ivBattery.setBounds(500,150,45,25);
 
 	ivFlashLabel = new JLabel("Flash Mode:");
     this.add(ivFlashLabel);
@@ -180,18 +177,38 @@ public class COMTestGUI extends JQuickTakePanel implements ActionListener, KeyLi
 	ivFlash = new JLabel();
  	ivFlash.setBackground(Color.WHITE);
 	ivFlash.setOpaque(true);
+	ivFlash.setHorizontalAlignment(SwingConstants.CENTER);
     this.add(ivFlash);
-    ivFlash.setBounds(85,185,55,25);
+    ivFlash.setBounds(90,185,55,25);
 
 	ivQualityLabel = new JLabel("Picture Quality:");
     this.add(ivQualityLabel);
-    ivQualityLabel.setBounds(180,185,95,25);
+    ivQualityLabel.setBounds(185,185,95,25);
 
 	ivQuality = new JLabel();
  	ivQuality.setBackground(Color.WHITE);
 	ivQuality.setOpaque(true);
+	ivQuality.setHorizontalAlignment(SwingConstants.CENTER);
     this.add(ivQuality);
-    ivQuality.setBounds(275,185,100,25);
+    ivQuality.setBounds(285,185,70,25);
+
+	ivDateLabel = new JLabel("Camera Date/Time:");
+    this.add(ivDateLabel);
+    ivDateLabel.setBounds(410,185,130,25);
+
+	ivDate = new JLabel();
+ 	ivDate.setBackground(Color.WHITE);
+	ivDate.setOpaque(true);
+	ivDate.setHorizontalAlignment(SwingConstants.CENTER);
+    this.add(ivDate);
+    ivDate.setBounds(540,185,65,25);
+
+	ivTime = new JLabel();
+ 	ivTime.setBackground(Color.WHITE);
+	ivTime.setOpaque(true);
+	ivTime.setHorizontalAlignment(SwingConstants.CENTER);
+    this.add(ivTime);
+    ivTime.setBounds(615,185,65,25);
 
 	Environment.setValue("COMPort",(String)ivPortChoice.getSelectedItem());
 	Environment.setValue("PortSpeed",(String)ivSpeedChoice.getSelectedItem());
@@ -209,6 +226,8 @@ public class COMTestGUI extends JQuickTakePanel implements ActionListener, KeyLi
   public void refreshView()
   {
 	ivName.setText(ivCamera.getName());
+	
+	ivModel.setText(ivCamera.getCameraModel());
 	
 	ivDate.setText(ivCamera.getDisplayDate());
 	ivTime.setText(ivCamera.getDisplayTime());
@@ -231,6 +250,8 @@ public class COMTestGUI extends JQuickTakePanel implements ActionListener, KeyLi
   public void resetView()
   {
 	ivName.setText("");
+	
+	ivModel.setText("");
 	
 	ivDate.setText("");
 	ivTime.setText("");
@@ -276,7 +297,7 @@ public class COMTestGUI extends JQuickTakePanel implements ActionListener, KeyLi
     if(ae.getSource() == ivConnect)
     {
 		ivProgress = new JDialog(ivParentFrame, "Connect to Camera");
-		ivProgress.setBounds(200,275,400,75);
+		ivProgress.setBounds(200,275,500,75);
 		ivProgress.setResizable(false);
 		ivProgress.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 		
@@ -284,7 +305,7 @@ public class COMTestGUI extends JQuickTakePanel implements ActionListener, KeyLi
 		ivProgBar.setIndeterminate(true);
 		ivProgBar.setStringPainted(true);
 		ivProgBar.setString("Attempting to connect to QuickTake Camera on " + (String)ivPortChoice.getSelectedItem());
-		ivProgBar.setBounds(50,25,300,25);
+		ivProgBar.setBounds(50,25,450,25);
 		ivProgress.add(ivProgBar);
 		
 		synchronized(this){notifyAll();}
@@ -354,12 +375,13 @@ public class COMTestGUI extends JQuickTakePanel implements ActionListener, KeyLi
 
 	// If unsuccessful in opening a comms session with the camera, display a message to the user about resolving the issue
 
-			ivDebugLog.textOut(this,"Camera will not open");
+			ivDebugLog.textOut(this,"QuickTake camera will not open");
 
 			ivLockEvent = new LockEvent(this,false);             // Lock other UI tabs while connect is attempted
 			ivLockEventMgr.notifyListeners(ivLockEvent);
 
-			ivStatus.setText("Cannot connect to camera.");
+			ivStatus.setForeground(Color.RED.darker());
+			ivStatus.setText("Cannot detect a QuickTake camera to connect.");
 			
 			this.resetView();
 			
@@ -370,7 +392,7 @@ public class COMTestGUI extends JQuickTakePanel implements ActionListener, KeyLi
 						" 02. Check that camera is turned on. \n \n" +
 						" 03. Select the correct COM port for camera communications. \n \n" +
 						" 04. Verify that COM port is not in use by another application. \n \n",
-						"Cannot connect to QuickTake Camera on " + tvPortChoice,
+						"Cannot connect to QuickTake camera on " + tvPortChoice,
 						JOptionPane.ERROR_MESSAGE);	
 
 		}
@@ -382,13 +404,14 @@ public class COMTestGUI extends JQuickTakePanel implements ActionListener, KeyLi
 				
 		this.resetView();
 
-		ivStatus.setText("No COM ports on this computer.");
+		ivStatus.setForeground(Color.RED.darker());
+		ivStatus.setText("No COM ports detected on this computer.");
 				
 		ivProgress.dispose();  // Kill the Progress pop-up
 				
 		JOptionPane.showMessageDialog(this,
 					"No COM (Serial) Ports detected on this computer",
-					"Cannot connect with QuickTake Camera on " + tvPortChoice,
+					"Cannot connect with QuickTake camera on " + tvPortChoice,
 					JOptionPane.ERROR_MESSAGE);	
 	}	  
 	
@@ -404,7 +427,8 @@ public class COMTestGUI extends JQuickTakePanel implements ActionListener, KeyLi
 		
 	if(ivCamera.pingCamera())
 	{
-		ivStatus.setText("Successful connection to QuickTake Camera on " + (String)ivPortChoice.getSelectedItem() + " at " + (String)ivSpeedChoice.getSelectedItem() + " bps");
+		ivStatus.setForeground(Color.GREEN.darker());
+		ivStatus.setText("Successful connection to QuickTake camera on " + (String)ivPortChoice.getSelectedItem() + " at " + (String)ivSpeedChoice.getSelectedItem() + " bps");
 		
 		this.refreshView();
 				
@@ -419,7 +443,8 @@ public class COMTestGUI extends JQuickTakePanel implements ActionListener, KeyLi
 				
 		this.resetView();
 	
-		ivStatus.setText("Cannot ping camera.");
+		ivStatus.setForeground(Color.RED.darker());
+		ivStatus.setText("Cannot ping QuickTake camera.");
 				
 		ivProgress.dispose();  // Kill the Progress pop-up
 	
@@ -428,7 +453,7 @@ public class COMTestGUI extends JQuickTakePanel implements ActionListener, KeyLi
 					" 02. Check that camera is turned on. \n \n" +
 					" 03. Select the correct COM port for camera communications. \n \n" +
 					" 04. Verify that COM port is not in use by another application. \n \n",
-					"Cannot communicate with QuickTake Camera on " + (String)ivPortChoice.getSelectedItem(),
+					"Cannot communicate with QuickTake camera on " + (String)ivPortChoice.getSelectedItem(),
 					JOptionPane.ERROR_MESSAGE);
 
 		ivLockEvent = new LockEvent(this,false);           // Lock other UI tabs since connect falied

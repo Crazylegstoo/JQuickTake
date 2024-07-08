@@ -30,7 +30,8 @@ public class Image
 	boolean	ivFlashUsed;
 	String	ivQualityMode,ivDisplayDate, ivDisplayTime, ivCameraModel, ivSaveName;
 	byte[]	ivImageHeader,ivImageData,ivThumbData;
-
+    String	ivFileSeparator;
+  
 	DebugLog	ivDebugLog;
 	
 	byte[]		ivQT1XXHeader = {(byte)0x71,(byte)0x6B,(byte)0x74,(byte)0x6E,(byte)0x00,(byte)0x00,(byte)0x00,(byte)0x08,(byte)0x00,(byte)0x00,(byte)0x00,(byte)0x00,
@@ -51,7 +52,10 @@ public class Image
 	
 	this.parseHeader(imageHeader);
 	
-	ivSaveName = "IMAGE" + String.format("%02d",this.getImageNum()) + ".qtk";
+	ivSaveName = "IMAGE" + String.format("%02d",this.getImageNum());
+
+	ivFileSeparator = System.getProperty("file.separator");
+
 
 	return;
   }
@@ -126,10 +130,10 @@ public class Image
 	switch(header[24])
 	{
 		case 32:
-			ivQualityMode = "Standard 320x240";
+			ivQualityMode = "Standard";
 			break;
 		case 16:
-			ivQualityMode = "High 640x480";
+			ivQualityMode = "High";
 			break;
 		default:
 			ivQualityMode = "Unknown";
@@ -149,17 +153,55 @@ public class Image
   }  
   
 //
+// Check whether the full file path name already exists for the image
+//
+
+  public String checkFileName(String filepath, String prefix)
+  {
+	  File				tvFile;
+	  String			tvName;
+	  String			tvStatus;
+	  
+	  if (prefix.trim().length() > 0)
+	  {
+		tvName = filepath + ivFileSeparator + prefix + "-" + ivSaveName + ".qtk";  // Set full filename
+	  } else
+	  {
+		tvName = filepath + ivFileSeparator + ivSaveName + ".qtk";  // Set full filename
+	  }  
+	  
+
+		  tvFile = new File(tvName);
+		  
+		  if(tvFile.exists())   // Does file already exist?
+		  {
+				tvStatus = tvName;
+		  } else
+		  {
+				tvStatus = "OK";
+		  }
+	  
+	  return tvStatus;
+  }		  
+  
+//
 // Given a file path, write the image to local storage as a QTK file. The filename will be IMAGExx.QTK where xx is the image#
 //
 
-  public String saveImageToFile(String filepath)
+  public String saveImageToFile(String filepath, String prefix)
   {
 	  File				tvFile;
 	  FileOutputStream	tvWriter;
 	  String			tvName;
 	  String			tvStatus;
 	  
-	  tvName = filepath + ivSaveName;  // Set full filename
+	  if (prefix.trim().length() > 0)
+	  {
+		tvName = filepath + ivFileSeparator + prefix + "-" + ivSaveName + ".qtk";  // Set full filename
+	  } else
+	  {
+		tvName = filepath + ivFileSeparator + ivSaveName + ".qtk";  // Set full filename
+	  }  
 	  
 	  try
 	  {
@@ -167,19 +209,21 @@ public class Image
 		  
 		  ivDebugLog.textOut(this,"Save to file: " + tvName);
 		  
-		  if(tvFile.exists())   // If the file already exists, delete and write a new one
-			  tvFile.delete();
+		  if(tvFile.exists())   // If file exists, delete the current file
+		  {
+				tvFile.delete();
+		  }
+		  
+		tvFile.createNewFile();
+		  
+		tvWriter = new FileOutputStream(tvName);
 
-		  tvFile.createNewFile();
+		tvWriter.write(this.createFileHeader());    // Write the header info
+		tvWriter.write(ivImageData);   // Now write the actual image info
 		  
-		  tvWriter = new FileOutputStream(tvName);
-
-		  tvWriter.write(this.createFileHeader());    // Write the header info
-		  tvWriter.write(ivImageData);   // Now write the actual image info
+		tvWriter.close();
 		  
-		  tvWriter.close();
-		  
-		  tvStatus = "OK";
+		tvStatus = "OK";
 		  
 	  } catch (Exception e) 
 		{ 

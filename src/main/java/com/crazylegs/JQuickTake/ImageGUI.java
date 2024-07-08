@@ -29,9 +29,9 @@ public class ImageGUI extends JQuickTakePanel implements ActionListener, KeyList
  
   JFileChooser	ivDirChooser;
   File			ivSaveDir;
-  JTextField  	ivSaveDirText;
+  JTextField  	ivSaveDirText, ivPrefixText;
   
-  JLabel				ivImageNumLabel, ivSaveDirLabel, ivProgressLabel;
+  JLabel				ivImageNumLabel, ivSaveDirLabel, ivProgressLabel, ivPrefixLabel, ivPrefixExample;
   JComboBox<String>		ivImageNum;
   JCheckBox				ivSaveAll;
   
@@ -40,6 +40,9 @@ public class ImageGUI extends JQuickTakePanel implements ActionListener, KeyList
   JProgressBar	ivProgress;
 
   DefaultListCellRenderer  ivListRenderer;
+  
+  Properties		ivProps;
+  String			ivPropsSavePath;
 
   ImageRoll	ivImageRoll;
   Camera	ivCamera;  
@@ -56,8 +59,14 @@ public class ImageGUI extends JQuickTakePanel implements ActionListener, KeyList
 	ivDebugLog = (DebugLog)Environment.getValue("DebugLog");
 
 	ivImageRoll = (ImageRoll)Environment.getValue("ImageRoll");
+	
 	ivCamera = (Camera)Environment.getValue("Camera");
+	
 	ivLockEventMgr = (LockEventMgr)Environment.getValue("LockEventMgr");
+	
+	ivProps = (Properties)Environment.getValue("ConfigProps");
+	
+	ivPropsSavePath = ivProps.getProperty("save.path");
 
   }
 
@@ -72,57 +81,77 @@ public class ImageGUI extends JQuickTakePanel implements ActionListener, KeyList
 
     ivImageNumLabel = new JLabel("Select Picture# to Save:");
     this.add(ivImageNumLabel);
-    ivImageNumLabel.setBounds(10,30,140,25);
+    ivImageNumLabel.setBounds(10,30,150,25);
 
     ivImageNum = new JComboBox<String>();
 	ivListRenderer = new DefaultListCellRenderer();
 	ivListRenderer.setHorizontalAlignment(DefaultListCellRenderer.CENTER); // center-aligned items
 	ivImageNum.setRenderer(ivListRenderer);	
     this.add(ivImageNum);
-    ivImageNum.setBounds(160,30,75,25);
+    ivImageNum.setBounds(170,30,75,25);
 
 // Create a checkbox to denote that all images are to be saved
 
 	ivSaveAll = new JCheckBox("Save All Pictures", false);
 	this.add(ivSaveAll);
-	ivSaveAll.setBounds(300,30,150,25);
+	ivSaveAll.setBounds(310,30,150,25);
 	ivSaveAll.addActionListener(this);
 
 // Create filechooser (and button) to specifty where images are to be saved
 
-	ivSaveDirLabel = new JLabel("Save Picture(s) to Directory...");
+	ivSaveDirLabel = new JLabel("Save Picture(s) to Folder...");
 	this.add(ivSaveDirLabel);
 	ivSaveDirLabel.setBounds(10,80,250,25);
 	
-	ivSaveDir = new File(System.getProperty("user.dir"));
+	if(ivPropsSavePath == null)
+	{
+		ivSaveDir = new File(System.getProperty("user.home"));
+	} else
+	{
+		ivSaveDir = new File(ivPropsSavePath);
+	}
 	
 	ivSaveDirText = new JTextField(ivSaveDir.getAbsolutePath());
 	this.add(ivSaveDirText);
 	ivSaveDirText.setBounds(10,110,400,25);
 
-    ivDirDialog = new JButton("...");
+    ivDirDialog = new JButton("Browse");
     this.add(ivDirDialog);
-    ivDirDialog.setBounds(410,110,25,25);
+    ivDirDialog.setBounds(410,110,100,24);
     ivDirDialog.addActionListener(this);
+
+// Create field to specifty a filename prefix for images
+
+	ivPrefixLabel = new JLabel("Picture Filename Prefix (optional)...");
+	this.add(ivPrefixLabel);
+	ivPrefixLabel.setBounds(10,150,250,25);
+	
+	ivPrefixText = new JTextField();
+	this.add(ivPrefixText);
+	ivPrefixText.setBounds(10,180,300,25);
+
+	ivPrefixExample = new JLabel("(Naming Format: prefix-IMAGEnn.qtk)");
+	this.add(ivPrefixExample);
+	ivPrefixExample.setBounds(320,180,375,25);
 
 // Create button to start save process
 
     ivSave = new JButton("Save Picture(s)");
     this.add(ivSave);
-    ivSave.setBounds(10,230,125,25);
+    ivSave.setBounds(10,300,125,25);
     ivSave.addActionListener(this);
 
 // Create progressbar that will highlight image saving progress
 
 	ivProgressLabel = new JLabel("Save Progress:");
 	this.add(ivProgressLabel);
-	ivProgressLabel.setBounds(10,170,95,25);
+	ivProgressLabel.setBounds(10,240,95,25);
 	
 	ivProgress = new JProgressBar();
     ivProgress.setValue(0);
     ivProgress.setStringPainted(true);
     this.add(ivProgress);
-	ivProgress.setBounds(105,170,400,25);
+	ivProgress.setBounds(105,240,400,25);
 
   }  
 //
@@ -194,14 +223,14 @@ public class ImageGUI extends JQuickTakePanel implements ActionListener, KeyList
     {
 	
 		ivDirChooser = new JFileChooser(ivSaveDir);
-		ivDirChooser.setDialogTitle("Select Directory for QuickTake Pictures");
+		ivDirChooser.setDialogTitle("Select Folder for QuickTake Pictures");
 		ivDirChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 		this.add(ivDirChooser);
 		tvDirSelect = ivDirChooser.showOpenDialog(this);
 
 		if (tvDirSelect == JFileChooser.APPROVE_OPTION)
 		{
-			ivDebugLog.textOut(this,"Dir Chosen: " + ivDirChooser.getSelectedFile().getAbsolutePath());
+			ivDebugLog.textOut(this,"Folder Chosen: " + ivDirChooser.getSelectedFile().getAbsolutePath());
 			ivSaveDir = ivDirChooser.getSelectedFile();
 			ivSaveDirText.setText(ivSaveDir.getAbsolutePath());
 		}
@@ -215,7 +244,7 @@ public class ImageGUI extends JQuickTakePanel implements ActionListener, KeyList
 
 	public void run()
 	{
-		String	tvDirSelect;
+		String	tvDirSelect, tvPrefixSelect;
 	  
 		int tvImageNum;
         
@@ -230,7 +259,8 @@ public class ImageGUI extends JQuickTakePanel implements ActionListener, KeyList
 			ivLockEvent = new LockEvent(this,false);            // Lock other UI tabs while picture is being saved
 			ivLockEventMgr.notifyListeners(ivLockEvent);
 		
-			tvDirSelect = ivSaveDirText.getText() + "\\";
+			tvDirSelect = ivSaveDirText.getText();
+			tvPrefixSelect = ivPrefixText.getText();
 
 			if(!ivSaveAll.isSelected())
 			{
@@ -239,17 +269,19 @@ public class ImageGUI extends JQuickTakePanel implements ActionListener, KeyList
 				
 				ivDebugLog.textOut(this,"Image selected: " + tvImageNum);
 				
-				ivImageRoll.saveImage(tvImageNum,tvDirSelect,ivProgress);
+				ivImageRoll.saveImage(tvImageNum,tvDirSelect,tvPrefixSelect,ivProgress);
 				
 				ivImageNum.setEnabled(true);
 						
 			} else
 			{
-				ivImageRoll.saveAllImages(tvDirSelect, ivProgress);	
+				ivImageRoll.saveAllImages(tvDirSelect, tvPrefixSelect, ivProgress);	
 			}
 			
 			ivSave.setEnabled(true);
 			ivSaveAll.setEnabled(true);
+			
+			ivProps.setProperty("save.path", tvDirSelect);
 
 			ivLockEvent = new LockEvent(this,true);            // Unlock other UI tabs once picture is saved
 			ivLockEventMgr.notifyListeners(ivLockEvent);

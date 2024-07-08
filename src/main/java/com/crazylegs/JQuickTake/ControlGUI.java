@@ -148,7 +148,7 @@ public class ControlGUI extends JQuickTakePanel implements ActionListener, KeyLi
 
 	ivTakenCount = new JLabel("00",SwingConstants.CENTER);
 	ivDisplay.add(ivTakenCount);
-	ivTakenCount.setBounds(50,50,80,100);
+	ivTakenCount.setBounds(45,50,90,100);
 	ivTakenCount.setFont(new Font("Dialog", Font.PLAIN, 70));
 
 // Add label for pics remaining
@@ -162,23 +162,23 @@ public class ControlGUI extends JQuickTakePanel implements ActionListener, KeyLi
 	
 	ivSetDate = new JButton("Set Camera to Computer Date/Time");
 	this.add(ivSetDate);
-	ivSetDate.setBounds(10,280,250,25);
+	ivSetDate.setBounds(10,280,275,25);
     ivSetDate.addActionListener(this);	
 
 	ivDateLabel = new JLabel("Camera Date/Time is");
 	this.add(ivDateLabel);
-	ivDateLabel.setBounds(280,280,350,25);
+	ivDateLabel.setBounds(305,280,400,25);
 
 // Add label/button for camera name
 	
 	ivSetName = new JButton("Update Camera Name");
 	this.add(ivSetName);
-	ivSetName.setBounds(10,325,250,25);
+	ivSetName.setBounds(10,325,275,25);
     ivSetName.addActionListener(this);	
 
 	ivName = new JTextField("Camera name is here");
 	this.add(ivName);
-	ivName.setBounds(280,325,250,25);
+	ivName.setBounds(305,325,250,25);
 	
 // Add icon/label for battery indicator
 	
@@ -529,7 +529,7 @@ public class ControlGUI extends JQuickTakePanel implements ActionListener, KeyLi
 	{
 
 		ivProgress = new JDialog(ivParentFrame, title);
-		ivProgress.setBounds(200,275,400,75);
+		ivProgress.setBounds(200,200,400,75);
 		ivProgress.setResizable(false);
 		ivProgress.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 		

@@ -497,11 +497,11 @@ public class Camera
 	switch(ivReadBuffer[27])
 	{
 		case 32:
-			this.setQuality("Standard 320x240");
+			this.setQuality("Standard");
 			this.setQualityHigh(false);
 			break;
 		case 16:
-			this.setQuality("High 640x480");
+			this.setQuality("High");
 			this.setQualityHigh(true);
 			break;
 		default:
@@ -1057,7 +1057,7 @@ public class Camera
 	  return;
   }
   
-  public String getCameraModelodel()
+  public String getCameraModel()
   {
 	  return ivCameraModel;
   } 

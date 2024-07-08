@@ -27,19 +27,25 @@ I doubted I had all those qualities, but off I went. While I was making progress
 
 1. It will connect to an Apple QuickTake 100 or 150 camera and display its metadata, including: camera name, pictures taken, pictures remaining, Flash mode, Quality mode, etc.
 
+Windows - Connect screen:
 ![Windows - Connect to Camera](https://github.com/Crazylegstoo/JQuickTake/blob/main/Images/Win-Connect.JPG)
+MacOS - Connect screen:
 ![MacOS - Connect to Camera](https://github.com/Crazylegstoo/JQuickTake/blob/main/Images/Mac-Connect.JPG)
 
 
 2. It will allow you to save Selected or All images to local storage as an Apple QTK image file, using a customizable file-naming format.
 
+Windows - Save screen:
 ![Windows - Save Images](https://github.com/Crazylegstoo/JQuickTake/blob/main/Images/Win-Save.JPG)
+MacOS- Save screen:
 ![MacOS- Save Images](https://github.com/Crazylegstoo/JQuickTake/blob/main/Images/Mac-Save.JPG)
 
 
 3. It provides an interface to 'remote control' the camera - patterned after the LCD screen on the QuickTake camera. This includes changing the Flash Mode and Quality Mode, taking a picture, setting a 5-second timer to take a picture, deleting all pictures on the camera, updating the camera name, and updating the date/time on the camera.
 
+Windows - Control screen:
 ![Windows - Control the Camera](https://github.com/Crazylegstoo/JQuickTake/blob/main/Images/Win-Control.JPG)
+MacOS - Control screen:
 ![MacOS - Control the Camera](https://github.com/Crazylegstoo/JQuickTake/blob/main/Images/Mac-Control.JPG)
 
 ## What The JQuickTake Software Does Not Do

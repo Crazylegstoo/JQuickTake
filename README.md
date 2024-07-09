@@ -62,7 +62,7 @@ The fully-built solution has been tested successfully on Windows and MacOS platf
 
 Since the application is Java-based, it requires a minimum of a Java 17 runtime on the local computer. It will not run on any Java runtime previous to Java 17. Note that JQuickTake has been tested on both Java 17 and Java 22. 
 
-The installation options below allow JQuickTake to use the Java runtime already installed on your computer or use a Java 17 runtime bundled with the application. Both install options are part of  the [current JQuickTake Release](https://github.com/Crazylegstoo/JQuickTake/releases/tag/v1.1):
+The installation options below allow JQuickTake to use the Java runtime already installed on your computer or use a Java 17 runtime bundled with the application. Both install options are part of  the [current JQuickTake Release](https://github.com/Crazylegstoo/JQuickTake/releases/tag/V1.1):
 
 ## Option 1 - All-In-One Solution
 

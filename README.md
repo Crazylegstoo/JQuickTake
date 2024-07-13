@@ -62,7 +62,7 @@ The fully-built solution has been tested successfully on Windows and MacOS platf
 
 Since the application is Java-based, it requires a minimum of a Java 17 runtime on the local computer. It will not run on any Java runtime previous to Java 17. Note that JQuickTake has been tested on both Java 17 and Java 22. 
 
-The installation options below allow JQuickTake to use the Java runtime already installed on your computer or use a Java 17 runtime bundled with the application. Both install options are part of  the [current JQuickTake Release](https://github.com/Crazylegstoo/JQuickTake/releases/tag/V1.1):
+The installation options below allow JQuickTake to use the Java runtime already installed on your computer or use a Java 17 runtime bundled with the application. Both install options are part of  the [current JQuickTake Release](https://github.com/Crazylegstoo/JQuickTake/releases/tag/v1.0):
 
 ## Option 1 - All-In-One Solution
 
@@ -96,9 +96,15 @@ The Github repo includes all the bits and pieces to build the application yourse
 
 ## My QuickTake camera doesn't have a cable!
 
-Back in the mid-90's, a brand new QuickTake was packaged with a serial cable that would let you plug the camera into your computer's serial port and talk to the included QuickTake software. For reasons I don't quite understand, the used QuickTake cameras I've seen for sale online almost never include a cable. I'm guessing all those cables are hanging out in some intergalactic lost-and-found with a billion odd socks and closet hangers.
+Back in the mid-90's, a brand new QuickTake was packaged with a serial cable that would let you plug the camera into your computer's serial port and talk to the included QuickTake software. For reasons I don't quite understand, the gently-used QuickTake cameras I've seen for sale online almost never include a cable. I'm guessing all those cables are hanging out in some intergalactic lost-and-found with a billion odd socks and closet hangers.
 
-But fear not! You can make your own cable (like I did) with a [female DB9](https://a.co/d/1TWCMJX) serial cable, a [male DIN8](https://a.co/d/0Mkaqjt) cable, and some basic wiring/soldering skills. Here's an [overview of the cable](https://hackaday.com/2013/03/26/diy-6-serial-cable-for-vintage-apple-quicktake-cameras/), although the  link to the build instructions is long broken. But if you scroll all the way to the [bottom of this page](https://www.colino.net/wordpress/en/archives/2023/10/29/the-apple-quicktake-100-150-serial-communication-protocol/), you'll see a nice picture showing which pins are wired to which pins so you can build your own. And you can also find pre-built cables for sale [here](https://www.pccables.com/Products/70810) and [there](https://a.co/d/4wgH4qr) if you search around.
+But fear not! You can make your own cable (like I did) with a [female DB9](https://a.co/d/1TWCMJX) serial cable, a [male DIN8](https://a.co/d/0Mkaqjt) cable, and some basic wiring/soldering skills. You can also find cables that already have the required DB9 and DIN8 plugs - examples: [here](https://www.pccables.com/Products/70810) and [there](https://a.co/d/4wgH4qr) 
+
+No matter how you source your cables, They will require some simple re-wiring to support a QuickTake camera. Here's an [overview of the cable](https://hackaday.com/2013/03/26/diy-6-serial-cable-for-vintage-apple-quicktake-cameras/), although the  link to the build instructions is long broken. The following diagram shows how you need to modify the wiring of your serial cable:
+![QuickTake 100/150 Wiring](https://github.com/Crazylegstoo/JQuickTake/blob/main/Images/QT100-150%20Wiring.JPG) 
+The best approach is using a multi-meter with a Continuity testing function. Put one probe on a pin, and then use the other probe to touch the (bare) wires to determine which wire goes to which pin. With all the wires identified for each plug, you can go about connecting wires according the diagram above.
+
+One last word: While it can be satisfying to build your own cabe, if you do a bit of searching, it is possible to find pre-built QuickTake serial cables. Here are a [few](https://www.ebay.com/itm/116219111915) [examples](https://www.aliexpress.com/i/1005005122483745.html?gatewayAdapt=4itemAdapt).
 
 ## What's a serial port?
 

@@ -103,12 +103,12 @@ Back in the mid-90's, a brand new QuickTake was packaged with a serial cable tha
 
 But fear not! You can make your own cable (like I did) with a [female DB9](https://a.co/d/1TWCMJX) serial cable, a [male DIN8](https://a.co/d/0Mkaqjt) cable, and some basic wiring/soldering skills. You can also find cables that already have the required DB9 and DIN8 plugs - examples: [here](https://www.pccables.com/Products/70810) and [there](https://a.co/d/4wgH4qr) 
 
-No matter how you source your cables, They will require some simple re-wiring to support a QuickTake camera. Here's an [overview of the cable](https://hackaday.com/2013/03/26/diy-6-serial-cable-for-vintage-apple-quicktake-cameras/), although the  link to the build instructions is long broken. The following diagram shows how you need to modify the wiring of your serial cable:
+No matter how you source your cables, they will require some simple re-wiring to support a QuickTake camera. Here's an [overview of the cable](https://hackaday.com/2013/03/26/diy-6-serial-cable-for-vintage-apple-quicktake-cameras/), although the  link to the build instructions is long broken. The following diagram shows how you need to modify the wiring of your serial cable:
 ![QuickTake 100/150 Wiring](https://github.com/Crazylegstoo/JQuickTake/blob/main/Images/QT100-150%20Wiring.JPG) 
 
 The best approach is using a multi-meter with a Continuity testing function. Put one probe on a pin, and then use the other probe to touch the (bare) wires to determine which wire goes to which pin. With all the wires identified for each plug, you can go about connecting wires according the diagram above.
 
-One last word: While it can be satisfying to build your own cabe, if you do a bit of searching, it is possible to find pre-built QuickTake serial cables. Here are a [few](https://www.ebay.com/itm/116219111915) [examples](https://www.aliexpress.com/i/1005005122483745.html?gatewayAdapt=4itemAdapt).
+One last word: While it can be satisfying to build your own cable, it is possible with a bit searching to find pre-built QuickTake serial cables. Here are a [few](https://www.ebay.com/itm/116219111915) [examples](https://www.aliexpress.com/i/1005005122483745.html?gatewayAdapt=4itemAdapt).
 
 ## What's a serial port?
 

@@ -29,6 +29,7 @@ I doubted I had all those qualities, but off I went. While I was making progress
 
 Windows - Connect screen:
 ![Windows - Connect to Camera](https://github.com/Crazylegstoo/JQuickTake/blob/main/Images/Win-Connect.JPG)
+
 MacOS - Connect screen:
 ![MacOS - Connect to Camera](https://github.com/Crazylegstoo/JQuickTake/blob/main/Images/Mac-Connect.JPG)
 
@@ -37,6 +38,7 @@ MacOS - Connect screen:
 
 Windows - Save screen:
 ![Windows - Save Images](https://github.com/Crazylegstoo/JQuickTake/blob/main/Images/Win-Save.JPG)
+
 MacOS- Save screen:
 ![MacOS- Save Images](https://github.com/Crazylegstoo/JQuickTake/blob/main/Images/Mac-Save.JPG)
 
@@ -45,6 +47,7 @@ MacOS- Save screen:
 
 Windows - Control screen:
 ![Windows - Control the Camera](https://github.com/Crazylegstoo/JQuickTake/blob/main/Images/Win-Control.JPG)
+
 MacOS - Control screen:
 ![MacOS - Control the Camera](https://github.com/Crazylegstoo/JQuickTake/blob/main/Images/Mac-Control.JPG)
 
@@ -102,6 +105,7 @@ But fear not! You can make your own cable (like I did) with a [female DB9](https
 
 No matter how you source your cables, They will require some simple re-wiring to support a QuickTake camera. Here's an [overview of the cable](https://hackaday.com/2013/03/26/diy-6-serial-cable-for-vintage-apple-quicktake-cameras/), although the  link to the build instructions is long broken. The following diagram shows how you need to modify the wiring of your serial cable:
 ![QuickTake 100/150 Wiring](https://github.com/Crazylegstoo/JQuickTake/blob/main/Images/QT100-150%20Wiring.JPG) 
+
 The best approach is using a multi-meter with a Continuity testing function. Put one probe on a pin, and then use the other probe to touch the (bare) wires to determine which wire goes to which pin. With all the wires identified for each plug, you can go about connecting wires according the diagram above.
 
 One last word: While it can be satisfying to build your own cabe, if you do a bit of searching, it is possible to find pre-built QuickTake serial cables. Here are a [few](https://www.ebay.com/itm/116219111915) [examples](https://www.aliexpress.com/i/1005005122483745.html?gatewayAdapt=4itemAdapt).

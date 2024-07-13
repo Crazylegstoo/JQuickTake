@@ -40,7 +40,7 @@ Windows - Save screen:
 ![Windows - Save Images](https://github.com/Crazylegstoo/JQuickTake/blob/main/Images/Win-Save.JPG)
 
 MacOS- Save screen:
-[MacOS- Save Images](https://github.com/Crazylegstoo/JQuickTake/blob/main/Images/Mac-Save.JPG)
+![MacOS- Save Images](https://github.com/Crazylegstoo/JQuickTake/blob/main/Images/Mac-Save.JPG)
 
 
 3. It provides an interface to 'remote control' the camera - patterned after the LCD screen on the QuickTake camera. This includes changing the Flash Mode and Quality Mode, taking a picture, setting a 5-second timer to take a picture, deleting all pictures on the camera, updating the camera name, and updating the date/time on the camera.

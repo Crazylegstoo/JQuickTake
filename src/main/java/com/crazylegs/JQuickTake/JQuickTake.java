@@ -109,7 +109,7 @@ public class JQuickTake extends WindowAdapter implements WindowListener, ChangeL
 
 //    Build the main UI
 
-    ivAppWin = new JFrame("QuickTake Camera Manager v1.1");
+    ivAppWin = new JFrame("QuickTake Camera Manager v1.2");
 	ivAppWin.setResizable(true);
     ivAppWin.setBounds(1,1,800,500);
 	ivAppWin.pack();

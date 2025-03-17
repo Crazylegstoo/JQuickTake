@@ -106,6 +106,7 @@ public class ControlGUI extends JQuickTakePanel implements ActionListener, KeyLi
 	ivDisplay.add(ivFlash);
 	ivFlash.setBackground(Color.white);
 	ivFlash.setBounds(0,0,40,40);
+	ivFlash.setToolTipText("Toggle flash between Auto, On, and Off");
     ivFlash.addActionListener(this);	
 
 // Add Image Quality control
@@ -114,6 +115,7 @@ public class ControlGUI extends JQuickTakePanel implements ActionListener, KeyLi
 	ivDisplay.add(ivQuality);
 	ivQuality.setBackground(Color.white);
 	ivQuality.setBounds(140,0,40,40);
+	ivQuality.setToolTipText("Toggle image quality between Standard and High");
     ivQuality.addActionListener(this);	
 
 // Add Image Delete All control
@@ -123,6 +125,7 @@ public class ControlGUI extends JQuickTakePanel implements ActionListener, KeyLi
 	ivDelete.setBackground(Color.white);
 	ivDelete.setBounds(0,160,40,40);
 	ivDelete.setIcon(ivDeleteAll);
+	ivDelete.setToolTipText("Delete all pictures on the camera");
     ivDelete.addActionListener(this);	
 	ivDeletePictures = false;
 
@@ -132,6 +135,7 @@ public class ControlGUI extends JQuickTakePanel implements ActionListener, KeyLi
 	ivDisplay.add(ivTimer);
 	ivTimer.setBackground(Color.white);
 	ivTimer.setBounds(140,160,40,40);
+	ivTimer.setToolTipText("Toggle on and off a 5-second timer for taking a picture");
 	ivTimer.setIcon(ivTimerClock);
     ivTimer.addActionListener(this);	
 	ivTimerBlink = false;
@@ -141,6 +145,7 @@ public class ControlGUI extends JQuickTakePanel implements ActionListener, KeyLi
 	ivTakeImage = new JButton("Take a Picture");
 	ivDisplay.add(ivTakeImage);
 	ivTakeImage.setBounds(0,200,180,25);
+	ivTakeImage.setToolTipText("Have the camera take a picture");
     ivTakeImage.addActionListener(this);	
 	ivTakePicture = false;
 
@@ -149,6 +154,7 @@ public class ControlGUI extends JQuickTakePanel implements ActionListener, KeyLi
 	ivTakenCount = new JLabel("00",SwingConstants.CENTER);
 	ivDisplay.add(ivTakenCount);
 	ivTakenCount.setBounds(45,50,90,100);
+	ivTakenCount.setToolTipText("Number of pictures taken");
 	ivTakenCount.setFont(new Font("Dialog", Font.PLAIN, 70));
 
 // Add label for pics remaining
@@ -156,6 +162,7 @@ public class ControlGUI extends JQuickTakePanel implements ActionListener, KeyLi
 	ivRemainCount = new JLabel("00",SwingConstants.CENTER);
 	ivDisplay.add(ivRemainCount);
 	ivRemainCount.setBounds(100,5,30,30);
+	ivRemainCount.setToolTipText("Number of pictures still available to be taken");
 	ivRemainCount.setFont(new Font("Dialog", Font.PLAIN, 20));
 
 // Add label/button for camera date
@@ -163,6 +170,7 @@ public class ControlGUI extends JQuickTakePanel implements ActionListener, KeyLi
 	ivSetDate = new JButton("Set Camera to Computer Date/Time");
 	this.add(ivSetDate);
 	ivSetDate.setBounds(10,280,275,25);
+	ivSetDate.setToolTipText("Update the camera date and time settings");
     ivSetDate.addActionListener(this);	
 
 	ivDateLabel = new JLabel("Camera Date/Time is");
@@ -174,20 +182,24 @@ public class ControlGUI extends JQuickTakePanel implements ActionListener, KeyLi
 	ivSetName = new JButton("Update Camera Name");
 	this.add(ivSetName);
 	ivSetName.setBounds(10,325,275,25);
+	ivSetName.setToolTipText("Update the camera name setting");
     ivSetName.addActionListener(this);	
 
 	ivName = new JTextField("Camera name is here");
 	this.add(ivName);
+	ivName.setToolTipText("Enter a name for the camera");
 	ivName.setBounds(305,325,250,25);
 	
 // Add icon/label for battery indicator
 	
 	ivBatteryPic = new JLabel(ivBattery);
 	ivDisplay.add(ivBatteryPic);
+	ivBatteryPic.setToolTipText("Current battery capacity remaining");
 	ivBatteryPic.setBounds(50,140,50,25);	
 
 	ivBatteryLevel = new JLabel("0%");
 	ivDisplay.add(ivBatteryLevel);
+	ivBatteryLevel.setToolTipText("Current battery capacity remaining");
 	ivBatteryLevel.setBounds(100,140,25,25);
 
 

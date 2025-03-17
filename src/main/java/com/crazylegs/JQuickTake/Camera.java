@@ -102,18 +102,21 @@ public class Camera
 
   public String[] getCOMPorts()
   {
-	SerialPort[] ivPorts = SerialPort.getCommPorts();
+	int tvCount;
 
-	ivDebugLog.textOut(this,"Ports Length " + ivPorts.length);
+	SerialPort[] ivPorts = SerialPort.getCommPorts();
 
     if (ivPorts != null && ivPorts.length > 0)
 	{
-		i = 0;
+		tvCount = 0;
 		ivCOMPorts = new String[ivPorts.length];
 		for (SerialPort port : ivPorts)
 		{
-			ivCOMPorts[i] = port.getSystemPortName();
+			ivCOMPorts[tvCount] = port.getSystemPortName();
+			tvCount++;
 		}
+	} else {
+		ivCOMPorts = null;
 	}
 
 	return ivCOMPorts;

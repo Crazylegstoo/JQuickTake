@@ -88,6 +88,7 @@ public class ImageGUI extends JQuickTakePanel implements ActionListener, KeyList
 	ivListRenderer.setHorizontalAlignment(DefaultListCellRenderer.CENTER); // center-aligned items
 	ivImageNum.setRenderer(ivListRenderer);	
     this.add(ivImageNum);
+	ivImageNum.setToolTipText("Select specific picture to Save");
     ivImageNum.setBounds(170,30,75,25);
 
 // Create a checkbox to denote that all images are to be saved
@@ -95,6 +96,7 @@ public class ImageGUI extends JQuickTakePanel implements ActionListener, KeyList
 	ivSaveAll = new JCheckBox("Save All Pictures", false);
 	this.add(ivSaveAll);
 	ivSaveAll.setBounds(310,30,150,25);
+	ivSaveAll.setToolTipText("(Optional) Save all pictures currently on the camera");
 	ivSaveAll.addActionListener(this);
 
 // Create filechooser (and button) to specifty where images are to be saved
@@ -113,10 +115,12 @@ public class ImageGUI extends JQuickTakePanel implements ActionListener, KeyList
 	
 	ivSaveDirText = new JTextField(ivSaveDir.getAbsolutePath());
 	this.add(ivSaveDirText);
+	ivSaveDirText.setToolTipText("Folder in which picture(s) will be saved");
 	ivSaveDirText.setBounds(10,110,400,25);
 
     ivDirDialog = new JButton("Browse");
     this.add(ivDirDialog);
+	ivDirDialog.setToolTipText("Browse file system for a folder");
     ivDirDialog.setBounds(410,110,100,24);
     ivDirDialog.addActionListener(this);
 
@@ -127,6 +131,7 @@ public class ImageGUI extends JQuickTakePanel implements ActionListener, KeyList
 	ivPrefixLabel.setBounds(10,150,250,25);
 	
 	ivPrefixText = new JTextField();
+	ivPrefixText.setToolTipText("(Optional) Prefix text for saved picture(s) filename");
 	this.add(ivPrefixText);
 	ivPrefixText.setBounds(10,180,300,25);
 
@@ -139,6 +144,7 @@ public class ImageGUI extends JQuickTakePanel implements ActionListener, KeyList
     ivSave = new JButton("Save Picture(s)");
     this.add(ivSave);
     ivSave.setBounds(10,300,125,25);
+	ivSave.setToolTipText("Saved selected picture(s) in the selected folder");
     ivSave.addActionListener(this);
 
 // Create progressbar that will highlight image saving progress

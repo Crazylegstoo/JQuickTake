@@ -34,11 +34,13 @@ public class COMTestGUI extends JQuickTakePanel implements ActionListener, KeyLi
   JComboBox<String>	ivSpeedChoice;
   String[]	ivSpeedList = {"57600","38400","19200","9600"};
 
-  JButton     ivConnect;
+  JButton     ivConnect, ivPortRefresh;
 
   JLabel	ivStatus, ivDateLabel, ivDate, ivTimeLabel, ivTime, ivNameLabel, ivName, ivModelLabel, ivModel;
 
   JLabel	ivTakenLabel, ivTaken, ivRemainLabel, ivRemain, ivBatteryLabel, ivBattery, ivFlashLabel, ivFlash, ivQualityLabel, ivQuality;
+  
+  ImageIcon	ivRefresh;
   
   JDialog	ivProgress;
   
@@ -67,6 +69,8 @@ public class COMTestGUI extends JQuickTakePanel implements ActionListener, KeyLi
 	ivCamera = (Camera)Environment.getValue("Camera");
 	
 	ivLockEventMgr = (LockEventMgr)Environment.getValue("LockEventMgr");
+
+	ivRefresh			= new ImageIcon(ClassLoader.getSystemClassLoader().getResource("Port-Refresh.png"));
 	
 	return;
 
@@ -95,20 +99,31 @@ public class COMTestGUI extends JQuickTakePanel implements ActionListener, KeyLi
 		ivPortChoice = new JComboBox<String>();
 	}
     this.add(ivPortChoice);
+	ivPortChoice.setToolTipText("Serlect the serial port which the camera is plugged into");
     ivPortChoice.setBounds(10,40,175,25);
 	ivPortChoice.addActionListener(this);
 
+	ivPortRefresh = new JButton();
+	ivPortRefresh.setBackground(Color.white);
+    this.add(ivPortRefresh);
+	ivPortRefresh.setIcon(ivRefresh);
+	ivPortRefresh.setToolTipText("Refesh dropdown list of serial ports");
+    ivPortRefresh.setBounds(190,40,25,25);
+    ivPortRefresh.addActionListener(this);
+	
     ivSpeedLabel = new JLabel("Port Speed (bps):");
     this.add(ivSpeedLabel);
     ivSpeedLabel.setBounds(245,10,150,25);
    
     ivSpeedChoice = new JComboBox<String>(ivSpeedList);
     this.add(ivSpeedChoice);
+	ivSpeedChoice.setToolTipText("(Optional) Select port speed for the selected serial port");
     ivSpeedChoice.setBounds(245,40,100,25);
 	ivSpeedChoice.addActionListener(this);
    
     ivConnect = new JButton("Connect");
     this.add(ivConnect);
+	ivConnect.setToolTipText("Connect to the camera based on serial port and port speed");
     ivConnect.setBounds(370,40,150,25);
     ivConnect.addActionListener(this);
 
@@ -275,6 +290,9 @@ public class COMTestGUI extends JQuickTakePanel implements ActionListener, KeyLi
   {
 	String tvPortChoice, tvSpeedChoice;
 	
+	String[]	tvCOMPorts;
+	int			tvCount;
+	
 //  Save selected COM Port
 
     if(ae.getSource() == ivPortChoice)
@@ -290,6 +308,23 @@ public class COMTestGUI extends JQuickTakePanel implements ActionListener, KeyLi
     {
 		tvSpeedChoice = (String)ivSpeedChoice.getSelectedItem();
 		Environment.setValue("PortSpeed",(String)tvSpeedChoice);
+	}
+
+// Button has been pushed to refresh Serial Ports dropdown
+
+    if(ae.getSource() == ivPortRefresh)
+    {
+		tvCOMPorts = ivCamera.getCOMPorts();	// Get a list of available COM (serial) ports for selection
+		
+		ivPortChoice.removeAllItems();
+			
+		if(tvCOMPorts != null && tvCOMPorts.length > 0)
+		{
+			for (tvCount = 0; tvCount < tvCOMPorts.length; tvCount++)
+			{
+				ivPortChoice.addItem(tvCOMPorts[tvCount]);
+			}
+		}
 	}
 
 // Button has been pushed to connect to camera

@@ -71,7 +71,7 @@ The installation options below allow JQuickTake to use the Java runtime already 
 
 The *easiest path* is to simply download and execute the provided installer:
 
-**Windows** - Download and run ***JQuickTake-1.1.exe*** . This will install JQuickTake as well as a bundled Java Java 17 runtime all in one package. All software will install into ***c:\Program Files\JQuickTake***, create a Start Menu entry, and put a nice retro icon on your Windows desktop.
+**Windows** - Download and run ***JQuickTake-1.1.exe*** . This will install JQuickTake as well as a bundled Java 17 runtime all in one package. All software will install into ***c:\Program Files\JQuickTake***, create a Start Menu entry, and put a nice retro icon on your Windows desktop.
 
 **MacOS** - Download and run ***JQuickTake-1.1dmg***. This will install JQuickTake as well as a bundled Java 17 runtime all in one package. It will install just like any other Mac application and can be started up from Finder or Launchpad via clicking on a nice retro icon.
 
@@ -81,7 +81,7 @@ The slightly-more-work path is to download the ***app.zip*** (or ***app.tar***) 
 
 **Windows** - Run ***Your Folder*\app\app\bin\app.bat**. The benefit of this option is that the application will run on top of whatever Java runtime you already have installed. Note that JQuickTake has been tested with Java 17 and Java 22 runtimes.
 
-**MacOS** - Run ***Your Folder*\app\bin\app**. The benefit of this option is that the application will run on top of whatever Java runtime you already have installed. Note that JQuickTake has been tested with Java 17 and Java 22 runtimes.
+**MacOS** - Run ***Your Folder*/app/bin/app**. The benefit of this option is that the application will run on top of whatever Java runtime you already have installed. Note that JQuickTake has been tested with Java 17 and Java 22 runtimes.
 
 **Note:** To quickly check what version of Java is installed on your PC, open a command line session (Windows via CMD and Mac via Terminal) and type *java -version.* The results will tell you which version is installed on your PC.
 

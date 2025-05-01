@@ -27,13 +27,16 @@ import java.nio.file.*;
  * @author Kevin Godin
  * @version $Revision: 1.0 $
  **/
-public class JQuickTake extends WindowAdapter implements WindowListener, ChangeListener, LockListener
+public class JQuickTake extends WindowAdapter implements WindowListener, ChangeListener, LockListener, ActionListener
 {
 
   JFrame       ivAppWin;
-  Container    ivFrameContent;
   JTabbedPane  ivQTPane;
   JPanel       ivAppPanel;
+  
+  JMenuBar		ivMenuBar;
+  JMenu			ivFileMenu, ivLoggingMenu, ivHelpMenu;
+  JMenuItem		ivFileExit, ivLoggingDebug, ivHelpAbout;
   
   ImageIcon		ivIcon;
 
@@ -58,13 +61,23 @@ public class JQuickTake extends WindowAdapter implements WindowListener, ChangeL
   Properties	ivProps;
   
   DebugLog ivDebugLog;
+	
+  JDialog		ivDBDialog;
+  JLabel		ivDBLabel;
+
+  JCheckBox		ivDebugChoice, ivDebugVerbose;
+  JLabel		ivDebugDirLabel;
+  File			ivDebugDir;
+  JFileChooser	ivDebugDirChooser;
+  JTextField  	ivDebugDirText;
+  JButton		ivDebugDirDialog, ivDBDialogDone;
 
 
 //
 // Build the GUI.
 //
 
-  public JQuickTake(boolean debug)
+  public JQuickTake()
   {
 
 //  Init environment
@@ -74,18 +87,20 @@ public class JQuickTake extends WindowAdapter implements WindowListener, ChangeL
     Environment.init(ivMap);
     
     Environment.setValue("Parent",this);
-
-//  Initialize Debugging
- 
-    ivDebugLog = new DebugLog();
-	Environment.setValue("DebugLog",ivDebugLog);
-    Environment.setValue("DebugMode",debug);
-	
+		
 // Load values from config.properties
 
 	ivFileSeparator = System.getProperty("file.separator");
 
 	this.loadProperties();
+
+//  Initialize Debugging
+ 
+    ivDebugLog = new DebugLog();
+	Environment.setValue("DebugLog",ivDebugLog);
+	ivDebugLog.initLoggingDirectory();
+	ivDebugLog.setMode(false);
+	ivDebugLog.setVerbose(false);
 
 // Create a Camera instance
 
@@ -109,9 +124,9 @@ public class JQuickTake extends WindowAdapter implements WindowListener, ChangeL
 
 //    Build the main UI
 
-    ivAppWin = new JFrame("QuickTake Camera Manager v1.2");
+    ivAppWin = new JFrame("QuickTake Camera Manager");
 	ivAppWin.setResizable(true);
-    ivAppWin.setBounds(1,1,800,500);
+    ivAppWin.setBounds(1,1,800,550);
 	ivAppWin.pack();
     ivAppWin.addWindowListener(this);
     Environment.setValue("ParentFrame", ivAppWin);
@@ -122,11 +137,36 @@ public class JQuickTake extends WindowAdapter implements WindowListener, ChangeL
     ivAppPanel = new JPanel();
     ivAppPanel.setLayout(null);
     ivAppWin.getContentPane().add(ivAppPanel);
-    ivAppPanel.setBounds(1,1,800,500);
+    ivAppPanel.setBounds(1,1,800,550);
 
     ivQTPane = new JTabbedPane();
     ivAppPanel.add(ivQTPane);
-    ivQTPane.setBounds(1,1,700,400);
+    ivQTPane.setBounds(1,1,700,450);
+	
+// Create Menu Bar
+	
+	ivMenuBar = new JMenuBar();
+	
+	ivFileMenu = new JMenu("File");
+	ivFileExit = new JMenuItem("Exit");
+	ivFileExit.addActionListener(this);
+	ivFileMenu.add(ivFileExit);
+	
+	ivLoggingMenu = new JMenu("Logging");
+	ivLoggingDebug = new JMenuItem("Configure Debug Logging");
+	ivLoggingDebug.addActionListener(this);
+	ivLoggingMenu.add(ivLoggingDebug);
+	
+	ivHelpMenu = new JMenu("Help");
+	ivHelpAbout = new JMenuItem("About JQuickTake");
+	ivHelpAbout.addActionListener(this);
+	ivHelpMenu.add(ivHelpAbout);
+	
+	ivMenuBar.add(ivFileMenu);
+	ivMenuBar.add(ivLoggingMenu);
+	ivMenuBar.add(ivHelpMenu);
+	
+	ivAppWin.setJMenuBar(ivMenuBar);
 
 // Create GUI for connecting to the camera
 
@@ -152,7 +192,7 @@ public class JQuickTake extends WindowAdapter implements WindowListener, ChangeL
         }
     });
 
-// Create GUI for 'remote cpontrol' of the camera. Make it runnable for thread execution
+// Create GUI for 'remote control' of the camera. Make it runnable for thread execution
 	
     ivControl   = new ControlGUI();
     new Thread(ivControl).start();
@@ -182,10 +222,175 @@ public class JQuickTake extends WindowAdapter implements WindowListener, ChangeL
 
 //  Size and show the window
 
-    ivAppWin.setBounds(50,100,710,430);
+    ivAppWin.setBounds(50,100,710,460);
     ivAppWin.setResizable(false);
     ivAppWin.setVisible(true);
 
+  }
+
+//
+// Catch various Menu choices
+//
+
+  public void actionPerformed(ActionEvent ae)
+  {
+
+	int		tvDirSelect;
+	
+//  Exit the app
+
+    if(ae.getSource() == ivFileExit)
+    {
+	  this.gracefulExit();
+	}
+	
+//  About the app
+
+    if(ae.getSource() == ivHelpAbout)
+    {		
+		JOptionPane.showMessageDialog(ivAppWin,
+					"JQuickTake v1.3 - May 2025 \n\n" +
+					"Developed by Kevin Godin and licensed for use under GPL-3.0 \n\n" +
+					"Source and Docs at github.com/Crazylegstoo/JQuickTake \n\n" +
+					"Feedback/questions can be sent to jquicktake@gmail.com \n\n",
+					"About JQuickTake",
+					JOptionPane.INFORMATION_MESSAGE
+	
+
+);	
+	}
+	
+//  Configure Debug logging
+
+    if(ae.getSource() == ivLoggingDebug)
+    {
+		ivDBDialog = new JDialog(ivAppWin,"Configure Debug Logging");
+		ivDBDialog.setLayout(null);
+		ivDBDialog.setSize(600,200);
+		ivDBDialog.setLocation(200,200);
+
+// Create a checkbox to denote Debug Mode
+
+		ivDebugChoice = new JCheckBox("Write Debug Log?", ivDebugLog.getMode());
+		ivDBDialog.add(ivDebugChoice);
+		ivDebugChoice.setBounds(10,10,135,25);
+		ivDebugChoice.setToolTipText("Check to log debugging info to a file");
+		ivDebugChoice.addActionListener(this);
+
+// Create filechooser (and button) to specifty where Debug Log is to be saved
+
+		ivDebugDirLabel = new JLabel("Location for log files:");
+		ivDBDialog.add(ivDebugDirLabel);
+		ivDebugDirLabel.setBounds(10,40,135,25);
+	
+		ivDebugDirText = new JTextField(ivDebugLog.getDirectory());
+		ivDBDialog.add(ivDebugDirText);
+		ivDebugDirText.setToolTipText("Folder in which debug log will be saved");
+		ivDebugDirText.setBounds(160,40,275,25);
+
+		ivDebugDirDialog = new JButton("Browse");
+		ivDBDialog.add(ivDebugDirDialog);
+		ivDebugDirDialog.setToolTipText("Browse file system for a folder");
+		ivDebugDirDialog.setBounds(460,40,100,24);
+		ivDebugDirDialog.addActionListener(this);
+
+// Create a checkbox to denote Verbose Debug Mode
+
+		ivDebugVerbose = new JCheckBox("Verbose Logging? Caution: Will log all received camera data in excess of 200 bytes!", ivDebugLog.getVerbose());
+		ivDBDialog.add(ivDebugVerbose);
+		ivDebugVerbose.setBounds(10,70,500,25);
+		ivDebugVerbose.setToolTipText("Log additional data");
+		ivDebugVerbose.addActionListener(this);
+
+// Create a Configure button to dismiss the dialog
+
+		ivDBDialogDone = new JButton("Configure");
+		ivDBDialog.add(ivDBDialogDone);
+		ivDBDialogDone.setBounds(250,125,100,25);
+		ivDBDialogDone.addActionListener(this);
+
+		if(ivDebugLog.getMode())
+		{
+			ivDebugDirText.setEnabled(true);
+			ivDebugDirDialog.setEnabled(true);
+			ivDebugDirLabel.setEnabled(true);
+			ivDebugVerbose.setEnabled(true);
+		} else
+		{
+			ivDebugDirText.setEnabled(false);
+			ivDebugDirDialog.setEnabled(false);
+			ivDebugDirLabel.setEnabled(false);
+			ivDebugVerbose.setEnabled(false);
+		}
+
+		ivDBDialog.setVisible(true);
+	}
+
+	
+//  Process Debug checkbox
+
+    if(ae.getSource() == ivDebugChoice)
+    {
+		if(ivDebugChoice.isSelected())
+		{
+			ivDebugDirText.setEnabled(true);
+			ivDebugDirDialog.setEnabled(true);
+			ivDebugDirLabel.setEnabled(true);
+			ivDebugVerbose.setEnabled(true);
+		} else
+		{
+			ivDebugDirText.setEnabled(false);
+			ivDebugDirDialog.setEnabled(false);
+			ivDebugDirLabel.setEnabled(false);
+			ivDebugVerbose.setEnabled(false);
+		}
+
+	}
+
+// Log Directory Directory button - pop-up file chooser dialog to select directory for saving Debug Log files
+			
+    if(ae.getSource() == ivDebugDirDialog)
+    {
+	
+		ivDebugDir = new File(ivDebugLog.getDirectory());
+		ivDebugDirChooser = new JFileChooser(ivDebugDir);
+		ivDebugDirChooser.setDialogTitle("Select Folder for Debug Log File");
+		ivDebugDirChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+		ivDBDialog.add(ivDebugDirChooser);
+		tvDirSelect = ivDebugDirChooser.showOpenDialog(ivDBDialog);
+
+		if (tvDirSelect == JFileChooser.APPROVE_OPTION)
+		{
+			ivDebugDir = ivDebugDirChooser.getSelectedFile();
+			ivDebugDirText.setText(ivDebugDir.getAbsolutePath());
+		}
+	}
+
+// Debug Dialog Done button pressed
+			
+    if(ae.getSource() == ivDBDialogDone)
+    {
+		if(ivDebugChoice.isSelected())
+		{
+			ivDebugLog.setPath(ivDebugDirText.getText());		
+			ivDebugLog.setMode(true);;
+		} else
+		{
+			ivDebugLog.setMode(false);;
+		}
+		
+		if(ivDebugVerbose.isSelected())
+		{
+			ivDebugLog.setVerbose(true);;
+		} else
+		{
+			ivDebugLog.setVerbose(false);;
+		}
+		
+		ivDBDialog.dispose();
+	}
+
+	  
   }
 
 //
@@ -194,8 +399,20 @@ public class JQuickTake extends WindowAdapter implements WindowListener, ChangeL
 
   public void windowClosing(WindowEvent we)
   {
-	ivCamera.closeCamera();
+	  this.gracefulExit();
+  }
+
+// 
+// Perform graceful exit
+//
+
+  public void gracefulExit()
+  {
+	ivCamera.closeCamera();  
+	
 	this.writeProperties();
+	
+	ivDebugLog.closeLog();
 
     System.exit(0);
   }
@@ -318,12 +535,7 @@ public class JQuickTake extends WindowAdapter implements WindowListener, ChangeL
 //
   public static void main(String[] args)
   {
-	boolean tvDebug;
 	
-	tvDebug = false;
-	
-	if (args.length > 0 && args[0].equals("debug"))
-		tvDebug = true;
 	try
 	{
 		UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
@@ -333,7 +545,7 @@ public class JQuickTake extends WindowAdapter implements WindowListener, ChangeL
 		e.printStackTrace();
     }
 	
-	JQuickTake client = new JQuickTake(tvDebug);
+	JQuickTake client = new JQuickTake();
   }
 
 }

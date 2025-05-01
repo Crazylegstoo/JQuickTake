@@ -519,8 +519,6 @@ public class ControlGUI extends JQuickTakePanel implements ActionListener, KeyLi
 
 	public void deletePictures()
 	{
-		ivDebugLog.textOut(this,"ABOUT TO DELETE IMAGES");
-		
 		ivImageRoll.deleteImages();
 		
 		ivTakenCount.setText(ivCamera.getTaken());
@@ -634,8 +632,6 @@ public class ControlGUI extends JQuickTakePanel implements ActionListener, KeyLi
 		tvDateTimeArr[3] = (byte)tvDateTime.getHour();
 		tvDateTimeArr[4] = (byte)tvDateTime.getMinute();
 		tvDateTimeArr[5] = (byte)tvDateTime.getSecond();
-
-		ivDebugLog.hexOut(this,"LOCAL DATETIME ",tvDateTimeArr);
 		
 		ivCamera.updateDateTime(tvDateTimeArr);
 
@@ -663,10 +659,6 @@ public class ControlGUI extends JQuickTakePanel implements ActionListener, KeyLi
 		tvName = ivName.getText().trim();
 		
 		tvNameBytes = tvName.getBytes();
-		
-		ivDebugLog.hexOut(this,"Name text area: ", tvNameBytes);
-		
-		ivDebugLog.textOut(this,"Name text area: " + tvName);
 		
 		if(tvNameBytes.length > 32)
 		{

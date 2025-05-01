@@ -1,4 +1,4 @@
-﻿# JQuickTake - Apple QuickTake Manager v1.2
+﻿# JQuickTake - Apple QuickTake Manager v1.3
 
 ***“I think that this situation absolutely requires a really futile and stupid gesture be done on somebody’s part.”*** - Otter (*Animal House - 1978*)
 
@@ -160,10 +160,10 @@ If you have a question, or just want to virtually point and laugh:
 
 Reddit - https://www.reddit.com/user/Crazylegstoo/
 
-Email - crazylegstoo@gmail.com
+Email - jquicktake@gmail.com
 
 Many Thanks, and I truly hope JQuickTake actually works. ;)
 
-**Kevin Godin** - London, Ontario, Canada (2024)
+**K. Godin** - London, Ontario, Canada (2024)
 
 

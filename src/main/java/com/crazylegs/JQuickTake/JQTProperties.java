@@ -37,20 +37,9 @@ public class JQTProperties
 		String rootPath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
 		String appConfigPath = rootPath + "config.properties";
 
-//		ivResource = ClassLoader.getSystemClassLoader().getResource("config.properties");
-
-//		ivFile = Paths.get(ivResource.toURI()).toFile();
-
-//		ivInput = new FileInputStream(ivFile);
-
         ivProps = new Properties();
 		
 		ivProps.load(new FileInputStream(appConfigPath));
-
-
-//		ivProps.load(ivInput);
-		
-		System.out.println("JQT ivProps: " + ivProps);
 			  
 	}  catch (Exception e) 
 		{ 

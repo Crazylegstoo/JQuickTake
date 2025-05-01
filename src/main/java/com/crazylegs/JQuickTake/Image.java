@@ -46,6 +46,8 @@ public class Image
 	
 	ivDebugLog = (DebugLog)Environment.getValue("DebugLog");
 
+	ivDebugLog.textOut("Image object being created for picture #" + imageNum);
+
 	this.setImageNum(imageNum);
 	
 	this.setCameraModel(model);
@@ -55,7 +57,6 @@ public class Image
 	ivSaveName = "IMAGE" + String.format("%02d",this.getImageNum());
 
 	ivFileSeparator = System.getProperty("file.separator");
-
 
 	return;
   }
@@ -77,7 +78,7 @@ public class Image
 	tvBuffer = ByteBuffer.wrap(tvSubArray); 
 	ivImageSize = tvBuffer.getInt();
 	
-	 ivDebugLog.textOut(this,"Image Size: " + ivImageSize);
+	 ivDebugLog.textOut("Image Size: " + ivImageSize + " bytes");
 
 // Parse image width in pixels from header 
 
@@ -88,7 +89,7 @@ public class Image
 	tvBuffer = ByteBuffer.wrap(tvSubArray); 
 	ivImageWidth = tvBuffer.getInt();
 	
-	 ivDebugLog.textOut(this,"Image Width: " + ivImageWidth);
+	 ivDebugLog.textOut("Image Width: " + ivImageWidth);
 
 // Parse image height in pixels from header 
 
@@ -99,7 +100,7 @@ public class Image
 	tvBuffer = ByteBuffer.wrap(tvSubArray); 
 	ivImageHeight = tvBuffer.getInt();
 	
-	 ivDebugLog.textOut(this,"Image Width: " + ivImageHeight);
+	 ivDebugLog.textOut("Image Height: " + ivImageHeight);
 
 // Parse Timestamp
 
@@ -114,7 +115,7 @@ public class Image
 
 	ivDisplayTime = String.format("%02d",ivHour) + ":" + String.format("%02d",ivMinute) + ":" + String.format("%02d",ivSecond); 
 	
-	ivDebugLog.textOut(this, "Image Date (dd/mm/yy): " + ivDisplayDate + "   Time: " + ivDisplayTime);
+	ivDebugLog.textOut( "Image Date (dd/mm/yy): " + ivDisplayDate + "   Time: " + ivDisplayTime);
 	
 // Parse Flash mode
 
@@ -123,7 +124,7 @@ public class Image
 	if(header[19] == 1)
 		ivFlashUsed = true;
 
-	ivDebugLog.textOut(this,"Flash mode: " + ivFlashUsed);
+	ivDebugLog.textOut("Flash used for image is: " + ivFlashUsed);
 		
 // Parse Quality mode
 	
@@ -140,14 +141,10 @@ public class Image
 			break;
 	}
 
-	ivDebugLog.textOut(this,"Quality mode: " + ivQualityMode);
+	ivDebugLog.textOut("Quality mode: " + ivQualityMode);
 
 	ivImageHeader = new byte[header.length];
 	System.arraycopy(header,0,ivImageHeader,0,header.length);	
-	
-	ivDebugLog.hexOut(this,"Saved Header Hex: ",ivImageHeader);
-	
-	ivDebugLog.textOut(this,"Saved Header RAW: " + ivImageHeader);
 	  
 	  return;
   }  
@@ -207,12 +204,14 @@ public class Image
 	  {
 		  tvFile = new File(tvName);
 		  
-		  ivDebugLog.textOut(this,"Save to file: " + tvName);
+		  ivDebugLog.textOut("Save to file: " + tvName);
 		  
 		  if(tvFile.exists())   // If file exists, delete the current file
 		  {
 				tvFile.delete();
 		  }
+
+		ivDebugLog.textOut("Image will be written at " + tvName);
 		  
 		tvFile.createNewFile();
 		  
@@ -358,7 +357,7 @@ public class Image
 	  ivImageData = new byte[image.length];
 	  System.arraycopy(image,0,ivImageData,0,image.length);
 	  
-//	  ivDebugLog.hexOut(this,"Image :",ivImageData);
+	  ivDebugLog.hexOut("Image :",ivImageData);
 	  
 	  return;
   }
@@ -368,7 +367,7 @@ public class Image
 	  ivThumbData = new byte[thumb.length];
 	  System.arraycopy(thumb,0,ivThumbData,0,thumb.length);
 	  
-//	  ivDebugLog.hexOut(this,"Image :",ivThumbData);
+	  ivDebugLog.hexOut("Image :",ivThumbData);
 	  
 	  return;
   }

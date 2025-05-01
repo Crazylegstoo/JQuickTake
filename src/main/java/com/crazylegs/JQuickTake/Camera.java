@@ -119,6 +119,8 @@ public class Camera
 		ivCOMPorts = null;
 	}
 
+	ivDebugLog.textOut("Ports detected: " + Arrays.toString(ivCOMPorts));
+
 	return ivCOMPorts;
   }
 
@@ -129,16 +131,19 @@ public class Camera
   public void openCamera()
   {
 
-	boolean tvCOMOpen;
+	boolean tvSetPort, tvCOMOpen, tvClearDTR, tvAwake;
 	
-	int		tvPortSpeed;
+	int		tvPortSpeed, i, tvWaketime;
 
 	tvCOMOpen = false;
 
 // If the camera has a previous open session, close it and start a new session
 
 	if(this.getOpenStatus())
+	{
+		ivDebugLog.textOut("Camera was already open, so closing for new Open session");
 		this.closeCamera();
+	}
 
 // Create a COM port instance according to user-selected COM port#
 
@@ -146,50 +151,68 @@ public class Camera
 
 	Environment.setValue("CameraPort",ivCameraPort);
 
-	ivDebugLog.textOut(this,"New Port: " + ivCameraPort);
-
-	ivDebugLog.textOut(this,"New SelectCOMPort " + (String)Environment.getValue("COMPort"));
-
 	int QTbaud = ivCameraPort.getBaudRate();
 	int QTdata = ivCameraPort.getNumDataBits();
 	int QTstop = ivCameraPort.getNumStopBits();
 	int QTparity = ivCameraPort.getParity();	
-	ivDebugLog.textOut(this,(String)Environment.getValue("COMPort") + " Baud " + QTbaud + "  DataBits " + QTdata + "  StopBits " + QTstop + "  Parity " + QTparity);
+
+	ivDebugLog.textOut("Serial Port created with: " +(String)Environment.getValue("COMPort") + " Baud " + QTbaud + "  DataBits " + QTdata + "  StopBits " + QTstop + "  Parity " + QTparity);
 
 // Initially, open COM port at 9600 baud, 8 bits, 1 stop bit, no parity
 
-	ivCameraPort.setComPortParameters(9600,8,1,SerialPort.NO_PARITY);
+	tvSetPort = ivCameraPort.setComPortParameters(9600,8,1,SerialPort.NO_PARITY);
+	
+	ivDebugLog.textOut("Serial Port set parms is " + tvSetPort);
 	
 	tvCOMOpen = ivCameraPort.openPort();
 	
-	ivDebugLog.textOut(this,"COM Port Open is " + tvCOMOpen);
+	ivDebugLog.textOut("Serial Port Open is " + tvCOMOpen);
 
 // Clear DTR on COM port, which is the trigger that causes the camera to 'wake up' for communications
 
-	ivCameraPort.clearDTR();
+	tvClearDTR = ivCameraPort.clearDTR();
 
-	ivDebugLog.textOut(this,"DTR Cleared");
+	ivDebugLog.textOut("DTR Cleared is " + tvClearDTR);
 
-// Sleep to give the camera time to respond and then attempt to read 7 bytes that camera will send when worken up. If no bytes are
+// Sleep to give the camera time to respond - i.e. 'wake up'. Every 1/10 second check for a response up to a total of 10 seconds.
+// If the camera wakes up, attempt to read 7 bytes that camera will send when woken up. If no bytes are
 // available to read at this point, throw an exception and do nothing else. This is likely because
 // the camera is not switched on or an invalid COM port was selected by the user.
 
 	this.setOpenStatus(false);
 	
-	try {
-		Thread.sleep(100);
-	} catch (Exception e) { e.printStackTrace(); } 
+	tvAwake = false;
+	
+	for (i = 0; i < 100; i++)
+	{
+		if (ivCameraPort.bytesAvailable() < 1)
+		{
+			try {
+				Thread.sleep(100);
+			} catch (Exception e) { e.printStackTrace(); } 
+		} else
+		{
+			tvAwake = true;
+			break;
+		}
+	}
 
-	if (ivCameraPort.bytesAvailable() < 1)
+	if (!tvAwake)
 	{
 		ivCameraPort.closePort();
+		
+		tvWaketime = i * 100;
+		
+		ivDebugLog.textOut("Camera did not wake up after clearDTR. Wait time for wake up was " + String.format("%,d", tvWaketime) + "ms");
 	} else
 	{
-		ivDebugLog.textOut(this,"Camera Open has bytes to read: " + ivCameraPort.bytesAvailable());
+		tvWaketime = i * 100;
+		
+		ivDebugLog.textOut("Camera awake within " + String.format("%,d", tvWaketime) + "ms and has " + ivCameraPort.bytesAvailable() + " bytes to read.");
 
 		this.readCamera(0,7,true);
 
-		ivDebugLog.hexOut(this,"Post DTR bytes: ",ivReadBuffer);
+		ivDebugLog.hexOut("Awake bytes read",ivReadBuffer);
 
 
 // Parse out the Camera model from the camera response. If byte 4 is 0xC8, it's a QT150, otherwise it's a QT100. This is important to know
@@ -211,11 +234,7 @@ public class Camera
 // Reply to the camera to indicate it's time to open a session. Adjust bytes 6 and 7 to reflect the user-requested port speed.
 // Byte 12 is set to the appropriate checksum. Note the default Open cmd is for 9600 baud
 
-		ivDebugLog.textOut(this,"ENVIRONMENT PORT SPEED: " + (String)Environment.getValue("PortSpeed"));
-
 		tvPortSpeed = Integer.parseInt((String)Environment.getValue("PortSpeed"));
-
-		ivDebugLog.textOut(this,"OpenCamera Select Port Speed " + tvPortSpeed);
 
 		switch(tvPortSpeed) 
 		{
@@ -245,19 +264,21 @@ public class Camera
 
 		this.writeCamera(ivOpenCmd);
 
-		ivDebugLog.textOut(this,"Wrote " + ivBufferLength + "  > " + ivOpenCmd.length);
+		ivDebugLog.hexOut("Wrote Open command", ivOpenCmd);
 
 // Wait a short time and then read 10 throwaway bytes from the camera. Note that bytes 3 and 4 should
 // match the Open cmd bytes 6 and 7.
 
 		this.readCamera(50,10,true);
 		
-		ivDebugLog.hexOut(this,"Read again " + ivBufferLength + " bytes: ",ivReadBuffer);
+		ivDebugLog.hexOut("Read Open response", ivReadBuffer);
 
 // Computer must now set the COM port to EVEN parity and then sleep for 1 second before 
 // finalizing the port speed adjustment
 
-		ivCameraPort.setParity(SerialPort.EVEN_PARITY);
+		tvSetPort = ivCameraPort.setParity(SerialPort.EVEN_PARITY);
+		
+		ivDebugLog.textOut("Camera set to Even Parity is " + tvSetPort);
 
 		try {
 			Thread.sleep(1000);
@@ -270,8 +291,6 @@ public class Camera
 		this.setOpenStatus(true);
 		
 	}
-		
-	ivDebugLog.textOut(this,"OPEN ivCameraPort: " + ivCameraPort);
 
 	return;
   }
@@ -288,7 +307,8 @@ public class Camera
 		ivCameraPort = (SerialPort)Environment.getValue("CameraPort");
 
 		ivCameraPort.closePort();
-		ivDebugLog.textOut(this,"Port Closed");
+		
+		ivDebugLog.textOut("Camera closed");
 	
 		this.setOpenStatus(false);
 	}
@@ -306,8 +326,7 @@ public class Camera
 
 	ivCameraPort = (SerialPort)Environment.getValue("CameraPort");
 
-	ivDebugLog.textOut(this,"PORT ivCameraPort: " + ivCameraPort);
-	ivDebugLog.textOut(this,"SetPortSpeed Select Port Speed " + portSpeed);
+	ivDebugLog.textOut("User-selected Port Speed is " + portSpeed);
 
 // modify the port speed command according to user-selected port speed
 
@@ -330,52 +349,46 @@ public class Camera
 			break;
 	}
 
-	ivDebugLog.hexOut(this,"Port Speed Byte: ",ivPortSpeedCmd);		
-		
 	this.pingCamera();		// Ping the camera to make sure it's there and ready
 
 	this.writeCamera(ivPortSpeedCmd);
 
-	ivDebugLog.textOut(this,"Wrote " + ivBufferLength + "  > " + ivPortSpeedCmd.length);
+	ivDebugLog.hexOut("Wrote Port Speed change command", ivPortSpeedCmd);
 
 // Camera should send a 1 byte ACK, to which the computer will respond with a 1 byte ACK
 
 	this.readCamera(50,1,true);
-
-	ivDebugLog.textOut(this,"CAM ACK BYTES READ " + ivBufferLength);
-
-	ivDebugLog.hexOut(this,"CAM ACK HERE IS WHAT YOU WROTE > ",ivCompACKCmd);
+		
+	ivDebugLog.hexOut("Read Port Speed ACK response", ivCompACKCmd);
 
 	this.writeCamera(ivCompACKCmd);
 
-	ivDebugLog.textOut(this,"COMP ACK Wrote " + ivBufferLength + "  > " + ivCompACKCmd.length);
+	ivDebugLog.hexOut("Wrote ACK back to Camera", ivCompACKCmd);
 
 // Sleep then toggle the COM port to the selected speed so that camera and computer are using the same speed
 
 	try {
-		Thread.sleep(150);
+		Thread.sleep(100);
 	} catch (Exception e) { e.printStackTrace(); } 
 	
-	if(!ivCameraPort.setBaudRate(portSpeed))
-		ivDebugLog.textOut(this,"BAUD NOT SET");
+	if(ivCameraPort.setBaudRate(portSpeed))
+		ivDebugLog.textOut("Baud rate is now set to " + portSpeed);
 
 // The camera will respond with 1024 bytes of 0xAA that needs to read and then thrown away
 
 	this.readCamera(50,1024,false);
 
-	ivDebugLog.hexOut(this,"Read again " + ivBufferLength + " bytes: ",ivReadBuffer);
+	ivDebugLog.textOut("Read of 0xAA filler: " + ivBufferLength + " bytes: ");
 
 // ACK to camera that data received, then read camera's ACK
 
-	ivDebugLog.hexOut(this,"HERE IS WHAT YOU WROTE > ",ivCompACKCmd);
-
 	this.writeCamera(ivCompACKCmd);
 
-	ivDebugLog.textOut(this,"Wrote " + ivBufferLength + "  > " + ivCompACKCmd.length);
+	ivDebugLog.hexOut("ACK sent to camera", ivCompACKCmd);
 
 	this.readCamera(50,1,true);
 
-	ivDebugLog.textOut(this,"BYTES READ " + ivBufferLength);
+	ivDebugLog.hexOut("Read ACK results from camera ",ivReadBuffer);
 
 	try {
 		Thread.sleep(100);
@@ -400,21 +413,23 @@ public class Camera
 
 // Send the ping command to the camera
 
-	ivDebugLog.hexOut(this,"HERE IS WHAT YOU WROTE AGAIN > ",ivPingCmd);
-	ivDebugLog.textOut(this,"PING ivCameraPort: " + ivCameraPort);
+	ivDebugLog.textOut("PING camera at port: " + ivCameraPort);
 
 	this.writeCamera(ivPingCmd);
 
-	ivDebugLog.textOut(this,"Wrote " + ivBufferLength + "  > " + ivPingCmd.length);
+	ivDebugLog.textOut("Wrote PING command");
 
 // Now wait for the camera to ACK the ping
 
 	this.readCamera(50,1,true);
 	
-	ivDebugLog.hexOut(this,"Read last" + ivBufferLength + " bytes: ",ivReadBuffer);
+	ivDebugLog.hexOut("PING results", ivReadBuffer);
 	
 	if(ivReadBuffer[0] == ivCameraACKResp[0])
+	{
+		ivDebugLog.textOut("PING was successful!");
 		tvPing = true;
+	}
 
 	return tvPing;
   }
@@ -433,30 +448,30 @@ public class Camera
 	
 
 	ivCameraPort = (SerialPort)Environment.getValue("CameraPort");
-	
-	ivDebugLog.textOut(this,"ABOUT TO AQUIRE");
 
 // Send the metadata command to the camera and then read the 1-byte camera ACK response
 		
 //	this.pingCamera();		
 
+	ivDebugLog.textOut("Sending Metadata request to camera");
+
 	this.writeCamera(ivMetadataCmd);
 
 	this.readCamera(50,1,true);
 	
-	ivDebugLog.hexOut(this,"Camera Info " + ivBufferLength + " bytes: ",ivReadBuffer);		
+	ivDebugLog.hexOut("Metadata request response", ivReadBuffer);		
 
 // Acknowledge to camera that metadata was received
+
+	ivDebugLog.textOut("Sending ACK to camera");
 
 	this.writeCamera(ivCompACKCmd);
 
 // Read 128 of camera response data
 
 	this.readCamera(50,128,true);
-
-	ivDebugLog.hexOut(this,"Camera Info Hex " + ivReadBuffer.length + " bytes: ",ivReadBuffer);
 	
-	ivDebugLog.textOut(this,"Camera info RAW: " + ivReadBuffer);
+	ivDebugLog.hexOut("Camera metadata received", ivReadBuffer);
 
 // Parse out the Data and Time from metadata
 
@@ -513,9 +528,9 @@ public class Camera
 			break;
 	}
 
-	ivDebugLog.textOut(this, "Camera Date (dd/mm/yy): " + tvDay + "/" + tvMonth + "/" + tvYear + "   Time: " + tvHour + ":" + tvMinute);
-	ivDebugLog.textOut(this,"Battery Level " + tvLevel + "%   Pics Taken:" + tvTaken + "  Remaining:" + tvRemain);
-	ivDebugLog.textOut(this,"QUALITY HIGH? " + this.getQualityHigh());
+	ivDebugLog.textOut( "Camera Date (dd/mm/yy): " + tvDay + "/" + tvMonth + "/" + tvYear + "   Time: " + tvHour + ":" + tvMinute);
+	ivDebugLog.textOut("Battery Level " + tvLevel + "%   Pics Taken:" + tvTaken + "  Remaining:" + tvRemain);
+	ivDebugLog.textOut("QUALITY HIGH? " + this.getQualityHigh());
 
 // Set Class instance vars that can later be accessed by other classes
 
@@ -533,7 +548,7 @@ public class Camera
 	tvName = new String(tvNameArray);
 	this.setName(tvName);
 
-	ivDebugLog.textOut(this,"Camera Name: " + tvName);
+	ivDebugLog.textOut("Camera Name: " + tvName);
 	
 	return;
 
@@ -549,8 +564,6 @@ public class Camera
 	Image tvImage;
 
 	ivCameraPort = (SerialPort)Environment.getValue("CameraPort");
-	
-	ivDebugLog.textOut(this,"ABOUT TO GET PHOTO HEADER");
 
 // First get the image header. Modify the GetImageHeader command to contain the specific image# to read. 
 // Then send the command to the camera and then read the 1-byte camera ACK response
@@ -561,17 +574,25 @@ public class Camera
 
 	ivGetImageHeaderCmd[6] = (byte)imageNum;
 
+	ivDebugLog.textOut("Write request for image #" + imageNum + " Header data");
+
 	this.writeCamera(ivGetImageHeaderCmd);
 	
 	this.readCamera(50,1,true);
 	
+	ivDebugLog.hexOut("Read camera ACK response", ivReadBuffer);
+	
 // Acknowledge to camera that ACK was received
 
 	this.writeCamera(ivCompACKCmd);
+
+	ivDebugLog.textOut("ACK sent to camera");
 	
 // Read the actual header data
 
 	this.readCamera(50,64,true);
+
+	ivDebugLog.textOut(ivReadBuffer.length + " bytes of Image Header data read");
 	
 // create a new Image object
 
@@ -604,14 +625,20 @@ public class Camera
 	ivGetImageThumbCmd[6] = (byte)image.getImageNum();
 
 //	this.pingCamera();
+
+	ivDebugLog.textOut("Write request for image #" + image.getImageNum() + " Thumbnail data");
 	
 	this.writeCamera(ivGetImageThumbCmd);
 	
 	this.readCamera(50,1,true);
 	
+	ivDebugLog.hexOut("Read camera ACK response", ivReadBuffer);
+	
 // Acknowledge to camera that ACK was received
 
 	this.writeCamera(ivCompACKCmd);
+
+	ivDebugLog.textOut("ACK sent to camera");
 		
 // Read the actual thumbnail data. It will be 2400 bytes of data, read to 512-byte chunks
 
@@ -627,14 +654,15 @@ public class Camera
 	
 	while (!tvThumbComplete)
 	{
-		ivDebugLog.textOut(this,"tranferThumb ABOUT TO READ");
+		ivDebugLog.textOut("Asking for a block of thumbnail data");
+
 		this.readCamera(50,tvBufferToRead,true);
 		
 		System.arraycopy(ivReadBuffer,0,tvThumbData,tvBytesRead,ivBufferLength);
 		
 		tvBytesRead = tvBytesRead + ivReadBuffer.length;	
 		
-		ivDebugLog.textOut(this,"transferThumb UPDATED BYTES READ: " + tvBytesRead);
+		ivDebugLog.textOut("Read " + tvBytesRead + " bytes of Thumbnail data");
 
 		if(ivBufferLength < 512)
 		{
@@ -646,11 +674,13 @@ public class Camera
 			if((tvThumbSize - tvBytesRead) < 512)
 				tvBufferToRead = tvThumbSize - tvBytesRead;
 
-			ivDebugLog.textOut(this,"tranferThumb ACK SENT: " );
+			ivDebugLog.textOut("ACK sent to camera" );
 
 		}
 
 	}
+
+	ivDebugLog.textOut(tvThumbData.length + " bytes of Thumbnail data to give to Image object");
 	
 	image.setThumbData(tvThumbData);
 	
@@ -686,14 +716,20 @@ public class Camera
 	ivGetImageImageCmd[9] = tvImageSizeBytes[2];
 		
 //	this.pingCamera();		
+
+	ivDebugLog.hexOut("Write request for image data",  ivGetImageImageCmd);
 	
 	this.writeCamera(ivGetImageImageCmd);
 	
 	this.readCamera(50,1,true);
+
+	ivDebugLog.textOut("ACK received from camera");
 	
 // Acknowledge to camera that ACK was received
 
 	this.writeCamera(ivCompACKCmd);
+
+	ivDebugLog.textOut("ACK sent to camera");
 		
 // Read the actual image data according the image size found the in the header. The data will be read in 512-byte chunks, and after each chunk 
 // is read, a progress bar will be updated
@@ -714,24 +750,19 @@ public class Camera
 	
 	while (!tvImageComplete)
 	{
+		ivDebugLog.textOut("Asking for a block of Image data");
 
 		this.readCamera(50,tvBufferToRead,true);
 		
 		System.arraycopy(ivReadBuffer,0,tvImageData,tvBytesRead,ivBufferLength);
 		
-//		ivDebugLog.textOut(this,"tranferImage BYTES READ: " + ivReadBuffer.length + "    tvBytesRead: " + tvBytesRead);
-//		ivDebugLog.hexOut(this,"tranferImage buffer: ", ivReadBuffer);
-//		ivDebugLog.hexOut(this,"tranferImage accum : ", tvImageData);
-		
 		tvBytesRead = tvBytesRead + ivReadBuffer.length;
 
 		tvProgressStep = ((float)tvBytesRead/(float)tvImageSize)*100;  // Calc how much of the image has been read so far
 		
-//		ivDebugLog.textOut(this,"PROGRESS: BytesRead " + tvBytesRead + "     ImageSize " + tvImageSize + "     Progress " + tvProgressStep);
+		ivDebugLog.textOut("Image read progress. Bytes read: " + tvBytesRead + "  ImageSize " + tvImageSize);
 
 		progress.setValue(Math.round(tvProgressStep));   // Update progress bar
-		
-//		ivDebugLog.textOut(this,"tranferImage UPDATED BYTES READ: " + tvBytesRead);
 
 		if(ivBufferLength < 512)
 		{
@@ -744,13 +775,14 @@ public class Camera
 			if((tvImageSize - tvBytesRead) < 512)
 				tvBufferToRead = tvImageSize - tvBytesRead;
 
-//			ivDebugLog.textOut(this,"tranferImage ACK SENT: " );
+			ivDebugLog.textOut("ACK sent to camera" );
 
 		}
 
 	}
 	
-//	ivDebugLog.hexOut(this,"Read Image Data: ",tvImageData);
+
+	ivDebugLog.textOut(tvImageData.length + " bytes of Image data to give to Image object");
 	
 	image.setImageData(tvImageData);
 	
@@ -775,10 +807,6 @@ public class Camera
 	byte[]	tvAccumBuffer = {0x00};
 
 	tvBytesRead = 0;
-
-//		ivDebugLog.textOut(this,"readCamera  waitTime: " + waitTime);
-//		ivDebugLog.textOut(this,"readCamera  bufferLength: " + bufferLength);
-//		ivDebugLog.textOut(this,"readCamera  accum: " + accum);
 	
 	if(accum)
 		tvAccumBuffer = new byte[bufferLength];
@@ -791,18 +819,12 @@ public class Camera
 			while (ivCameraPort.bytesAvailable() == 0)
 				Thread.sleep(waitTime);
 		} catch (Exception e) { e.printStackTrace(); } 
-
-//		ivDebugLog.textOut(this,"readCamera bytes to read: " + ivCameraPort.bytesAvailable());
 		
 		ivReadBuffer = new byte[ivCameraPort.bytesAvailable()];
 		ivBufferLength = ivCameraPort.readBytes(ivReadBuffer, ivReadBuffer.length);	
 
 		if(accum)
 			System.arraycopy(ivReadBuffer,0,tvAccumBuffer,tvBytesRead,ivBufferLength);
-				
-//		ivDebugLog.textOut(this,"readCamera BYTES READ: " + ivReadBuffer.length + "    tvBytesRead: " + tvBytesRead);
-//		ivDebugLog.hexOut(this,"readCamera buffer: ", ivReadBuffer);
-//		ivDebugLog.hexOut(this,"readCamera accum : ", tvAccumBuffer);
 		
 		tvBytesRead = tvBytesRead + ivReadBuffer.length;		
 			
@@ -859,16 +881,13 @@ public class Camera
 
 	this.writeCamera(ivUpdateFlashCmd);
 
-	ivDebugLog.textOut(this,"Update Flash " + ivBufferLength + "  > " + ivUpdateFlashCmd.length);
+	ivDebugLog.hexOut("Write Update Flash Mode command", ivUpdateFlashCmd);
 
 // Now wait for the camera to ACK
 
 	this.readCamera(50,1,true);
 	
-	ivDebugLog.hexOut(this,"Update Flash Read last" + ivBufferLength + " bytes: ",ivReadBuffer);
-	
-//	if(ivReadBuffer[0] == ivCameraACKResp[0])
-//	tvSuccess = true;
+	ivDebugLog.hexOut("Read ACK for Flash Mode", ivReadBuffer);
 	
 	this.acquireMetaData();
 
@@ -902,16 +921,13 @@ public class Camera
 
 	this.writeCamera(ivUpdateNameCmd);
 
-	ivDebugLog.textOut(this,"Update Name " + ivBufferLength + "  > " + ivUpdateNameCmd.length);
+	ivDebugLog.hexOut("Write Update Name", ivReadBuffer);
 
 // Now wait for the camera to ACK
 
 	this.readCamera(50,1,true);
 	
-	ivDebugLog.hexOut(this,"Update Name last" + ivBufferLength + " bytes: ",ivReadBuffer);
-	
-//	if(ivReadBuffer[0] == ivCameraACKResp[0])
-//	tvSuccess = true;
+	ivDebugLog.hexOut("Read ACK for Update Name" + ivBufferLength + " bytes: ",ivReadBuffer);
 	
 	this.acquireMetaData();
 
@@ -938,13 +954,13 @@ public class Camera
 
 	this.writeCamera(ivUpdateDateTimeCmd);
 
-	ivDebugLog.textOut(this,"Update DateTime " + ivBufferLength + "  > " + ivUpdateNameCmd.length);
+	ivDebugLog.hexOut("Write Update DateTime ", ivUpdateNameCmd);
 
 // Now wait for the camera to ACK
 
 	this.readCamera(50,1,true);
 	
-	ivDebugLog.hexOut(this,"Update Date Time last" + ivBufferLength + " bytes: ",ivReadBuffer);
+	ivDebugLog.hexOut("ACK for Update Date Time", ivReadBuffer);
 	
 	this.acquireMetaData();
 
@@ -962,11 +978,15 @@ public class Camera
 
 	ivCameraPort = (SerialPort)Environment.getValue("CameraPort");
 
+	ivDebugLog.textOut("Write command to take a picture");
+
 	this.writeCamera(ivTakePictureCmd);
 
 // Now wait for the camera to ACK
 
 	this.readCamera(50,1,true);
+
+	ivDebugLog.textOut("Read ACK for Take Picture");
 				
 	tvInt = Integer.parseInt(this.getTaken());
 	this.setTaken(tvInt+1);
@@ -996,18 +1016,15 @@ public class Camera
 		ivUpdateQualityCmd[13] = (byte)0x20;
 	}
 
-	this.writeCamera(ivUpdateQualityCmd);
+	ivDebugLog.hexOut("Write Update Quality command", ivUpdateQualityCmd);
 
-	ivDebugLog.textOut(this,"Update Quality " + ivBufferLength + "  > " + ivUpdateQualityCmd.length);
+	this.writeCamera(ivUpdateQualityCmd);
 
 // Now wait for the camera to ACK
 
 	this.readCamera(50,1,true);
 	
-	ivDebugLog.hexOut(this,"Update Quality Read last" + ivBufferLength + " bytes: ",ivReadBuffer);
-	
-//	if(ivReadBuffer[0] == ivCameraACKResp[0])
-//	tvSuccess = true;
+	ivDebugLog.textOut("ACK read for Update Quality Read last");
 	
 	this.acquireMetaData();
 
@@ -1023,11 +1040,15 @@ public class Camera
 
 	ivCameraPort = (SerialPort)Environment.getValue("CameraPort");
 
+	ivDebugLog.textOut("Write command to delete all pictures");
+
 	this.writeCamera(ivDeleteImagesCmd);
 
 // Now wait for the camera to ACK
 
 	this.readCamera(50,1,true);
+
+	ivDebugLog.textOut("REad ACK for delete pictures");
 				
 	this.acquireMetaData();
 
@@ -1055,7 +1076,7 @@ public class Camera
   {
 	  ivCameraModel = model;
 	  
-	  ivDebugLog.textOut(this,"Model is " + ivCameraModel);
+	  ivDebugLog.textOut("Model is " + ivCameraModel);
 	  
 	  return;
   }

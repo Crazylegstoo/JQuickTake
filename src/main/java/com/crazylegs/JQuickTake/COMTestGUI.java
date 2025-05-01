@@ -17,7 +17,8 @@ import javax.swing.border.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
-
+import java.io.*;
+import javax.swing.filechooser.FileSystemView;
 /**
  * @author Kevin Godin
  * @version $Revision: 1.0 $
@@ -53,6 +54,7 @@ public class COMTestGUI extends JQuickTakePanel implements ActionListener, KeyLi
   LockEventMgr	ivLockEventMgr;
   LockEvent		ivLockEvent;
 
+
 //
 // Build the GUI.
 //
@@ -70,7 +72,7 @@ public class COMTestGUI extends JQuickTakePanel implements ActionListener, KeyLi
 	
 	ivLockEventMgr = (LockEventMgr)Environment.getValue("LockEventMgr");
 
-	ivRefresh			= new ImageIcon(ClassLoader.getSystemClassLoader().getResource("Port-Refresh.png"));
+	ivRefresh = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("Port-Refresh.png"));
 	
 	return;
 
@@ -88,9 +90,8 @@ public class COMTestGUI extends JQuickTakePanel implements ActionListener, KeyLi
     this.add(ivPortLabel);
     ivPortLabel.setBounds(10,10,100,25);
 
-	tvCOMPorts = ivCamera.getCOMPorts();	// Get a list of available COM (serial) ports for selection
+	tvCOMPorts = ivCamera.getCOMPorts();	// Get a list of available COM (Serial) ports for selection
 	
-	ivDebugLog.textOut(this,"tvComports: " + tvCOMPorts);
 	if(tvCOMPorts != null && tvCOMPorts.length > 0)
 	{
 		ivPortChoice = new JComboBox<String>(tvCOMPorts);
@@ -99,7 +100,7 @@ public class COMTestGUI extends JQuickTakePanel implements ActionListener, KeyLi
 		ivPortChoice = new JComboBox<String>();
 	}
     this.add(ivPortChoice);
-	ivPortChoice.setToolTipText("Serlect the serial port which the camera is plugged into");
+	ivPortChoice.setToolTipText("Serlect the Serial port which the camera is plugged into");
     ivPortChoice.setBounds(10,40,175,25);
 	ivPortChoice.addActionListener(this);
 
@@ -107,7 +108,7 @@ public class COMTestGUI extends JQuickTakePanel implements ActionListener, KeyLi
 	ivPortRefresh.setBackground(Color.white);
     this.add(ivPortRefresh);
 	ivPortRefresh.setIcon(ivRefresh);
-	ivPortRefresh.setToolTipText("Refesh dropdown list of serial ports");
+	ivPortRefresh.setToolTipText("Refesh dropdown list of Serial ports");
     ivPortRefresh.setBounds(190,40,25,25);
     ivPortRefresh.addActionListener(this);
 	
@@ -117,13 +118,13 @@ public class COMTestGUI extends JQuickTakePanel implements ActionListener, KeyLi
    
     ivSpeedChoice = new JComboBox<String>(ivSpeedList);
     this.add(ivSpeedChoice);
-	ivSpeedChoice.setToolTipText("(Optional) Select port speed for the selected serial port");
+	ivSpeedChoice.setToolTipText("(Optional) Select port speed for the selected Serial port");
     ivSpeedChoice.setBounds(245,40,100,25);
 	ivSpeedChoice.addActionListener(this);
    
     ivConnect = new JButton("Connect");
     this.add(ivConnect);
-	ivConnect.setToolTipText("Connect to the camera based on serial port and port speed");
+	ivConnect.setToolTipText("Connect to the camera based on Serial port and port speed");
     ivConnect.setBounds(370,40,150,25);
     ivConnect.addActionListener(this);
 
@@ -224,12 +225,12 @@ public class COMTestGUI extends JQuickTakePanel implements ActionListener, KeyLi
 	ivTime.setHorizontalAlignment(SwingConstants.CENTER);
     this.add(ivTime);
     ivTime.setBounds(615,185,65,25);
-
+	
 	Environment.setValue("COMPort",(String)ivPortChoice.getSelectedItem());
 	Environment.setValue("PortSpeed",(String)ivSpeedChoice.getSelectedItem());
 	
-	ivDebugLog.textOut(this,"Init COMPort: " + (String)ivPortChoice.getSelectedItem());
-	ivDebugLog.textOut(this,"Init Speed: " + (String)ivSpeedChoice.getSelectedItem());	
+	ivDebugLog.textOut("Init COMPort: " + (String)ivPortChoice.getSelectedItem());
+	ivDebugLog.textOut("Init Speed: " + (String)ivSpeedChoice.getSelectedItem());	
 	
 	  return;
   }
@@ -291,7 +292,7 @@ public class COMTestGUI extends JQuickTakePanel implements ActionListener, KeyLi
 	String tvPortChoice, tvSpeedChoice;
 	
 	String[]	tvCOMPorts;
-	int			tvCount;
+	int			tvCount, tvDirSelect;
 	
 //  Save selected COM Port
 
@@ -314,7 +315,7 @@ public class COMTestGUI extends JQuickTakePanel implements ActionListener, KeyLi
 
     if(ae.getSource() == ivPortRefresh)
     {
-		tvCOMPorts = ivCamera.getCOMPorts();	// Get a list of available COM (serial) ports for selection
+		tvCOMPorts = ivCamera.getCOMPorts();	// Get a list of available COM (Serial) ports for selection
 		
 		ivPortChoice.removeAllItems();
 			
@@ -348,9 +349,6 @@ public class COMTestGUI extends JQuickTakePanel implements ActionListener, KeyLi
 		ivProgress.setModal(true);
 		ivProgress.setVisible(true);
     }
-   	
-  ivDebugLog.textOut(this,"Final COMPort: " + (String)ivPortChoice.getSelectedItem());
-  ivDebugLog.textOut(this,"Final Speed: " + (String)ivSpeedChoice.getSelectedItem());
   
   return;
   
@@ -410,8 +408,6 @@ public class COMTestGUI extends JQuickTakePanel implements ActionListener, KeyLi
 
 	// If unsuccessful in opening a comms session with the camera, display a message to the user about resolving the issue
 
-			ivDebugLog.textOut(this,"QuickTake camera will not open");
-
 			ivLockEvent = new LockEvent(this,false);             // Lock other UI tabs while connect is attempted
 			ivLockEventMgr.notifyListeners(ivLockEvent);
 
@@ -425,8 +421,8 @@ public class COMTestGUI extends JQuickTakePanel implements ActionListener, KeyLi
 			JOptionPane.showMessageDialog(this,
 						"Possible issues to confirm: \n \n01. Check that camera is plugged into your PC. \n \n" + 
 						" 02. Check that camera is turned on. \n \n" +
-						" 03. Select the correct COM port for camera communications. \n \n" +
-						" 04. Verify that COM port is not in use by another application. \n \n",
+						" 03. Select the correct Serial port for camera communications. \n \n" +
+						" 04. Verify that Serial port is not in use by another application. \n \n",
 						"Cannot connect to QuickTake camera on " + tvPortChoice,
 						JOptionPane.ERROR_MESSAGE);	
 
@@ -440,12 +436,12 @@ public class COMTestGUI extends JQuickTakePanel implements ActionListener, KeyLi
 		this.resetView();
 
 		ivStatus.setForeground(Color.RED.darker());
-		ivStatus.setText("No COM ports detected on this computer.");
+		ivStatus.setText("No Serial ports detected on this computer.");
 				
 		ivProgress.dispose();  // Kill the Progress pop-up
 				
 		JOptionPane.showMessageDialog(this,
-					"No COM (Serial) Ports detected on this computer",
+					"No Serial ports detected on this computer",
 					"Cannot connect with QuickTake camera on " + tvPortChoice,
 					JOptionPane.ERROR_MESSAGE);	
 	}	  
@@ -474,8 +470,7 @@ public class COMTestGUI extends JQuickTakePanel implements ActionListener, KeyLi
 		
 	} else 
 	{
-		ivDebugLog.textOut(this,"Cannot ping camera");
-				
+
 		this.resetView();
 	
 		ivStatus.setForeground(Color.RED.darker());

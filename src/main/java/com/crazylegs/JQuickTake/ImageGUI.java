@@ -212,8 +212,6 @@ public class ImageGUI extends JQuickTakePanel implements ActionListener, KeyList
     if(ae.getSource() == ivSaveAll)
     {
 
-		ivDebugLog.textOut(this,"CheckBox state" + ivSaveAll.isSelected());
-
 		if(ivSaveAll.isSelected())
 		{
 			ivImageNum.setEnabled(false);
@@ -236,7 +234,6 @@ public class ImageGUI extends JQuickTakePanel implements ActionListener, KeyList
 
 		if (tvDirSelect == JFileChooser.APPROVE_OPTION)
 		{
-			ivDebugLog.textOut(this,"Folder Chosen: " + ivDirChooser.getSelectedFile().getAbsolutePath());
 			ivSaveDir = ivDirChooser.getSelectedFile();
 			ivSaveDirText.setText(ivSaveDir.getAbsolutePath());
 		}
@@ -273,7 +270,7 @@ public class ImageGUI extends JQuickTakePanel implements ActionListener, KeyList
 			
 				tvImageNum = Integer.parseInt((String)ivImageNum.getSelectedItem());
 				
-				ivDebugLog.textOut(this,"Image selected: " + tvImageNum);
+				ivDebugLog.textOut("Image selected: " + tvImageNum);
 				
 				ivImageRoll.saveImage(tvImageNum,tvDirSelect,tvPrefixSelect,ivProgress);
 				
@@ -281,6 +278,8 @@ public class ImageGUI extends JQuickTakePanel implements ActionListener, KeyList
 						
 			} else
 			{
+				ivDebugLog.textOut("All images selected");
+				
 				ivImageRoll.saveAllImages(tvDirSelect, tvPrefixSelect, ivProgress);	
 			}
 			

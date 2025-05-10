@@ -124,6 +124,8 @@ If JQuickTake is, indeed, showing entries in the *Serial Ports* drop-down on the
 
 Assuming your PC does not have a physical serial port, Serial-to-USB adapters are very common and very cheap. One end plugs into your computer's USB port while the other end of the adapter gives you a standard serial port plug. Once plugged into your computer (and once you install the provided driver software), your computer (and JQuickTake) will think your machine has a serial port. You can then connect your QuickTake cable to your camera and to your shiny new computer serial port and everything should 'just work'. For my efforts, I used a [StarTech adapter](https://www.startech.com/en-ca/cards-adapters/icusb232v2), which can be [bought on Amazon](https://www.amazon.ca/StarTech-com-USB-Serial-Adapter-Prolific/dp/B00GRP8EZU?th=1) and other places. It has drivers that support Windows, Linux, and MacOS.
 
+**NOTE:** there are lots of cheap adapters available with the CH340 chipset. These have been found to not work on both MacOS and Windows.
+
 **NOTES for MacOS Users:** 
  1. If you have a usb-to-serial adapter that is based on the (Prolific) PL2303 chipset, you will need to install drivers. Those drivers may be referenced with you cable documentation or you can check the [Prolific website](https://www.prolific.com.tw/us/showproduct.aspx?p_id=229&pcid=41) for them.
  2. If you have a usb-to-serial adapter that is based on the FTDI chipset, you may need to install drivers provided by FTDI - specifically their VCP driver, which you [can find here](https://www.ftdichip.com/Support/Documents/InstallGuides/Mac_OS_X_Installation_Guide.pdf).

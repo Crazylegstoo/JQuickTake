@@ -100,7 +100,7 @@ No matter how you source your cables, they will require some simple re-wiring to
 
 The best approach to identifying which wire is connected to which pin is using a multi-meter with a Continuity testing function. Put one probe on a pin, and then use the other probe to touch the (bare) wires to determine which wire goes to which pin. With all the wires identified for each plug, you can go about connecting wires according the diagram above.
 
-One last word: While it can be satisfying to build your own cable, it is possible with a bit searching to find pre-built QuickTake serial cables. Here is one [example](https://www.aliexpress.com/i/1005005122483745.html?gatewayAdapt=4itemAdapt).
+One last word: While it can be satisfying to build your own cable, it is possible with a bit searching to find pre-built QuickTake serial cables. Purchased cables should be validated, however, to ensure they are built according to the wiring diagram above.
 
 ## What's a serial port?
 

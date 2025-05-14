@@ -63,9 +63,9 @@ The installation options below allow JQuickTake to use the Java runtime already 
 
 The *easiest path* is to simply download and execute the provided installer:
 
-**Windows** - Download and run ***JQuickTake-1.2.exe*** . This will install JQuickTake as well as a bundled Java Java 17 runtime all in one package. All software will install into ***c:\Program Files\JQuickTake***, create a Start Menu entry, and put a nice retro icon on your Windows desktop.
+**Windows** - Download and run ***JQuickTake-1.3.exe*** . This will install JQuickTake as well as a bundled Java Java 17 runtime all in one package. All software will install into ***c:\Program Files\JQuickTake***, create a Start Menu entry, and put a nice retro icon on your Windows desktop.
 
-**MacOS** - Download and run ***JQuickTake-1.2dmg***. This will install JQuickTake as well as a bundled Java 17 runtime all in one package. It will install just like any other Mac application and can be started up from Finder or Launchpad via clicking on a nice retro icon.
+**MacOS** - Download and run ***JQuickTake-1.3.dmg***. This will install JQuickTake as well as a bundled Java 17 runtime all in one package. It will install just like any other Mac application and can be started up from Finder or Launchpad via clicking on a nice retro icon.
 
 ## Option 2 - Use Your Own Java Runtime
 
@@ -122,13 +122,43 @@ If JQuickTake is, indeed, showing entries in the *Serial Ports* drop-down on the
 
 ## Well, how do I get a serial port?
 
-Assuming your PC does not have a physical serial port, Serial-to-USB adapters are very common and very cheap. One end plugs into your computer's USB port while the other end of the adapter gives you a standard serial port plug. Once plugged into your computer (and once you install the provided driver software), your computer (and JQuickTake) will think your machine has a serial port. You can then connect your QuickTake cable to your camera and to your shiny new computer serial port and everything should 'just work'. For my efforts, I used a [StarTech adapter](https://www.startech.com/en-ca/cards-adapters/icusb232v2), which can be [bought on Amazon](https://www.amazon.ca/StarTech-com-USB-Serial-Adapter-Prolific/dp/B00GRP8EZU?th=1) and other places. It has drivers that support Windows, Linux, and MacOS.
+Assuming your PC does not have a physical serial port, Serial-to-USB adapters are very common and fairly cheap. One end plugs into your computer's USB port while the other end of the adapter gives you a standard serial port plug. Once plugged into your computer (and once you install any required driver software), your computer (and JQuickTake) will think your machine has a serial port. You can then connect your QuickTake cable to your camera and to your shiny new computer serial port and everything should 'just work'. 
 
-**NOTES for MacOS Users:** 
- 1. If you have a usb-to-serial adapter that is based on the (Prolific) PL2303 chipset, you will need to install drivers. Those drivers may be referenced with you cable documentation or you can check the [Prolific website](https://www.prolific.com.tw/us/showproduct.aspx?p_id=229&pcid=41) for them.
- 2. If you have a usb-to-serial adapter that is based on the FTDI chipset, you may need to install drivers provided by FTDI - specifically their VCP driver, which you [can find here](https://www.ftdichip.com/Support/Documents/InstallGuides/Mac_OS_X_Installation_Guide.pdf).
+However.... There are a multitude of usb-to-serial adapters that can be bought very inexpensively from various online retailers. Furthermore, there appear to be 3 types of adapters on the market, with each type using a different chip technology to provide serial port behaviour. Knowing which is which is important, and it is generally beneficial to buy a 'name brand' when possible (even if it costs a few dollars more). The 3 types are as follows:
 
+**Prolific (PL2303) adapters** - All of my development of JQuickTake has been with a Prolific-based adapter. The one I use is a [StarTech adapter](https://www.startech.com/en-ca/cards-adapters/icusb232v2), which can be [bought on Amazon](https://www.amazon.ca/StarTech-com-USB-Serial-Adapter-Prolific/dp/B00GRP8EZU?th=1) and other places. It has drivers that support Windows, Linux, and MacOS. You will need to install the drivers manually. If the drivers are not referenced in your adapter cable documentation, you can download them manually from the Prolific website. Windows drivers [are here](https://www.prolific.com.tw/us/showproduct.aspx?p_id=225&pcid=41), while MacOS drivers can be [found here](https://www.prolific.com.tw/us/showproduct.aspx?p_id=229&pcid=41).
 
+**FTDI (FT232RL) adapter** - I have tested JQuickTake on both Windows and MacOS using this type of adapter, and the one that has worked for me is a [DTech adapter](https://www.amazon.ca/dp/B09BVM6TDS?ref=ppx_yo2ov_dt_b_fed_asin_title&th=1), which can be bought on Amazon. On Windows, the drivers should be automatically installed. On MacOS, the FTDI drivers are built into MacOS. However, if you want/need to manually install the drivers for this type of adapter cable, you can find the FTDI VCP drivers for [WIndows here](https://ftdichip.com/drivers/vcp-drivers/), while the MacOS install instructions for VCP drivers [can found here](https://www.ftdichip.com/Support/Documents/InstallGuides/Mac_OS_X_Installation_Guide.pdf).
+
+**CH340 adapter** - If an adapter is not based on the PL2303 or FT232RL chipset, then it is likely based on the CH340 chipset. I have had absolutely no luck in getting a CH340 adapter cable to work properly on Windows or MacOS. While they are recognized by the computer as a serial port, they do not appear to properly support the full serial port behavior. Specifically, they do not pass along any bytes sent from a QuickTake camera to a computer. I have received similar feedback from JQuickTake users who have tried to use this type of adapter. 
+
+Based on my ownb experience plus feedback from JQuickTake users:
+
+ - **Prolific (PL2303)** adapter cables work well.
+ - **FTDI (FT233RL)** adapters can also work well, but there are 'generic' versions of these adapters on the market that do not work properly (based on user feedback)
+ - **CH340-based** adapter cables *should be avoided!*
+
+As if we haven't talked enough about usb-to-serial adapters, one last topic: One way to get a hint if you have a genuine Prolific or FTDI chip in your adapter is to check the chip's Vendor ID (VID) and Product ID (PID). The values you would look for are:
+
+**Prolific PL2303** - VID = 067B and PID = 2303 (sometimes 0609)
+**FTDI FT232RL** - VID = 0403 and PID = 6001
+
+To check these values (with the adapter plugged into a USB port):
+
+**Windows**
+ - Go to Device Manager
+ - Expand 'Universal Serial Bus Controllers'
+ - Find the adapter device in the resulting list and right-click Properties
+ - Select the Details tab
+ - Using the drop-down, select Hardware IDs or Device Instance Path
+ - You will VID and PID in the format "USB\\VID_XXXX&PID_YYYY...".
+
+**MacOS**
+ - Click the Apple logo and then About This Mac
+ - Hot the button to generate a System Report
+ - Select USB from the left-hand hardware menu
+ - Find the adapter device in the resulting list
+ - The VID and PID will be displayed in the detailed information for the selected device
 
 ## So what do I do with all these QTK files I just saved off my camera?
 

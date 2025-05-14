@@ -141,6 +141,7 @@ Based on my ownb experience plus feedback from JQuickTake users:
 As if we haven't talked enough about usb-to-serial adapters, one last topic: One way to get a hint if you have a genuine Prolific or FTDI chip in your adapter is to check the chip's Vendor ID (VID) and Product ID (PID). The values you would look for are:
 
 **Prolific PL2303** - VID = 067B and PID = 2303 (sometimes 0609)
+
 **FTDI FT232RL** - VID = 0403 and PID = 6001
 
 To check these values (with the adapter plugged into a USB port):

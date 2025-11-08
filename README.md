@@ -1,4 +1,4 @@
-﻿# JQuickTake - Apple QuickTake Manager v1.3
+﻿# JQuickTake - Apple QuickTake Manager v1.4
 
 ***“I think that this situation absolutely requires a really futile and stupid gesture be done on somebody’s part.”*** - Otter (*Animal House - 1978*)
 
@@ -6,7 +6,7 @@ Back in the late 1990's someone gave me a hunk of grey plastic that had an eyepi
 ![Apple QuickTake 100](https://www.dpreview.com/files/p/articles/3774104701/quicktake100.jpeg)
 A few years later, the Internet was able to [teach me all about Apple's mid-1990's experiment in the digital camera market](https://en.wikipedia.org/wiki/Apple_QuickTake). I also found a few smart people online who had posted instructions for building a cable and a few sources for the original QuickTake software for Windows. I built the cable, I got the software running on my WinXP computer, and I had some fun with the camera for awhile.  Back onto the shelf the camera went, where it would (again) be left waiting while time marched forward.
 
-A couple of years ago, I got the urge to play with the camera again. Despite the 20+ years that had passed, some fresh batteries were all it took to bring my QuickTake 100 back to life. The QuickTake software had not aged as gracefully. It simply would not work on a Windows 10 machine. And because Old School serial ports were no longer in fashion on modern motherboards, my homebrew QuickTake cable was left dangling. Being a goal-driven nerd, I found myself a USB-to-Serial adapter cable, installed WinXP inside a VirtualBox VM, and I was once more able to manage truly stunning 640x480 images via the original QuickTake software.
+A couple of years ago, I got the urge to play with the camera again. Despite the 20+ years that had passed, some fresh batteries were all it took to bring my QuickTake 100 back to life. The QuickTake software had not aged as gracefully. It simply would not work on a Windows 10 machine. And because Old School serial ports were no longer in fashion on modern motherboards, my homebrew QuickTake cable was left dangling. Being a goal-driven nerd, I found myself a USB-to-Serial adapter cable, installed WinXP inside a VirtualBox VM, and I was once more able to manage truly stunning 640x480 pictures via the original QuickTake software.
 
 Rather than put the camera back on its shelf for another 20 years, I wondered if it would be possible to write my own software to replace the aging Apple software - a solution I could run natively on a modern Windows PC (or any other machine for that matter). It was something in the back of my mind for a couple of years, but I never really found the time to actually *do something*. Once I retired (yeah, I'm that old), I had no excuses, so I went to work on a solution. 
 
@@ -32,7 +32,7 @@ The software will run on Windows and Mac computers and offers the following capa
 Connect screen:
 ![Connect to Camera](https://github.com/Crazylegstoo/JQuickTake/blob/main/Images/Win-Connect.JPG)
 
-2 - It will allow you to save Selected or All images to local storage as an Apple QTK image file, using a customizable file-naming format.
+2 - It will allow you to save Selected or All pictures to local storage as an Apple QTK picture file, using a customizable file-naming format.
 
 Save screen:
 ![Save Pictures](https://github.com/Crazylegstoo/JQuickTake/blob/main/Images/Win-Save.JPG)
@@ -43,9 +43,9 @@ Control screen:
 ![Control the Camera](https://github.com/Crazylegstoo/JQuickTake/blob/main/Images/Win-Control.JPG)
 ## What The JQuickTake Software Does Not Do
 
-JQuickTake v1.2 does lack a few features:
+JQuickTake v1.4 does lack a few features:
 
-1. **It does not display image thumbnails or full images.** It only reads images from the camera and writes them to QTK files. However, any [imaging software based on dcraw](https://en.wikipedia.org/wiki/Dcraw) will easily convert Apple QTK files to JPG or TIFF images. For my development and testing, I used a nice utility called [RawDrop](http://www.wizards.de/rawdrop/) to convert my pictures - more on that below. At some point I plan to create QuickTake v2.0 to include thumbnail/image display, but I don't have a timeline for that yet.
+1. **It does not display picture thumbnails or full pictures.** It only reads pictures from the camera and writes them to QTK files. However, any [imaging software based on dcraw](https://en.wikipedia.org/wiki/Dcraw) will easily convert Apple QTK files to JPG or TIFF pictures. For my development and testing, I used a nice utility called [RawDrop](http://www.wizards.de/rawdrop/) to convert my pictures - more on that below. At some point I plan to create QuickTake v2.0 to include thumbnail/picture display, but I don't have a timeline for that yet.
 
 2. **This software does not work for the QuickTake 200 camera.** It has been developed and tested for QuickTake 100 and 150 camera models. However, it definitely will not work with a QuickTake 200 camera. I would say that the majority of JQuickTake code will work with that model, but there are differences related to the 200, and I currently do not have access to that camera for development/testing purposes. Maybe someday...
 
@@ -163,7 +163,7 @@ To check these values (with the adapter plugged into a USB port):
 
 ## So what do I do with all these QTK files I just saved off my camera?
 
-These files are pictures saved in the old Apple-specific image file format that your computer probably does not understand. To actually see those pictures, you will want to convert them to JPG files that your computer can actually work with. Luckily, that's an easy process. There is an amazing command-line utility call *dcraw* that can convert RAW image files from just about any camera into a JPG or TIFF.  For our purposes, *dcraw* supports Apple QTK files! 
+These files are pictures saved in the old Apple-specific picture file format that your computer probably does not understand. To actually see those pictures, you will want to convert them to JPG files that your computer can actually work with. Luckily, that's an easy process. There is an amazing command-line utility call *dcraw* that can convert RAW picture files from just about any camera into a JPG or TIFF.  For our purposes, *dcraw* supports Apple QTK files! 
 
 Using the command-line version of *dcraw* can be complex and intimidating, but there are many applications that provide a nice graphical  interface while using *dcraw* under-the-covers. If you look on the [dcraw website](https://github.com/ncruces/dcraw), you will see a whole list of those applications. On Windows, [I like to use RawDrop](https://www.dechifro.org/dcraw/) for its dead-simple drag-and-drop UI. I recommend it!
 

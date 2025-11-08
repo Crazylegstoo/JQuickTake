@@ -760,17 +760,17 @@ public class Camera
 
 		tvProgressStep = ((float)tvBytesRead/(float)tvImageSize)*100;  // Calc how much of the image has been read so far
 		
-		ivDebugLog.textOut("Image read progress. Bytes read: " + tvBytesRead + "  ImageSize " + tvImageSize);
+		ivDebugLog.textOut("Image read progress. Buffer length: " + ivReadBuffer.length + "  Bytes read: " + tvBytesRead + "  ImageSize " + tvImageSize);
 
 		progress.setValue(Math.round(tvProgressStep));   // Update progress bar
 
-		if(ivBufferLength < 512)
+		if(tvBytesRead == tvImageSize)
 		{
 			progress.setValue(100);
 			tvImageComplete = true;
 		}else
 		{
-			this.writeCamera(ivCompACKCmd);
+			this.writeCamera(ivCompACKCmd);      // <<<<<<< IS THIS ALSO REQUIRED WHEN LAST BUFFER HAS BEEN READ?????
 					
 			if((tvImageSize - tvBytesRead) < 512)
 				tvBufferToRead = tvImageSize - tvBytesRead;

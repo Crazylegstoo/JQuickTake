@@ -200,7 +200,7 @@ public class ControlGUI extends JQuickTakePanel implements ActionListener, KeyLi
 	ivBatteryLevel = new JLabel("0%");
 	ivDisplay.add(ivBatteryLevel);
 	ivBatteryLevel.setToolTipText("Current battery capacity remaining");
-	ivBatteryLevel.setBounds(100,140,25,25);
+	ivBatteryLevel.setBounds(100,140,45,25);
 
 
   }

@@ -249,7 +249,7 @@ public class JQuickTake extends WindowAdapter implements WindowListener, ChangeL
     if(ae.getSource() == ivHelpAbout)
     {		
 		JOptionPane.showMessageDialog(ivAppWin,
-					"JQuickTake v1.3 - May 2025 \n\n" +
+					"JQuickTake v1.4 - November 2025 \n\n" +
 					"Developed by Kevin Godin and licensed for use under GPL-3.0 \n\n" +
 					"Source and Docs at github.com/Crazylegstoo/JQuickTake \n\n" +
 					"Feedback/questions can be sent to jquicktake@gmail.com \n\n",

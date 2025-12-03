@@ -55,7 +55,7 @@ The fully-built solution has been tested successfully on Windows and MacOS platf
 
 Since the application is Java-based, it requires a minimum of a Java 17 runtime on the local computer. It will not run on any Java runtime previous to Java 17. Note that JQuickTake has been tested on both Java 17 and Java 22. 
 
-The installation options below allow JQuickTake to use the Java runtime already installed on your computer or use a Java 17 runtime bundled with the application. Both install options are part of  the [current JQuickTake Release](https://github.com/Crazylegstoo/JQuickTake/releases/tag/v1.2)
+The installation options below allow JQuickTake to use the Java runtime already installed on your computer or use a Java 17 runtime bundled with the application. Both install options are part of  the [current JQuickTake Release](https://github.com/Crazylegstoo/JQuickTake/releases/tag/v1.4)
 
 **NOTE:** If you are upgrading from an older version of JQuickTake, please ensure you uninstall it first before installing a newer version of the software.
 
@@ -91,7 +91,7 @@ The Github repo includes all the bits and pieces to build the application yourse
 
 ## My QuickTake camera doesn't have a cable!
 
-Back in the mid-90's, a brand new QuickTake was packaged with a serial cable that would let you plug the camera into your computer's serial port and talk to the included QuickTake software. For reasons I don't quite understand, the gently-used QuickTake cameras I've seen for sale online almost never include a cable. I'm guessing all those cables are hanging out in some intergalactic lost-and-found with a billion odd socks and closet hangers.
+Back in the mid-90's, a brand new QuickTake was packaged with a serial cable that would let you plug the camera into your computer's serial port and talk to the included QuickTake software. For reasons I don't quite understand, the gently-used QuickTake cameras I've seen for sale online almost never include a cable. I'm guessing all those cables are hanging out in some intergalactic lost-and-found with a billion odd socks and clothes hangers.
 
 But fear not! You can make your own cable (like I did) with a [female DB9](https://a.co/d/1TWCMJX) serial cable, a [male DIN8](https://a.co/d/0Mkaqjt) cable, and some basic wiring/soldering skills. You can also find cables that already have the required female DB9 and male DIN8 plugs, which you cut and re-wire for your QuickTake 100/150 camera - examples: [here](https://www.pccables.com/Products/70810) and [there](https://a.co/d/4wgH4qr) 
 
